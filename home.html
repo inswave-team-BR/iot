@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title><BR> Team HomePage</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <style>
+    #user-info {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  
+    #user-info .welcome-text {
+      white-space: nowrap;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+  
+    #user-info .button-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+  
+    #user-info .button-group .btn {
+      min-width: 90px;
+      text-align: center;
+    }
+  
+    @media (max-width: 576px) {
+      #user-info {
+        flex-direction: column;
+        align-items: flex-end;
+      }
+  
+      #user-info .welcome-text {
+        margin-bottom: 0.3rem;
+      }
+  
+      #user-info .button-group {
+        width: 100%;
+        flex-direction: column;
+      }
+  
+      #user-info .button-group .btn {
+        width: 100%;
+      }
+    }
+
+    .team-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .team-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .team-card .icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+      color: #20c997;
+    }
+    
+    .team-card .role {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    
+    .team-card .desc {
+      font-size: 0.9rem;
+      color: #777;
+    }
+    
+
+    /* 커스터마이징 된 팀 카드 hover 효과 */
+        .icon-box.team-card {
+          transition: 0.3s ease;
+          background: #ffffff;
+          border-radius: 16px;
+          padding: 40px 20px;
+          text-align: center;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+          height: 100%;
+          cursor: pointer;
+          border: 1px solid #e5e5e5;
+        }
+        
+        .icon-box.team-card:hover {
+          background: #58d68d;
+          transform: translateY(-6px);
+          box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .icon-box.team-card .icon {
+          font-size: 42px;
+          color: #58d68d;
+          margin-bottom: 20px;
+          transition: 0.3s;
+        }
+        
+        .icon-box.team-card:hover .icon {
+          color: white;
+        }
+        
+        .icon-box.team-card .title {
+          font-weight: 600;
+          font-size: 20px;
+          color: #333;
+          transition: 0.3s;
+        }
+        
+        .icon-box.team-card:hover .title {
+          color: white;
+        }
+
+        .btn-watch-video {
+            background: linear-gradient(135deg, #58d68d, #20c997);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(32, 201, 151, 0.5);
+          }
+          
+          .btn-watch-video:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(32, 201, 151, 0.8);
+          }
+          
+    
+    
+  </style>
+  
+  
+
+  <!-- =======================================================
+  * Template Name: eStartup
+  * Template URL: https://bootstrapmade.com/estartup-bootstrap-landing-page-template/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <a href="home.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename"><span>&lt;BR&gt; </span>Page</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#team">Team</a></li>
+          <!--<li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="#">Dropdown 1</a></li>
+              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                  <li><a href="#">Deep Dropdown 1</a></li>
+                  <li><a href="#">Deep Dropdown 2</a></li>
+                  <li><a href="#">Deep Dropdown 3</a></li>
+                  <li><a href="#">Deep Dropdown 4</a></li>
+                  <li><a href="#">Deep Dropdown 5</a></li> 
+                </ul>
+              </li>
+              <li><a href="#">Dropdown 2</a></li>
+              <li><a href="#">Dropdown 3</a></li>
+              <li><a href="#">Dropdown 4</a></li>
+            </ul>
+          </li>-->
+          
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+      
+      <!--<div id="user-info" class="d-flex align-items-center justify-content-end gap-2 flex-wrap">
+        <span class="welcome-text">👋 ${userInfo.name}님 환영합니다!</span>
+        <div class="button-group d-flex gap-2">
+          <button class="btn btn-sm btn-outline-danger logout-btn" onclick="logout()">로그아웃</button>
+          <button class="btn btn-sm btn-outline-secondary delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</button>
+        </div>
+      </div>-->
+
+      <div id="user-info" class="d-flex align-items-center justify-content-end gap-2 flex-wrap">
+        <!-- 로그인 여부에 따라 동적으로 채워짐 -->
+      </div>
+  
+      
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section light-background">
+
+      <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-5">
+          <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+            <!--<h2>eStartup</h2>
+            <p>Sed autem laudantium dolores. Voluptatem itaque ea consequatur eveniet. Eum quas beatae cumque eum quaerat.</p>-->
+            <div class="d-flex">
+              <!--<a href="#about" class="btn-get-started">Get Started</a>-->
+              <a href="https://www.youtube.com/watch?v=YwxAiEAUFKo" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+            </div>
+          </div>
+          <div class="col-lg-6 order-1 order-lg-2">
+            <img src="assets/img/hero-img.png" class="img-fluid" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="icon-boxes position-relative" data-aos="fade-up" data-aos-delay="200">
+        <div class="container position-relative">
+          <div class="row gy-4 mt-5">
+            <!--
+            <div class="col-xl-3 col-md-6">
+              <div class="icon-box">
+                <div class="icon"><i class="bi bi-easel"></i></div>
+                <h4 class="title"><a href="" class="stretched-link">Lorem Ipsum</a></h4>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+              <div class="icon-box">
+                <div class="icon"><i class="bi bi-gem"></i></div>
+                <h4 class="title"><a href="" class="stretched-link">Sed ut perspiciatis</a></h4>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+              <div class="icon-box">
+                <div class="icon"><i class="bi bi-geo-alt"></i></div>
+                <h4 class="title"><a href="" class="stretched-link">Magni Dolores</a></h4>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+              <div class="icon-box">
+                <div class="icon"><i class="bi bi-command"></i></div>
+                <h4 class="title"><a href="" class="stretched-link">Nemo Enim</a></h4>
+              </div>
+            </div>-->
+
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Personal Homepage</h2>
+            <div><span>Personal</span> <span class="description-title">Homepage</span></div>
+          </div>
+          
+    
+      <!-- 🔽 여기에 team-card 넣기 -->
+      <div class="container">
+      <div class="row gy-4 mt-1">
+        <div class="col-xl-3 col-md-6">
+          <a href="profile.html?name=김시연" class="text-decoration-none">
+            <div class="icon-box team-card">
+              <div class="icon"><i class="bi bi-person-fill"></i></div>
+              <h4 class="title">김시연</h4>
+            </div>
+          </a>
+        </div>
+      
+        <div class="col-xl-3 col-md-6">
+          <a href="profile.html?name=이재성" class="text-decoration-none">
+            <div class="icon-box team-card">
+              <div class="icon"><i class="bi bi-person-fill"></i></div>
+              <h4 class="title">이재성</h4>
+            </div>
+          </a>
+        </div>
+      
+        <div class="col-xl-3 col-md-6">
+          <a href="profile.html?name=이재원" class="text-decoration-none">
+            <div class="icon-box team-card">
+              <div class="icon"><i class="bi bi-person-fill"></i></div>
+              <h4 class="title">이재원</h4>
+            </div>
+          </a>
+        </div>
+      
+        <div class="col-xl-3 col-md-6">
+          <a href="profile.html?name=황유석" class="text-decoration-none">
+            <div class="icon-box team-card">
+              <div class="icon"><i class="bi bi-person-fill"></i></div>
+              <h4 class="title">황유석</h4>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+      
+    
+      <!-- 👇 아래 기존 About 내용 유지 -->
+       <!--
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+            <p class="who-we-are">Who We Are</p>
+            <h3>Unleashing Potential with Creative Strategy</h3>
+            <p class="fst-italic">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+              magna aliqua.
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
+            </ul>
+            <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+          </div>
+
+          <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
+            <div class="row gy-4">
+              <div class="col-lg-6">
+                <img src="assets/img/about-company-1.jpg" class="img-fluid" alt="">
+              </div>
+              <div class="col-lg-6">
+                <div class="row gy-4">
+                  <div class="col-lg-12">
+                    <img src="assets/img/about-company-2.jpg" class="img-fluid" alt="">
+                  </div>
+                  <div class="col-lg-12">
+                    <img src="assets/img/about-company-3.jpg" class="img-fluid" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>-->
+    </section><!-- /About Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Services</h2>
+        <div><span>Check Our</span> <span class="description-title">Services</span></div>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item  position-relative">
+              <div class="icon">
+                <i class="bi bi-activity"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>뭐가 들어가야되나</h3>
+              </a>
+              <!--<p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>-->
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-broadcast"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Kanban Board</h3>
+              </a>
+              <!--<p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>-->
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-easel"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Map</h3>
+              </a>
+              <!--<p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>-->
+            </div>
+          </div><!-- End Service Item -->
+          <!--
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-bounding-box-circles"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Asperiores Commodit</h3>
+              </a>
+              <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
+              <a href="service-details.html" class="stretched-link"></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-calendar4-week"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Velit Doloremque</h3>
+              </a>
+              <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
+              <a href="service-details.html" class="stretched-link"></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-chat-square-text"></i>
+              </div>
+              <a href="service-details.html" class="stretched-link">
+                <h3>Dolori Architecto</h3>
+              </a>
+              <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
+              <a href="service-details.html" class="stretched-link"></a>
+            </div>
+          </div>-->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Services Section -->
+    
+    
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Team</h2>
+        <div><span>Meet Our</span> <span class="description-title">Team Members</span></div>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="team-card">
+              <h3 style="color: #20c997;">김시연</h3>
+              <div class="icon"><i class="bi bi-person-circle"></i></div>
+              <p class="role">Front-end Developer</p>
+              <p class="desc">웹 UI/UX에 관심 많고 사용자가 편한 서비스를 만들고 싶어요.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+            <div class="team-card">
+              <h3 style="color: #0dcaf0;">이재성</h3>
+              <div class="icon"><i class="bi bi-person-circle"></i></div>
+              <p class="role">Back-end Developer</p>
+              <p class="desc">서버와 데이터 흐름을 책임지고 있습니다.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+            <div class="team-card">
+              <h3 style="color: #fd7e14;">이재원</h3>
+              <div class="icon"><i class="bi bi-person-circle"></i></div>
+              <p class="role">Project Manager</p>
+              <p class="desc">일정 조율과 커뮤니케이션을 담당합니다.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+            <div class="team-card">
+              <h3 style="color: #0d6efd;">황유석</h3>
+              <div class="icon"><i class="bi bi-person-circle"></i></div>
+              <p class="role">AI Researcher</p>
+              <p class="desc">데이터를 분석하고 AI 모델을 실험하고 있어요.</p>
+            </div>
+          </div>
+
+        </div><!-- End pricing row -->
+
+      </div>
+
+    </section><!-- /Pricing Section -->
+    
+    
+    
+
+  </main>
+<!--
+  <footer id="footer" class="footer light-background">
+
+    <div class="container">
+      <div class="copyright text-center ">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">eStartup</strong> <span>All Rights Reserved</span></p>
+      </div>
+      <div class="social-links d-flex justify-content-center">
+        <a href=""><i class="bi bi-twitter-x"></i></a>
+        <a href=""><i class="bi bi-facebook"></i></a>
+        <a href=""><i class="bi bi-instagram"></i></a>
+        <a href=""><i class="bi bi-linkedin"></i></a>
+      </div>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+
+  </footer>-->
+  <!-- 회원탈퇴 모달 -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">회원탈퇴 확인</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>정말로 탈퇴하시겠습니까?<br><strong>비밀번호를 입력해주세요.</strong></p>
+        <input type="password" class="form-control" id="delete-password" placeholder="비밀번호 입력">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-danger" onclick="handleDelete()">탈퇴</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const userInfo = JSON.parse(localStorage.getItem("user"));
+      const userInfoDiv = document.getElementById("user-info");
+  
+      if (userInfo && userInfo.name) {
+        userInfoDiv.innerHTML = `
+        <span class="me-3">👋 ${userInfo.name}님 환영합니다!</span>
+        <button class="btn btn-sm btn-outline-danger me-2" onclick="logout()">로그아웃</button>
+        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</button>
+`;
+
+      } else {
+        // 로그인하지 않은 경우
+        userInfoDiv.innerHTML = `
+          <a href="login.html" class="btn btn-sm btn-outline-primary">로그인</a>
+        `;
+      }
+    });
+  
+    function logout() {
+      localStorage.removeItem("user");
+      alert("로그아웃 되었습니다.");
+      window.location.href = "home.html";
+    }
+  
+    function handleDelete() {
+      const inputPw = document.getElementById("delete-password").value;
+      const user = JSON.parse(localStorage.getItem("user"));
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+    
+      const matched = users.find(u => u.id === user.id && u.password === inputPw);
+    
+      if (!matched) {
+        alert("❌ 비밀번호가 일치하지 않습니다.");
+        return;
+      }
+    
+      const confirmDelete = confirm("정말로 계정을 삭제하시겠습니까?");
+      if (confirmDelete) {
+        users = users.filter(u => u.id !== user.id);
+        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.removeItem("user");
+    
+        alert("✅ 회원탈퇴가 완료되었습니다.");
+        window.location.href = "home.html";
+      }
+    }
+    
+  </script>
+  <footer id="footer" class="footer light-background">
+
+    <div class="container">
+      <div class="copyright text-center ">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">eStartup</strong> <span>All Rights Reserved</span></p>
+      </div>
+      <div class="social-links d-flex justify-content-center">
+        <a href=""><i class="bi bi-twitter-x"></i></a>
+        <a href=""><i class="bi bi-facebook"></i></a>
+        <a href=""><i class="bi bi-instagram"></i></a>
+        <a href=""><i class="bi bi-linkedin"></i></a>
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+
+  </footer>
+  
+
+</body>
+
+</html>
