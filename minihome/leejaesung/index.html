@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>싸이월드 미니홈피</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 배경 그리드 -->
+    <div class="background-grid">
+        <!-- 미니홈피 프레임 -->
+        <div class="cyworld-frame">
+            
+            <!-- 미니홈피 내부 콘텐츠 -->
+            <div class="cyworld-content">
+                <!-- 헤더 영역 -->
+                <div class="cy-header">
+                    <!-- 방문자 카운터 -->
+                    <div class="visitor-counter">
+                        <span>Today <span class="today-count">9</span> | Total <span class="total-count">167</span></span>
+                    </div>
+                    <!-- 홈페이지 제목 -->
+                    <div class="homepage-title">김싸이님의 미니홈피 입니다.</div>
+                </div><!-- /헤더 영역 -->
+                
+                <!-- 메인 콘텐츠 영역 -->
+                <div class="cy-main">
+                    <!-- 왼쪽 영역 (프로필) -->
+                    <div class="left-area">
+                        <!-- 오늘의 기분 -->
+                        <div class="today-feeling">
+                            <span class="today-title">TODAY is...</span> 행복😊
+                        </div>
+                        
+                        <!-- 프로필 이미지 -->
+                        <div class="profile-image-container">
+                            <img src="https://via.placeholder.com/140x140.png?text=Profile" alt="프로필 이미지" class="profile-image">
+                        </div>
+                        
+                        <!-- 상태 메시지 -->
+                        <div class="status-message">
+                            난 기쁨의 눈물을 흘린다...
+                        </div>
+                        
+                        <!-- 히스토리 섹션 -->
+                        <div class="history-section">
+                            <div class="history-title">히스토리</div>
+                            <div class="history-action">보기</div>
+                        </div>
+                        
+                        <!-- 미니미 버튼 -->
+                        <div class="minimi-button">
+                            <button>미니미 설정하기</button>
+                        </div>
+                        
+                        <!-- 프로필 정보 -->
+                        <div class="profile-info">
+                            <div class="name-info">이름: 김싸이</div>
+                            <div class="birthday-info">생일: 03월 01일</div>
+                            <div class="email-info">이메일: cyworld@example.com</div>
+                        </div><!-- /프로필 정보 -->
+                        
+                        <!-- BGM 플레이어 -->
+                        <div class="bgm-player">
+                            <!-- 노래 제목 표시 영역 -->
+                            <div class="bgm-title">
+                                <marquee id="songTitle">노래를 선택해주세요</marquee>
+                            </div>
+                            
+                            <!-- 플레이어 컨테이너 -->
+                            <div id="player-container">
+                                <!-- HTML5 오디오 플레이어 -->
+                                <audio id="audio-player"></audio>
+                                <!-- 플레이어 컨트롤 오버레이 -->
+                                <div class="player-controls-overlay">
+                                    <!-- 재생 시간 정보 -->
+                                    <div class="now-playing-info">
+                                        <span id="current-time">00:00</span> / <span id="duration">00:00</span>
+                                    </div>
+                                    <!-- 진행 막대 -->
+                                    <div class="progress-bar-container">
+                                        <div id="progress-bar"></div>
+                                    </div>
+                                </div><!-- /플레이어 컨트롤 오버레이 -->
+                            </div><!-- /플레이어 컨테이너 -->
+                            
+                            <!-- 컨트롤 버튼 -->
+                            <div class="bgm-controls">
+                                <button id="prevBtn" class="control-btn"><i class="fas fa-step-backward"></i></button>
+                                <button id="playBtn" class="control-btn"><i class="fas fa-play"></i></button>
+                                <button id="pauseBtn" class="control-btn"><i class="fas fa-pause"></i></button>
+                                <button id="nextBtn" class="control-btn"><i class="fas fa-step-forward"></i></button>
+                            </div>
+                            
+                            <!-- 노래 선택 드롭다운 -->
+                            <div class="bgm-select">
+                                <select id="songSelect">
+                                    <option value="">-- 노래 선택 --</option>
+                                    <option value="song1">잔나비 - 봉춤을 추네</option>
+                                    <option value="song2">SIMPLE (Feat. JUNNY, 창모)</option>
+                                    <option value="song3">거북이 - 비행기</option>
+                                </select>
+                            </div>
+                        </div><!-- /BGM 플레이어 -->
+                    </div><!-- /왼쪽 영역 (프로필) -->
+                    
+                    <!-- 오른쪽 영역 (콘텐츠) -->
+                    <div class="right-area">
+                        <!-- 탭 메뉴 -->
+                        <div class="tab-menu">
+                            <div class="tab-item active" data-tab="home">홈</div>
+                            <div class="tab-item" data-tab="diary">다이어리</div>
+                            <div class="tab-item" data-tab="guestbook">방명록</div>
+                        </div>
+                        
+                        <!-- 콘텐츠 영역 -->
+                        <div class="content-area">
+                            <!-- 방명록 영역 -->
+                            <div class="guestbook-area" id="guestbook">
+                                <!-- 방명록 항목 1 -->
+                                <div class="guestbook-entry">
+                                    <!-- 방명록 헤더 -->
+                                    <div class="entry-header">
+                                        <div class="entry-author">
+                                            <span class="entry-number">No.1</span> 이도라에몽
+                                        </div>
+                                        <div class="entry-action">
+                                            삭제
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 방명록 내용 -->
+                                    <div class="entry-content">
+                                        <div class="entry-text">
+                                            안녕하세요! 미니홈피 구경 잘 했어요. 저도 놀러오세요~
+                                            <div class="entry-date">2023.08.10 12:34</div>
+                                        </div>
+                                        <div class="entry-image">
+                                            <img src="https://via.placeholder.com/80x80.png?text=Doraemon" alt="도라에몽">
+                                        </div>
+                                    </div>
+                                </div><!-- /방명록 항목 1 -->
+                                
+                                <!-- 방명록 항목 2 -->
+                                <div class="guestbook-entry">
+                                    <!-- 방명록 헤더 -->
+                                    <div class="entry-header">
+                                        <div class="entry-author">
+                                            <span class="entry-number">No.2</span> 김친구
+                                        </div>
+                                        <div class="entry-action">
+                                            삭제
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 방명록 내용 -->
+                                    <div class="entry-content">
+                                        <div class="entry-text">
+                                            일촌 신청 수락해줘! 오늘 학교에서 봤는데 인사 왜 안 했어?
+                                            <div class="entry-date">2023.08.09 18:22</div>
+                                        </div>
+                                        <div class="entry-image">
+                                            <img src="https://via.placeholder.com/80x80.png?text=Friend" alt="친구">
+                                        </div>
+                                    </div>
+                                </div><!-- /방명록 항목 2 -->
+                            </div><!-- /방명록 영역 -->
+                            
+                            <!-- 미니룸 영역 -->
+                            <div class="miniroom-area" id="miniroom">
+                                <!-- 미니룸 헤더 -->
+                                <div class="miniroom-header">
+                                    미니룸
+                                </div>
+                                
+                                <!-- 미니룸 이미지 -->
+                                <div class="miniroom-image-container">
+                                    <img src="https://via.placeholder.com/450x250.png?text=Spongebob+House" alt="미니룸" class="miniroom-image">
+                                </div>
+                                
+                                <!-- 미니룸 입력 영역 -->
+                                <div class="miniroom-input">
+                                    <input type="text" placeholder="미니룸에 남길 메시지를 입력하세요...">
+                                    <button>등록</button>
+                                </div>
+                            </div><!-- /미니룸 영역 -->
+                            
+                            <!-- 다이어리 영역 (숨김 상태) -->
+                            <div class="diary-area" id="diary" style="display: none;">
+                                <!-- 다이어리 헤더 -->
+                                <div class="diary-header">
+                                    <div class="diary-title">다이어리</div>
+                                </div>
+                                
+                                <!-- 다이어리 폼 -->
+                                <div class="diary-form">
+                                    <!-- 싸이월드 로고 -->
+                                    <div class="cyworld-logo">
+                                        <img src="https://via.placeholder.com/150x50.png?text=Cyworld+Logo" alt="싸이월드 로고">
+                                        <div class="logo-text">추억의 싸이월드</div>
+                                    </div>
+                                    
+                                    <!-- 다이어리 입력 영역 -->
+                                    <div class="diary-input">
+                                        <input type="text" placeholder="다이어리를 작성해보세요...">
+                                        <button>등록</button>
+                                    </div>
+                                </div><!-- /다이어리 폼 -->
+                            </div><!-- /다이어리 영역 -->
+                        </div><!-- /콘텐츠 영역 -->
+                    </div><!-- /오른쪽 영역 (콘텐츠) -->
+                </div><!-- /메인 콘텐츠 영역 -->
+            </div><!-- /미니홈피 내부 콘텐츠 -->
+        </div><!-- /미니홈피 프레임 -->
+    </div><!-- /배경 그리드 -->
+
+    <!-- JavaScript 파일 로드 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html> 

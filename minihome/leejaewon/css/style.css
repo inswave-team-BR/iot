@@ -1,0 +1,509 @@
+/* 기본 스타일 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Dotum', '돋움', 'Gulim', '굴림', sans-serif;
+    font-size: 12px;
+}
+
+body {
+    background-color: #c5c5c5;
+    background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" fill="none" stroke="%23d0d0d0" stroke-width="1"/></svg>');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* 미니홈피 프레임 */
+.cyworld-frame {
+    width: 800px;
+    background-color: #a6d3f7;
+    border-radius: 10px;
+    position: relative;
+    border: 2px solid #97c3e7;
+    padding: 10px;
+}
+
+/* 점선 테두리 효과 */
+.cyworld-frame::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 2px dashed white;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* BGM 플레이어 */
+.bgm-player {
+    width: 100%;
+    background-color: #a6d3f7;
+    border: 1px solid #97c3e7;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    margin-top: 15px;
+    z-index: 10;
+}
+
+.bgm-title {
+    background-color: #f8f8f8;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    padding: 2px 5px;
+    margin-bottom: 5px;
+    font-size: 10px;
+    height: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#player-container {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+/* 오디오 플레이어 숨기기 */
+#audio-player {
+    display: none;
+}
+
+/* 플레이어 컨트롤 오버레이 */
+.player-controls-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 현재 재생 정보 */
+.now-playing-info {
+    font-size: 9px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+/* 진행 막대 컨테이너 */
+.progress-bar-container {
+    width: 100%;
+    height: 5px;
+    background-color: #ddd;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+/* 진행 막대 */
+#progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: #97c3e7;
+    transition: width 0.1s;
+}
+
+.bgm-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.control-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.control-btn:hover {
+    background-color: #e0e0e0;
+}
+
+#pauseBtn {
+    display: none;
+}
+
+.bgm-select {
+    width: 100%;
+}
+
+#songSelect {
+    width: 100%;
+    padding: 2px;
+    font-size: 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    background-color: #f8f8f8;
+}
+
+/* 미니홈피 내부 컨테이너 */
+.cyworld-content {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    position: relative;
+    margin: 15px;
+    min-height: 500px;
+}
+
+/* 헤더 영역 */
+.cy-header {
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.visitor-counter {
+    font-size: 11px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.today-count, .total-count {
+    color: #FF6C00;
+    font-weight: bold;
+}
+
+.homepage-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #3D5AFE;
+}
+
+/* 메인 콘텐츠 레이아웃 */
+.cy-main {
+    display: flex;
+}
+
+/* 왼쪽 영역 */
+.left-area {
+    width: 200px;
+    margin-right: 20px;
+}
+
+/* 오늘의 기분 */
+.today-feeling {
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    padding: 6px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.today-title {
+    color: #3D5AFE;
+    font-weight: bold;
+}
+
+/* 프로필 이미지 */
+.profile-image-container {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.profile-image {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border: 1px solid #e0e0e0;
+}
+
+/* 상태 메시지 */
+.status-message {
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 5px 0;
+    border-top: 1px dashed #e0e0e0;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+/* 히스토리 섹션 */
+.history-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.history-title {
+    color: #3D5AFE;
+}
+
+.history-action {
+    font-size: 10px;
+    color: #888;
+}
+
+/* 미니미 버튼 */
+.minimi-button {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.minimi-button button {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #d9d9d9;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* 프로필 정보 */
+.profile-info {
+    font-size: 11px;
+    color: #666;
+}
+
+.name-info, .email-info {
+    margin-bottom: 3px;
+}
+
+/* 오른쪽 영역 */
+.right-area {
+    flex: 1;
+    position: relative;
+}
+
+/* 콘텐츠 영역 */
+.content-area {
+    width: 100%;
+}
+
+/* 방명록 영역 */
+.guestbook-area {
+    margin-bottom: 20px;
+}
+
+.guestbook-entry {
+    border: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+
+.entry-header {
+    background-color: #f8f8f8;
+    padding: 5px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.entry-number, .entry-author {
+    font-size: 11px;
+}
+
+.entry-author {
+    color: #3D5AFE;
+    font-weight: bold;
+}
+
+.entry-action {
+    font-size: 11px;
+    color: #ff0000;
+    cursor: pointer;
+}
+
+.entry-content {
+    display: flex;
+    padding: 10px;
+}
+
+.entry-text {
+    flex: 1;
+}
+
+.entry-image {
+    margin-left: 10px;
+}
+
+.entry-image img {
+    width: 80px;
+    height: 80px;
+}
+
+/* 미니룸 영역 */
+.miniroom-area {
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+}
+
+.miniroom-header {
+    background-color: #f8f8f8;
+    padding: 5px;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: bold;
+    color: #3D5AFE;
+}
+
+.miniroom-image-container {
+    padding: 5px;
+}
+
+.miniroom-image {
+    width: 100%;
+    height: auto;
+}
+
+.miniroom-input {
+    padding: 5px;
+    display: flex;
+    border-top: 1px solid #e0e0e0;
+}
+
+.miniroom-input input {
+    flex: 1;
+    padding: 3px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.miniroom-input button {
+    margin-left: 5px;
+    padding: 2px 8px;
+    background-color: #a6d3f7;
+    border: 1px solid #8bb3d9;
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+/* 다이어리 영역 */
+.diary-area {
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+}
+
+.diary-header {
+    background-color: #f8f8f8;
+    padding: 5px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.diary-title {
+    font-weight: bold;
+    color: #3D5AFE;
+}
+
+.diary-form {
+    padding: 15px;
+    text-align: center;
+}
+
+.cyworld-logo {
+    margin-bottom: 15px;
+}
+
+.cyworld-logo img {
+    width: 150px;
+    height: auto;
+}
+
+.logo-text {
+    margin-top: 5px;
+    font-size: 11px;
+    color: #666;
+}
+
+.diary-input {
+    display: flex;
+}
+
+.diary-input input {
+    flex: 1;
+    padding: 3px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.diary-input button {
+    margin-left: 5px;
+    padding: 2px 8px;
+    background-color: #a6d3f7;
+    border: 1px solid #8bb3d9;
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+/* 오른쪽 탭 메뉴 */
+.tab-menu {
+    position: absolute;
+    top: 0;
+    right: -65px;
+    width: 60px;
+}
+
+.tab-item {
+    padding: 8px 5px;
+    background-color: #a6d3f7;
+    border: 1px solid #8bb3d9;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+}
+
+.tab-item.active {
+    background-color: #4c85cc;
+    color: white;
+}
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .cyworld-frame {
+        width: 100%;
+    }
+    
+    .cy-main {
+        flex-direction: column;
+    }
+    
+    .left-area {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .tab-menu {
+        position: static;
+        width: 100%;
+        display: flex;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .tab-item {
+        flex: 1;
+        margin-right: 5px;
+        margin-bottom: 0;
+    }
+    
+    .tab-item:last-child {
+        margin-right: 0;
+    }
+} 
