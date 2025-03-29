@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const clickCountElement = document.getElementById('click-count');
         const doorMessageSpan = document.querySelector('.door-message span');
         
+        // 열쇠 관련 요소 선택
+        const keys = document.querySelectorAll('.key');
+        const keySlots = document.querySelectorAll('.key-slot');
+        
+        // 드래그 중인 열쇠 참조를 저장할 변수
+        let draggedKey = null;
+        let sourceSlot = null;
+        
         // 로컬 스토리지에서 클릭 횟수 가져오기
         let clickCount = parseInt(localStorage.getItem('doorClickCount')) || 0;
         
@@ -39,6 +47,129 @@ document.addEventListener('DOMContentLoaded', function() {
                 handleDoorClick();
             }
         });
+        
+        // 열쇠 드래그 이벤트 리스너 추가
+        keys.forEach(key => {
+            key.addEventListener('dragstart', handleDragStart);
+            key.addEventListener('dragend', handleDragEnd);
+        });
+        
+        // 문에 드롭 이벤트 리스너 추가
+        door.addEventListener('dragover', handleDragOver);
+        door.addEventListener('dragenter', handleDragEnter);
+        door.addEventListener('dragleave', handleDragLeave);
+        door.addEventListener('drop', handleDrop);
+        
+        // 드래그 시작 처리
+        function handleDragStart(e) {
+            this.classList.add('dragging');
+            draggedKey = this;
+            e.dataTransfer.setData('text/plain', this.id);
+            
+            // 소스 슬롯 저장 및 빈 슬롯 표시
+            sourceSlot = this.closest('.key-slot');
+            if (sourceSlot) {
+                sourceSlot.classList.add('empty');
+            }
+            
+            // 이미지를 투명하게 설정하여 기본 드래그 이미지 숨기기
+            const img = new Image();
+            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            e.dataTransfer.setDragImage(img, 0, 0);
+        }
+        
+        // 드래그 종료 처리
+        function handleDragEnd() {
+            this.classList.remove('dragging');
+            
+            // 빈 슬롯 클래스 제거
+            if (sourceSlot) {
+                sourceSlot.classList.remove('empty');
+                sourceSlot = null;
+            }
+            
+            draggedKey = null;
+            door.classList.remove('drop-target');
+        }
+        
+        // 드래그 오버 처리 (드롭 허용)
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+        
+        // 드래그 요소가 드롭 대상 위로 들어왔을 때
+        function handleDragEnter(e) {
+            e.preventDefault();
+            this.classList.add('drop-target');
+        }
+        
+        // 드래그 요소가 드롭 대상에서 벗어났을 때
+        function handleDragLeave() {
+            this.classList.remove('drop-target');
+        }
+        
+        // 드롭 처리
+        function handleDrop(e) {
+            e.preventDefault();
+            this.classList.remove('drop-target');
+            
+            if (draggedKey) {
+                // 애니메이션이 이미 진행 중이면 중복 실행 방지
+                if (isAnimationRunning) return;
+                
+                // 애니메이션 시작 플래그 설정
+                isAnimationRunning = true;
+                
+                // 키 컨테이너 즉시 숨기기 - 추가된 코드
+                const keysContainer = document.querySelector('.keys-container');
+                if (keysContainer) {
+                    keysContainer.style.transition = 'opacity 0.1s ease-out';
+                    keysContainer.style.opacity = '0';
+                    keysContainer.style.zIndex = '0'; // 문 뒤에 위치하도록 z-index 낮춤
+                    keysContainer.style.pointerEvents = 'none'; // 상호작용 방지
+                }
+                
+                // 효과음 재생 (옵션)
+                playDoorSound();
+                
+                // 클릭 횟수 증가
+                clickCount++;
+                
+                // 로컬 스토리지에 클릭 횟수 저장
+                localStorage.setItem('doorClickCount', clickCount);
+                
+                // 클릭 횟수 표시 업데이트
+                updateClickCount();
+                
+                // 문 애니메이션 실행
+                door.classList.add('clicked');
+                
+                // 열쇠에 설정된 타겟 경로 가져오기
+                const targetPath = draggedKey.getAttribute('data-target');
+                
+                // 문이 열리는 효과 향상
+                let frameCount = 0;
+                const frames = 20;
+                const animateOpenDoor = () => {
+                    frameCount++;
+                    if (frameCount <= frames) {
+                        // 열리는 동안 미세한 흔들림 추가
+                        const progress = frameCount / frames;
+                        const shakeFactor = Math.sin(progress * Math.PI * 4) * (1 - progress) * 2;
+                        const rotY = -85 * progress;
+                        
+                        door.style.transform = `perspective(2000px) rotateY(${rotY}deg) rotateX(${shakeFactor}deg) rotateZ(${shakeFactor * 0.5}deg)`;
+                        
+                        requestAnimationFrame(animateOpenDoor);
+                    } else {
+                        // 애니메이션 완료 후 포털 효과 적용
+                        applyPortalEffectWithTarget(targetPath);
+                    }
+                };
+                
+                requestAnimationFrame(animateOpenDoor);
+            }
+        }
         
         // 마우스 이동에 따라 문에 입체감 추가
         document.addEventListener('mousemove', function(e) {
@@ -113,6 +244,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // 애니메이션 시작 플래그 설정
             isAnimationRunning = true;
             
+            // 키 컨테이너 즉시 숨기기 - 추가된 코드
+            const keysContainer = document.querySelector('.keys-container');
+            if (keysContainer) {
+                keysContainer.style.transition = 'opacity 0.1s ease-out';
+                keysContainer.style.opacity = '0';
+                keysContainer.style.zIndex = '0'; // 문 뒤에 위치하도록 z-index 낮춤
+                keysContainer.style.pointerEvents = 'none'; // 상호작용 방지
+            }
+            
             // 효과음 재생 (옵션)
             playDoorSound();
             
@@ -148,8 +288,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     requestAnimationFrame(animateOpenDoor);
                 } else {
-                    // 애니메이션 완료 후 포털 효과 적용
-                    applyPortalEffect();
+                    // 애니메이션 완료 후 포털 효과 적용 (기본 대상: home.html)
+                    applyPortalEffectWithTarget('home.html');
                 }
             };
             
@@ -157,9 +297,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // 포털 효과를 별도 함수로 분리하여 일관성 향상
-        function applyPortalEffect() {
+        function applyPortalEffectWithTarget(targetPath) {
             // 애니메이션 플래그 유지
             isAnimationRunning = true;
+            
+            // 키 컨테이너 페이드 아웃 - 문과 겹치지 않도록 처리 (더 빠른 전환)
+            const keysContainer = document.querySelector('.keys-container');
+            if (keysContainer) {
+                keysContainer.style.transition = 'opacity 0.1s ease-out'; // 0.3초에서 0.1초로 단축
+                keysContainer.style.opacity = '0';
+                keysContainer.style.zIndex = '0'; // 문 뒤에 위치하도록 z-index 낮춤
+                keysContainer.style.pointerEvents = 'none'; // 상호작용 방지
+            }
             
             // 문에 빛 효과 추가
             doorBody.style.boxShadow = '0 0 30px 10px rgba(255, 255, 255, 0.7)';
@@ -192,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     requestAnimationFrame(portalAnimation);
                 } else {
                     // 애니메이션 완료 후 리다이렉션
-                    window.location.href = 'home.html';
+                    window.location.href = targetPath;
                 }
             });
         }
@@ -263,8 +412,13 @@ document.addEventListener('DOMContentLoaded', function() {
             door.style.transform = `perspective(2000px) rotateY(-85deg) scale(${1 + progress * 0.2})`;
             door.style.filter = `brightness(${1 + progress * 0.8})`;
             
-            // 컨테이너 확대 효과
-            container.style.transform = `scale(${scale})`;
+            // 문 컨테이너만 확대 효과 적용 (door-container)
+            const doorContainer = document.querySelector('.door-container');
+            if (doorContainer) {
+                doorContainer.style.transform = `scale(${scale})`;
+            }
+            
+            // 컨테이너의 다른 요소들은 확대하지 않고 밝기만 조정
             container.style.filter = `brightness(${1 + progress * 0.3})`;
             
             // 터널 효과 업데이트
