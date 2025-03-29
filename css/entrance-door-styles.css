@@ -1,0 +1,377 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%);
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+}
+
+/* 문 컨테이너 스타일 */
+.door-container {
+    margin: 50px auto;
+    position: relative;
+    perspective: 2000px;
+}
+
+/* 3D 문 스타일 */
+.door {
+    width: 200px;
+    height: 350px;
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transform: perspective(2000px) rotateY(0deg);
+    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-origin: left center;
+}
+
+.door::before {
+    content: "열어보세요!";
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.door:hover::before {
+    opacity: 1;
+}
+
+.door:hover, .door:focus {
+    transform: perspective(2000px) rotateY(-5deg);
+}
+
+.door.clicked {
+    transform: perspective(2000px) rotateY(-85deg);
+    transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 문틀 스타일 */
+.door-frame {
+    position: absolute;
+    width: 230px;
+    height: 380px;
+    left: -15px;
+    top: -15px;
+    transform-style: preserve-3d;
+    transform: translateZ(-20px);
+    z-index: -1;
+}
+
+.door-frame-left, 
+.door-frame-right, 
+.door-frame-top, 
+.door-frame-bottom {
+    position: absolute;
+    background-color: #5a300c;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.door-frame-left, 
+.door-frame-right {
+    width: 15px;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.door-frame-right {
+    left: auto;
+    right: 0;
+}
+
+.door-frame-top, 
+.door-frame-bottom {
+    width: 100%;
+    height: 15px;
+    left: 0;
+    top: 0;
+}
+
+.door-frame-bottom {
+    top: auto;
+    bottom: 0;
+}
+
+/* 문 본체 스타일 */
+.door-body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    background: 
+        linear-gradient(135deg, #a0522d 0%, #8b4513 100%),
+        repeating-linear-gradient(90deg, 
+            rgba(0, 0, 0, 0.05) 0px, 
+            rgba(0, 0, 0, 0.05) 2px, 
+            transparent 2px, 
+            transparent 20px);
+    border: 4px solid #623c1b;
+    border-radius: 2px;
+    box-shadow: 
+        5px 5px 15px rgba(0, 0, 0, 0.4),
+        -2px 0 5px rgba(0, 0, 0, 0.2),
+        0 5px 10px rgba(0, 0, 0, 0.3),
+        inset 0 0 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.door-body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(90deg, 
+            rgba(255, 255, 255, 0.07) 0%, 
+            rgba(255, 255, 255, 0) 20%, 
+            rgba(255, 255, 255, 0) 80%, 
+            rgba(255, 255, 255, 0.07) 100%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* 문 패널 스타일 */
+.door-panel-top,
+.door-panel-middle,
+.door-panel-bottom {
+    position: absolute;
+    left: 10%;
+    width: 80%;
+    height: 25%;
+    border: 2px solid rgba(121, 64, 16, 0.7);
+    border-radius: 2px;
+    box-shadow: 
+        inset 0 0 5px rgba(0, 0, 0, 0.3),
+        0 0 5px rgba(0, 0, 0, 0.1);
+    transform: translateZ(3px);
+    background: 
+        linear-gradient(135deg, rgba(160, 82, 45, 0.9) 0%, rgba(139, 69, 19, 0.9) 100%),
+        repeating-linear-gradient(90deg, 
+            rgba(0, 0, 0, 0.03) 0px, 
+            rgba(0, 0, 0, 0.03) 1px, 
+            transparent 1px, 
+            transparent 10px);
+}
+
+.door-panel-top {
+    top: 10%;
+}
+
+.door-panel-middle {
+    top: 37.5%;
+}
+
+.door-panel-bottom {
+    top: 65%;
+}
+
+/* 힌지 스타일 */
+.door-hinge {
+    position: absolute;
+    width: 10px;
+    height: 30px;
+    background: linear-gradient(90deg, #c0c0c0, #e0e0e0, #c0c0c0);
+    border-radius: 2px;
+    left: 0;
+    transform: translateX(-6px) translateZ(0);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.door-hinge-top {
+    top: 20%;
+}
+
+.door-hinge-bottom {
+    top: 70%;
+}
+
+/* 문 두께 스타일 */
+.door-depth-edge {
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    background-color: #8b4513;
+    top: 0;
+    left: 0;
+    transform: translateX(-5px) rotateY(-90deg);
+    transform-origin: right center;
+}
+
+/* 문 손잡이 스타일 */
+.door-knob-plate {
+    position: absolute;
+    width: 20px;
+    height: 50px;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%) translateZ(5px);
+    background: linear-gradient(90deg, #c0c0c0, #e0e0e0, #c0c0c0);
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.door-knob {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: radial-gradient(circle at 40% 40%, #ffd700 0%, #c9a81c 100%);
+    border-radius: 50%;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%) translateZ(10px);
+    box-shadow: 
+        0 0 8px rgba(0, 0, 0, 0.5),
+        inset 0 0 3px rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.door-knob-inner {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle at 40% 40%, #b8860b 0%, #8b4513 100%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.door:hover .door-knob {
+    transform: translateY(-50%) translateZ(12px) scale(1.1);
+    box-shadow: 
+        0 0 12px rgba(255, 217, 0, 0.5),
+        inset 0 0 5px rgba(255, 255, 255, 0.9);
+}
+
+.click-hint {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.door:hover + .click-hint, .door:focus + .click-hint {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+/* 문 클릭 시 카운터 스타일 */
+.click-counter {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+#click-count {
+    font-weight: bold;
+    color: #3a7bd5;
+    transition: transform 0.3s, color 0.3s;
+}
+
+#click-count.updated {
+    color: #ff7b00;
+    transform: scale(1.5);
+}
+
+.door-message {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #555;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+}
+
+.door-message span {
+    font-weight: bold;
+    color: #8b4513;
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.door-message span:hover {
+    transform: scale(1.05);
+    color: #ff6347;
+}
+
+/* 애니메이션 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.door {
+    animation: pulse 2s infinite;
+}
+
+.door:hover {
+    animation: none;
+}
+
+@keyframes attention {
+    0% { transform: perspective(2000px) rotateY(0) scale(1); }
+    25% { transform: perspective(2000px) rotateY(-10deg) scale(1.05); }
+    50% { transform: perspective(2000px) rotateY(0) scale(1.1); }
+    75% { transform: perspective(2000px) rotateY(10deg) scale(1.05); }
+    100% { transform: perspective(2000px) rotateY(0) scale(1); }
+}
+
+.door.attention {
+    animation: attention 0.8s ease-in-out;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .door {
+        width: 150px;
+        height: 250px;
+    }
+    
+    .door-frame {
+        width: 180px;
+        height: 280px;
+    }
+} 

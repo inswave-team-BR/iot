@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문을 열어보세요</title>
+    <link rel="stylesheet" href="./css/entrance-door-styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="door-container">
+            <div class="door" tabindex="0" aria-label="문을 클릭하여 입장하세요">
+                <div class="door-frame">
+                    <div class="door-frame-left"></div>
+                    <div class="door-frame-right"></div>
+                    <div class="door-frame-top"></div>
+                    <div class="door-frame-bottom"></div>
+                </div>
+                <div class="door-body">
+                    <div class="door-hinge door-hinge-top"></div>
+                    <div class="door-hinge door-hinge-bottom"></div>
+                    <div class="door-panel-top"></div>
+                    <div class="door-panel-middle"></div>
+                    <div class="door-panel-bottom"></div>
+                    <div class="door-knob-plate"></div>
+                    <div class="door-knob">
+                        <div class="door-knob-inner"></div>
+                    </div>
+                </div>
+                <div class="door-depth-edge"></div>
+            </div>
+            <div class="click-hint">클릭하여 문을 열어보세요!</div>
+            <div class="click-counter">
+                <p>방문자들이 <span id="click-count">0</span>번 문을 열었습니다</p>
+            </div>
+        </div>
+        <p class="door-message">
+            이 문 너머에는 무엇이 있을까요? <br>
+            <span>클릭하여 직접 확인해보세요!</span>
+        </p>
+    </div>
+    <script src="./js/entrance-door-script.js"></script>
+</body>
+</html> 
