@@ -83,6 +83,7 @@ $RECYCLE.BIN/
 .vscode
 
 # 음악 파일 디렉토리
-/audio
+minihome/*/audio/
+*.mp3
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,windows,macos
