@@ -25,6 +25,32 @@ HTML, CSS, JavaScript를 사용하여 만들어졌으며, 실제 싸이월드의
 - JavaScript (ES6+)
 - Bootstrap 5 (일부 유틸리티 클래스만 활용)
 
+## 데이터 구조
+
+미니홈피 데이터는 모듈화되어 관리됩니다:
+
+```js
+const personalData = {
+    // 프로필 정보
+    profile: {
+        homepageTitle: "...",
+        todayFeeling: "...",
+        statusMessage: "...",
+        profileInfo: {
+            name: "...",
+            birthday: "...",
+            email: "..."
+        }
+    },
+    
+    // 음악 정보
+    songs: [
+        {id: '...', title: '...', src: '...'},
+        // 음악 목록
+    ]
+};
+```
+
 ## 프로젝트 구조
 
 ```
@@ -33,7 +59,8 @@ HTML, CSS, JavaScript를 사용하여 만들어졌으며, 실제 싸이월드의
 ├── css/
 │   └── style.css        # 스타일시트
 ├── js/
-│   └── script.js        # 자바스크립트 로직
+│   ├── script.js        # 자바스크립트 로직
+│   └── personal-data.js # 프로필 및 음악 데이터 (통합된 데이터 파일)
 ├── audio/               # 음악 파일 디렉토리
 │   └── *.mp3            # 음악 파일들 (별도 추가 필요)
 └── images/
@@ -60,6 +87,7 @@ HTML, CSS, JavaScript를 사용하여 만들어졌으며, 실제 싸이월드의
 - 미니룸 댓글 등록
 - 탭 메뉴 전환 기능
 - 다이어리 작성 기능
+- 모듈화된 데이터 구조로 유지보수성 향상
 
 ## 음악 플레이어 세팅
 
@@ -69,6 +97,13 @@ HTML, CSS, JavaScript를 사용하여 만들어졌으며, 실제 싸이월드의
 3. `Blue spring (작전명 청-춘!)_잔나비.mp3`
 
 *참고: 음악 파일은 저작권 문제로 Git 저장소에 포함되어 있지 않습니다.*
+
+## 최근 업데이트
+
+- 하드코딩된 데이터를 분리하여 모듈화
+- 프로필 데이터(profile-data.js)와 음악 데이터(music-data.js)를 personal-data.js로 통합
+- 모든 미니홈피(leejaewon, leejaesung, kimsiyeon, hwangyooseok)에 변경사항 적용
+- 데이터 구조 개선으로 유지보수성 향상
 
 ## 향후 개선 사항
 
