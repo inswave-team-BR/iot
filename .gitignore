@@ -82,4 +82,7 @@ $RECYCLE.BIN/
 # visual studio code
 .vscode
 
+# 음악 파일 디렉토리
+/audio
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,windows,macos

@@ -7,6 +7,9 @@
  * 미니홈피의 각 기능별 초기화 작업을 순차적으로 진행합니다.
  */
 document.addEventListener('DOMContentLoaded', function() {
+    // 프로필 데이터 적용
+    applyProfileData();
+    
     // 방문자 수 업데이트
     updateVisitorCount();
     
@@ -25,6 +28,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // 음악 플레이어 초기화
     initMusicPlayer();
 });
+
+/**
+ * 프로필 데이터를 HTML에 적용하는 함수
+ * personal-data.js에서 정의된 personalData 객체를 사용하여 페이지의 내용을 업데이트합니다.
+ */
+function applyProfileData() {
+    // 홈페이지 제목 적용
+    document.querySelector('.homepage-title').textContent = personalData.profile.homepageTitle;
+    
+    // 오늘의 기분 적용
+    const todayFeelingElement = document.querySelector('.today-feeling');
+    todayFeelingElement.innerHTML = `<span class="today-title">TODAY is...</span> ${personalData.profile.todayFeeling}`;
+    
+    // 상태 메시지 적용
+    document.querySelector('.status-message').textContent = personalData.profile.statusMessage;
+    
+    // 프로필 정보 적용
+    document.querySelector('.name-info').textContent = `이름: ${personalData.profile.profileInfo.name}`;
+    document.querySelector('.birthday-info').textContent = `생일: ${personalData.profile.profileInfo.birthday}`;
+    document.querySelector('.email-info').textContent = `이메일: ${personalData.profile.profileInfo.email}`;
+}
 
 // ==========================================
 // 방문자 카운터 기능
@@ -239,24 +263,29 @@ let audioPlayer;
 let currentSongId = '';
 
 /**
- * 주의: 오디오 파일은 Git 저장소에 포함되어 있지 않습니다.
- * 이 코드를 실행하려면 다음 작업이 필요합니다:
- * 1. 'audio/' 디렉토리를 만들거나 확인하세요.
- * 2. 아래 목록의 MP3 파일을 별도로 다운로드하여 해당 디렉토리에 추가하세요.
- * 3. 파일명은 정확히 일치해야 합니다.
+ * 음악 선택 드롭다운 메뉴를 초기화하는 함수
+ * personal-data.js에서 정의한 personalData.songs 배열을 사용하여 드롭다운 옵션을 동적으로 생성합니다.
  */
-/** 
- * 음악 목록 배열 
- * 각 곡의 ID, 제목, 파일 경로를 포함한 객체들의 모음
- */
-const songs = [
-    {id: 'song1', title: 'Pole Dance (봉춤을 추네)_잔나비', src: 'audio/Pole Dance (봉춤을 추네)_잔나비.mp3'},
-    {id: 'song2', title: 'SIMPLE (Feat. JUNNY, 창모)', src: 'audio/DAUL, Noair, plan8, CHANNEL 201 - SIMPLE (Feat. JUNNY, 창모 (CHANGMO)).mp3'},
-    {id: 'song3', title: '거북이 - 비행기', src: 'audio/Turtles(거북이) - Airplane(비행기).mp3'}
-];
-
-/** 현재 재생 중인 노래의 songs 배열 내 인덱스 */
-let currentSongIndex = 0;
+function initSongSelectOptions() {
+    const songSelect = document.getElementById('songSelect');
+    
+    // 기존 옵션 제거
+    songSelect.innerHTML = '';
+    
+    // 기본 옵션 추가
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = '-- 노래 선택 --';
+    songSelect.appendChild(defaultOption);
+    
+    // 음악 목록에서 옵션 추가
+    personalData.songs.forEach(song => {
+        const option = document.createElement('option');
+        option.value = song.id;
+        option.textContent = song.title;
+        songSelect.appendChild(option);
+    });
+}
 
 // ==========================================
 // 음악 플레이어 기능
@@ -270,6 +299,9 @@ let currentSongIndex = 0;
 function initMusicPlayer() {
     // 오디오 플레이어 요소 가져오기
     audioPlayer = document.getElementById('audio-player');
+    
+    // 노래 선택 드롭다운 옵션 초기화
+    initSongSelectOptions();
     
     // 이벤트 리스너 등록
     document.getElementById('playBtn').addEventListener('click', playAudio);
@@ -293,9 +325,9 @@ function initMusicPlayer() {
 function playAudio() {
     if (audioPlayer && audioPlayer.src) {
         audioPlayer.play();
-    } else if (songs.length > 0) {
+    } else if (personalData.songs.length > 0) {
         // 아직 노래가 선택되지 않았으면 첫 번째 노래 재생
-        loadAndPlaySong(songs[0].id, songs[0].title);
+        loadAndPlaySong(personalData.songs[0].id, personalData.songs[0].title);
     }
 }
 
@@ -317,9 +349,9 @@ function playPreviousSong() {
     if (currentSongIndex > 0) {
         currentSongIndex--;
     } else {
-        currentSongIndex = songs.length - 1;
+        currentSongIndex = personalData.songs.length - 1;
     }
-    loadAndPlaySong(songs[currentSongIndex].id, songs[currentSongIndex].title);
+    loadAndPlaySong(personalData.songs[currentSongIndex].id, personalData.songs[currentSongIndex].title);
     updateSelectBox();
 }
 
@@ -328,12 +360,12 @@ function playPreviousSong() {
  * 현재 곡의 다음 곡으로 이동하며, 마지막 곡에서는 첫 번째 곡으로 순환합니다.
  */
 function playNextSong() {
-    if (currentSongIndex < songs.length - 1) {
+    if (currentSongIndex < personalData.songs.length - 1) {
         currentSongIndex++;
     } else {
         currentSongIndex = 0;
     }
-    loadAndPlaySong(songs[currentSongIndex].id, songs[currentSongIndex].title);
+    loadAndPlaySong(personalData.songs[currentSongIndex].id, personalData.songs[currentSongIndex].title);
     updateSelectBox();
 }
 
@@ -347,14 +379,14 @@ function changeSong() {
     
     if (selectedSongId) {
         // 선택한 노래의 인덱스 찾기
-        for (let i = 0; i < songs.length; i++) {
-            if (songs[i].id === selectedSongId) {
+        for (let i = 0; i < personalData.songs.length; i++) {
+            if (personalData.songs[i].id === selectedSongId) {
                 currentSongIndex = i;
                 break;
             }
         }
         
-        loadAndPlaySong(selectedSongId, songs[currentSongIndex].title);
+        loadAndPlaySong(selectedSongId, personalData.songs[currentSongIndex].title);
     }
 }
 
@@ -362,7 +394,7 @@ function changeSong() {
  * 노래 로드 및 재생 함수
  * 지정된 노래를 오디오 플레이어에 로드하고 재생을 시작합니다.
  * 
- * @param {string} songId - 재생할 노래의 고유 식별자로, songs 배열에서 노래를 찾는 데 사용됨
+ * @param {string} songId - 재생할 노래의 고유 식별자로, personalData.songs 배열에서 노래를 찾는 데 사용됨
  * @param {string} title - 플레이어에 표시될 노래 제목
  */
 function loadAndPlaySong(songId, title) {
@@ -370,7 +402,7 @@ function loadAndPlaySong(songId, title) {
         currentSongId = songId;
         
         // 선택한 노래의 소스 찾기
-        const song = songs.find(s => s.id === songId);
+        const song = personalData.songs.find(s => s.id === songId);
         if (song) {
             audioPlayer.src = song.src;
             audioPlayer.load();
@@ -401,7 +433,7 @@ function updatePlayPauseButtons() {
  */
 function updateSelectBox() {
     const selectElement = document.getElementById('songSelect');
-    selectElement.value = songs[currentSongIndex].id;
+    selectElement.value = personalData.songs[currentSongIndex].id;
 }
 
 /**
