@@ -392,6 +392,7 @@ body {
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
     z-index: 10;
 }
@@ -600,7 +601,8 @@ body {
     margin-top: 10px;
     font-size: 14px;
     color: #444;
-    width: 100%;
+    width: 100%; /* 더 넓은 너비로 설정 */
+    white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
     text-align: center;
     background: rgba(255, 255, 255, 0.8);
     padding: 8px;
@@ -675,6 +677,7 @@ body {
     
     .keys-hint {
         width: 280px;
+        white-space: nowrap; /* 모바일에서도 줄바꿈 방지 */
         margin-top: 15px;
     }
 } 
