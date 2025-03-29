@@ -39,8 +39,28 @@ function updateVisitorCount() {
     // 오늘 날짜 가져오기
     const today = new Date().toDateString();
     
+    // 현재 페이지 경로에서 팀원 이름 추출
+    const pathSegments = window.location.pathname.split('/');
+    let memberName = '';
+    
+    // 경로에서 minihome 폴더 다음에 오는 세그먼트가 팀원 이름
+    for (let i = 0; i < pathSegments.length; i++) {
+        if (pathSegments[i] === 'minihome' && i + 1 < pathSegments.length) {
+            memberName = pathSegments[i + 1];
+            break;
+        }
+    }
+    
+    // 팀원 이름이 추출되지 않은 경우 기본값 설정
+    if (!memberName) {
+        memberName = 'leejaewon';
+    }
+    
+    // localStorage 키 생성 (팀원별로 고유한 키 사용)
+    const visitorKey = 'cyworld_visitor_' + memberName;
+    
     // localStorage에서 방문 기록 가져오기
-    let visitorData = localStorage.getItem('cyworld_visitor');
+    let visitorData = localStorage.getItem(visitorKey);
     
     if (visitorData) {
         visitorData = JSON.parse(visitorData);
@@ -71,7 +91,7 @@ function updateVisitorCount() {
     }
     
     // localStorage에 방문 데이터 저장
-    localStorage.setItem('cyworld_visitor', JSON.stringify(visitorData));
+    localStorage.setItem(visitorKey, JSON.stringify(visitorData));
     
     // 화면에 방문자 수 표시
     document.querySelector('.today-count').textContent = visitorData.today;
