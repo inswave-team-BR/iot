@@ -25,19 +25,23 @@ body {
     margin: 50px auto;
     position: relative;
     perspective: 2000px;
+    width: 230px; /* 문틀 너비와 동일하게 설정 */
+    height: 380px; /* 문틀 높이와 동일하게 설정 */
 }
 
 /* 3D 문 스타일 */
 .door {
     width: 200px;
     height: 350px;
-    margin: 0 auto;
-    position: relative;
-    cursor: pointer;
-    transform-style: preserve-3d;
+    position: absolute;
+    left: 15px; /* 문틀 좌우 여백 */
+    top: 15px; /* 문틀 상하 여백 */
     transform: perspective(2000px) rotateY(0deg);
+    transform-style: preserve-3d;
+    cursor: pointer;
     transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
     transform-origin: left center;
+    z-index: 2; /* 문틀 위에 위치하도록 z-index 조정 */
 }
 
 .door::before {
@@ -75,11 +79,9 @@ body {
     position: absolute;
     width: 230px;
     height: 380px;
-    left: -15px;
-    top: -15px;
-    transform-style: preserve-3d;
-    transform: translateZ(-20px);
-    z-index: -1;
+    left: 0;
+    top: 0;
+    z-index: 1; /* 문 뒤에 위치하도록 z-index 조정 */
 }
 
 .door-frame-left, 
@@ -285,6 +287,7 @@ body {
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
     pointer-events: none;
+    z-index: 5;
 }
 
 .door:hover + .click-hint, .door:focus + .click-hint {
@@ -294,18 +297,23 @@ body {
 
 /* 문 클릭 시 카운터 스타일 */
 .click-counter {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: #666;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 5px 10px;
+    position: absolute;
+    bottom: -35px; /* 문과의 간격 조정 (50px에서 35px로 감소) */
+    left: 50%;
+    transform: translateX(-50%); /* 가운데 정렬 */
+    font-size: 1em; /* 폰트 크기 증가 */
+    color: #333; /* 더 진한 텍스트 색상 */
+    background-color: rgba(255, 255, 255, 0.9); /* 더 불투명한 배경 */
+    padding: 6px 12px; /* 패딩 약간 증가 */
     border-radius: 20px;
-    display: inline-block;
+    z-index: 5;
+    white-space: nowrap; /* 텍스트가 여러 줄로 나뉘지 않도록 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
 }
 
 #click-count {
     font-weight: bold;
-    color: #3a7bd5;
+    color: #2a5ca8; /* 더 진한 파란색 */
     transition: transform 0.3s, color 0.3s;
 }
 
