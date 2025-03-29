@@ -7,6 +7,9 @@
  * 미니홈피의 각 기능별 초기화 작업을 순차적으로 진행합니다.
  */
 document.addEventListener('DOMContentLoaded', function() {
+    // 프로필 정보 초기화
+    initProfile();
+    
     // 방문자 수 업데이트
     updateVisitorCount();
     
@@ -25,6 +28,65 @@ document.addEventListener('DOMContentLoaded', function() {
     // 음악 플레이어 초기화
     initMusicPlayer();
 });
+
+// ==========================================
+// 프로필 정보 초기화
+// ==========================================
+
+/**
+ * 프로필 정보 초기화 함수
+ * profile.js 파일에서 정의된 프로필 데이터를 사용하여 HTML 요소에 내용을 채웁니다.
+ */
+function initProfile() {
+    // 프로필 데이터가 존재하는지 확인
+    if (typeof profileData !== 'undefined') {
+        // 홈페이지 제목 설정
+        const homepageTitleElement = document.querySelector('.homepage-title');
+        if (homepageTitleElement) {
+            homepageTitleElement.textContent = profileData.homepageTitle;
+        }
+        
+        // 이름 설정
+        const nameInfoElement = document.querySelector('.name-info');
+        if (nameInfoElement) {
+            nameInfoElement.textContent = '이름: ' + profileData.name;
+        }
+        
+        // 생일 설정
+        const birthdayInfoElement = document.querySelector('.birthday-info');
+        if (birthdayInfoElement) {
+            birthdayInfoElement.textContent = '생일: ' + profileData.birthday;
+        }
+        
+        // 이메일 설정
+        const emailInfoElement = document.querySelector('.email-info');
+        if (emailInfoElement) {
+            emailInfoElement.textContent = '이메일: ' + profileData.email;
+        }
+        
+        // 상태 메시지 설정
+        const statusMessageElement = document.querySelector('.status-message');
+        if (statusMessageElement) {
+            statusMessageElement.textContent = profileData.statusMessage;
+        }
+        
+        // 오늘의 기분 설정
+        const todayFeelingElement = document.querySelector('.today-feeling');
+        if (todayFeelingElement) {
+            const todayTitleElement = todayFeelingElement.querySelector('.today-title');
+            if (todayTitleElement) {
+                // 기존 제목 유지하고 내용만 변경
+                todayFeelingElement.innerHTML = '';
+                todayFeelingElement.appendChild(todayTitleElement);
+                todayFeelingElement.appendChild(document.createTextNode(' ' + profileData.todayFeeling));
+            } else {
+                todayFeelingElement.textContent = 'TODAY is... ' + profileData.todayFeeling;
+            }
+        }
+    } else {
+        console.error('프로필 데이터를 찾을 수 없습니다. profile.js 파일이 로드되었는지 확인하세요.');
+    }
+}
 
 // ==========================================
 // 방문자 카운터 기능
