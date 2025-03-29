@@ -583,7 +583,7 @@ body {
 /* 드래그 중인 열쇠 스타일 */
 .key.dragging {
     opacity: 0.8;
-    transform: translate(20px, 10px) rotate(10deg);
+    transform: rotate(10deg);
     cursor: grabbing;
     z-index: 100;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
