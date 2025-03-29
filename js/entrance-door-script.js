@@ -72,10 +72,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 sourceSlot.classList.add('empty');
             }
             
-            // 이미지를 투명하게 설정하여 기본 드래그 이미지 숨기기
-            const img = new Image();
-            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-            e.dataTransfer.setDragImage(img, 0, 0);
+            // 키 요소 자체를 드래그 이미지로 사용
+            // 드래그 이미지의 오프셋을 설정하여 마우스 커서 위치와 일치하도록 함
+            const rect = this.getBoundingClientRect();
+            const offsetX = e.clientX - rect.left;
+            const offsetY = e.clientY - rect.top;
+            
+            e.dataTransfer.setDragImage(this, offsetX, offsetY);
         }
         
         // 드래그 종료 처리
