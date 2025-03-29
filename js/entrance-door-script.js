@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initIndexPage();
     
     function initIndexPage() {
+        // 애니메이션 상태를 추적하는 플래그 추가
+        let isAnimationRunning = false;
+        
         const door = document.querySelector('.door');
         const doorBody = document.querySelector('.door-body');
         const doorKnob = document.querySelector('.door-knob');
@@ -39,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 마우스 이동에 따라 문에 입체감 추가
         document.addEventListener('mousemove', function(e) {
-            if (door.classList.contains('clicked')) return;
+            // 문이 클릭되었거나 애니메이션이 진행 중이면 이벤트 무시
+            if (door.classList.contains('clicked') || isAnimationRunning) return;
             
             // 마우스 커서가 문과 충분히 가까울 때만 적용
             const doorRect = door.getBoundingClientRect();
@@ -103,6 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         function handleDoorClick() {
+            // 애니메이션이 이미 진행 중이면 중복 실행 방지
+            if (isAnimationRunning) return;
+            
+            // 애니메이션 시작 플래그 설정
+            isAnimationRunning = true;
+            
             // 효과음 재생 (옵션)
             playDoorSound();
             
@@ -148,6 +158,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 포털 효과를 별도 함수로 분리하여 일관성 향상
         function applyPortalEffect() {
+            // 애니메이션 플래그 유지
+            isAnimationRunning = true;
+            
             // 문에 빛 효과 추가
             doorBody.style.boxShadow = '0 0 30px 10px rgba(255, 255, 255, 0.7)';
             
@@ -189,6 +202,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // 터널 효과를 위한 오버레이 추가
             const tunnelEffect = document.createElement('div');
             tunnelEffect.className = 'tunnel-effect';
+            tunnelEffect.dataset.centerX = doorCenterX;
+            tunnelEffect.dataset.centerY = doorCenterY;
             document.body.appendChild(tunnelEffect);
             
             // 속도선 효과 추가
@@ -244,7 +259,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const scale = 1 + progress * 0.5;
             const translateZ = progress * 300;
             
-            // 문이 확대되는 효과
+            // 문이 확대되는 효과 (transform 속성 유지)
+            door.style.transform = `perspective(2000px) rotateY(-85deg) scale(${1 + progress * 0.2})`;
             door.style.filter = `brightness(${1 + progress * 0.8})`;
             
             // 컨테이너 확대 효과
