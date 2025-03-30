@@ -211,13 +211,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // 문이 열리는 효과 향상
                 let frameCount = 0;
-                const frames = 20;
+                const frames = 15;
                 const animateOpenDoor = () => {
                     frameCount++;
                     if (frameCount <= frames) {
                         // 열리는 동안 미세한 흔들림 추가
                         const progress = frameCount / frames;
-                        const shakeFactor = Math.sin(progress * Math.PI * 4) * (1 - progress) * 2;
+                        const shakeFactor = Math.sin(progress * Math.PI * 3) * (1 - progress) * 1.8;
                         const rotY = -85 * progress;
                         
                         door.style.transform = `perspective(2000px) rotateY(${rotY}deg) rotateX(${shakeFactor}deg) rotateZ(${shakeFactor * 0.5}deg)`;
@@ -338,13 +338,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 문이 열리는 효과 향상
             let frameCount = 0;
-            const frames = 20;
+            const frames = 15;
             const animateOpenDoor = () => {
                 frameCount++;
                 if (frameCount <= frames) {
                     // 열리는 동안 미세한 흔들림 추가
                     const progress = frameCount / frames;
-                    const shakeFactor = Math.sin(progress * Math.PI * 4) * (1 - progress) * 2;
+                    const shakeFactor = Math.sin(progress * Math.PI * 3) * (1 - progress) * 1.8;
                     const rotY = -85 * progress;
                     
                     door.style.transform = `perspective(2000px) rotateY(${rotY}deg) rotateX(${shakeFactor}deg) rotateZ(${shakeFactor * 0.5}deg)`;
@@ -395,8 +395,8 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(function portalAnimation(timestamp) {
                 const elapsed = timestamp - portalStartTime;
                 
-                if (elapsed < 800) { // 0.8초 동안 애니메이션 실행
-                    const progress = elapsed / 800;
+                if (elapsed < 600) { // 0.8초에서 0.6초로 단축하여 애니메이션 실행
+                    const progress = elapsed / 600;
                     
                     // 점진적인 효과 적용
                     updatePortalAnimation(progress, door, tunnelEffect, speedLines, container);
