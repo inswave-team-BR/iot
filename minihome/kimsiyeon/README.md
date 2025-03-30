@@ -102,7 +102,7 @@ const personalData = {
 
 - 하드코딩된 데이터를 분리하여 모듈화
 - 프로필 데이터(profile-data.js)와 음악 데이터(music-data.js)를 personal-data.js로 통합
-- 모든 미니홈피(leejaewon, leejaesung, kimsiyeon, hwangyooseok)에 변경사항 적용
+- 모든 미니홈피(leejaewon, leejaeseong, kimsiyeon, hwangyooseok)에 변경사항 적용
 - 데이터 구조 개선으로 유지보수성 향상
 
 ## 향후 개선 사항
