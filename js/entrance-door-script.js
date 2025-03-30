@@ -79,6 +79,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const offsetY = e.clientY - rect.top;
             
             e.dataTransfer.setDragImage(this, offsetX, offsetY);
+            
+            // 원본 키 요소를 투명하게 만들어 잔상이 보이지 않도록 함
+            setTimeout(() => {
+                this.style.opacity = '0';
+            }, 0);
         }
         
         // 드래그 종료 처리
@@ -91,6 +96,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 sourceSlot = null;
             }
             
+            // 드래그가 완료되면 키 요소 다시 보이게 함
+            if (!door.classList.contains('clicked')) {
+                this.style.opacity = '1';
+            }
+            
             draggedKey = null;
             door.classList.remove('drop-target');
         }
@@ -98,23 +108,72 @@ document.addEventListener('DOMContentLoaded', function() {
         // 드래그 오버 처리 (드롭 허용)
         function handleDragOver(e) {
             e.preventDefault();
+            // dragover 이벤트에서도 drop-target 클래스를 추가하여 효과가 지속되도록 함
+            this.classList.add('drop-target');
+            
+            // 세련된 블루 배경 효과 추가
+            const doorBody = document.querySelector('.door-body');
+            if (doorBody) {
+                doorBody.style.backgroundImage = `
+                    linear-gradient(135deg, 
+                        rgba(67, 103, 178, 0.3) 0%, 
+                        rgba(59, 89, 152, 0.4) 100%),
+                    radial-gradient(
+                        circle at 50% 50%, 
+                        rgba(255, 255, 255, 0.2) 0%, 
+                        rgba(255, 255, 255, 0) 60%
+                    )
+                `;
+            }
         }
         
         // 드래그 요소가 드롭 대상 위로 들어왔을 때
         function handleDragEnter(e) {
             e.preventDefault();
+            e.stopPropagation(); // 이벤트 버블링 방지
             this.classList.add('drop-target');
+            
+            // 세련된 블루 배경 효과 추가
+            const doorBody = document.querySelector('.door-body');
+            if (doorBody) {
+                doorBody.style.backgroundImage = `
+                    linear-gradient(135deg, 
+                        rgba(67, 103, 178, 0.3) 0%, 
+                        rgba(59, 89, 152, 0.4) 100%),
+                    radial-gradient(
+                        circle at 50% 50%, 
+                        rgba(255, 255, 255, 0.2) 0%, 
+                        rgba(255, 255, 255, 0) 60%
+                    )
+                `;
+            }
         }
         
         // 드래그 요소가 드롭 대상에서 벗어났을 때
-        function handleDragLeave() {
-            this.classList.remove('drop-target');
+        function handleDragLeave(e) {
+            // 실제로 문 영역을 벗어났을 때만 효과를 제거하기 위한 추가 검사
+            // relatedTarget이 door의 자식 요소인 경우 효과를 유지
+            if (!this.contains(e.relatedTarget)) {
+                this.classList.remove('drop-target');
+                
+                // 갈색 배경 효과 제거
+                const doorBody = document.querySelector('.door-body');
+                if (doorBody) {
+                    doorBody.style.backgroundImage = '';
+                }
+            }
         }
         
         // 드롭 처리
         function handleDrop(e) {
             e.preventDefault();
             this.classList.remove('drop-target');
+            
+            // 갈색 배경 효과 제거 (문이 열리기 전에)
+            const doorBody = document.querySelector('.door-body');
+            if (doorBody) {
+                doorBody.style.backgroundImage = '';
+            }
             
             if (draggedKey) {
                 // 애니메이션이 이미 진행 중이면 중복 실행 방지
@@ -181,14 +240,22 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 마우스 커서가 문과 충분히 가까울 때만 적용
             const doorRect = door.getBoundingClientRect();
+            
+            // 마우스가 문 요소 위에 있는지 확인
+            const isMouseOverDoor = 
+                e.clientX >= doorRect.left && 
+                e.clientX <= doorRect.right && 
+                e.clientY >= doorRect.top && 
+                e.clientY <= doorRect.bottom;
+            
             const doorCenterX = doorRect.left + doorRect.width / 2;
             const doorCenterY = doorRect.top + doorRect.height / 2;
             
             const distanceX = (e.clientX - doorCenterX) / window.innerWidth * 2;
             const distanceY = (e.clientY - doorCenterY) / window.innerHeight * 2;
             
-            // 문 주변에 마우스가 있을 때만 회전 효과 적용
-            if (Math.abs(distanceX) < 0.6 && Math.abs(distanceY) < 0.6) {
+            // 마우스가 정확히 문 위에 있을 때만 효과 적용
+            if (isMouseOverDoor) {
                 // 문의 전체 회전
                 const rotY = -distanceX * 5;
                 const rotX = distanceY * 3;
@@ -209,24 +276,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const knobOffsetY = distanceY * 5;
                 doorKnob.style.transform = `translateY(-50%) translateZ(10px) translateX(${knobOffsetX}px) translateY(${knobOffsetY}px)`;
                 
-                // 빛 효과 시뮬레이션
+                // 블루 그라데이션 효과로 변경
                 const lightPosX = 50 - distanceX * 30;
                 const lightPosY = 50 - distanceY * 30;
                 doorBody.style.backgroundImage = `
                     linear-gradient(135deg, 
-                        rgba(160, 82, 45, 0.9) 0%, 
-                        rgba(139, 69, 19, 0.9) 100%),
+                        rgba(67, 103, 178, 0.3) 0%, 
+                        rgba(59, 89, 152, 0.4) 100%),
                     radial-gradient(
                         circle at ${lightPosX}% ${lightPosY}%, 
-                        rgba(255, 255, 255, 0.15) 0%, 
-                        rgba(255, 255, 255, 0) 50%
-                    ),
-                    repeating-linear-gradient(
-                        90deg, 
-                        rgba(0, 0, 0, 0.05) 0px, 
-                        rgba(0, 0, 0, 0.05) 2px, 
-                        transparent 2px, 
-                        transparent 20px
+                        rgba(255, 255, 255, 0.2) 0%, 
+                        rgba(255, 255, 255, 0) 60%
                     )
                 `;
             } else {
