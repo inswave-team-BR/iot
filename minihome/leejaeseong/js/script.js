@@ -77,7 +77,7 @@ function updateVisitorCount() {
     
     // 팀원 이름이 추출되지 않은 경우 기본값 설정
     if (!memberName) {
-        memberName = 'leejaesung';
+        memberName = 'leejaeseong';
     }
     
     // localStorage 키 생성 (팀원별로 고유한 키 사용)
