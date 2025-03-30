@@ -363,6 +363,76 @@ document.addEventListener('DOMContentLoaded', function() {
             speedLines.className = 'speed-lines';
             document.body.appendChild(speedLines);
             
+            // 나뭇잎 효과 추가
+            const leavesContainer = document.createElement('div');
+            leavesContainer.className = 'leaves-container';
+            document.body.appendChild(leavesContainer);
+            
+            // 여러 개의 나뭇잎 생성
+            const leafCount = 40; // 나뭇잎 개수 증가
+            const leafTypes = ['leaf-1', 'leaf-2', 'leaf-3', 'twig-1', 'twig-2', 'leaf-4', 'leaf-5']; 
+            
+            for (let i = 0; i < leafCount; i++) {
+                const leaf = document.createElement('div');
+                const leafType = leafTypes[Math.floor(Math.random() * leafTypes.length)];
+                
+                leaf.className = `leaf ${leafType}`;
+                
+                // 초기 위치 설정 (주로 문의 오른쪽에 배치하여 왼쪽으로 날아가는 효과)
+                const side = Math.random() < 0.85 ? 1 : -1; // 85%는 오른쪽에서 시작
+                const distanceFromCenter = 30 + Math.random() * 100; // 문에서의 거리
+                const offsetX = side * distanceFromCenter; // 주로 오른쪽에 배치
+                const offsetY = Math.random() * 160 - 80; // -80 ~ 80 (높이 분포)
+                
+                // 바람의 세기와 방향 설정
+                const windStrength = 300 + Math.random() * 300; // 바람 세기 (좌측 이동 속도)
+                const windDirection = -1; // 왼쪽 방향 (-1)
+                
+                // 이동 속성 설정
+                const moveX = windDirection * windStrength; // 왼쪽으로 이동
+                const moveY = Math.random() * 100 - 50; // 약간의 상하 이동
+                
+                // 회전 설정
+                const rotation = Math.random() * 360; // 초기 회전
+                const rotationDelta = Math.random() * 1080 - 540; // 더 큰 회전 변화량
+                
+                // 크기 설정
+                const scale = 0.3 + Math.random() * 1.2; // 0.3 ~ 1.5
+                
+                // 바람 영향에 관한 추가 속성
+                const amplitude = 15 + Math.random() * 25; // 사인 곡선의 진폭
+                const frequency = 3 + Math.random() * 5; // 사인 곡선의 주파수
+                const resistance = 0.7 + Math.random() * 0.3; // 바람 저항 (낮을수록 더 큰 영향)
+                const delay = Math.random() * 0.4; // 시작 지연 시간
+                
+                // 3D 회전 설정
+                const rotateX = Math.random() * 180 - 90; // x축 회전 각도
+                const rotateY = Math.random() * 180 - 90; // y축 회전 각도
+                
+                // 데이터 저장
+                leaf.dataset.initialX = doorCenterX + offsetX;
+                leaf.dataset.initialY = doorCenterY + offsetY;
+                leaf.dataset.moveX = moveX;
+                leaf.dataset.moveY = moveY;
+                leaf.dataset.rotation = rotation;
+                leaf.dataset.rotationDelta = rotationDelta;
+                leaf.dataset.scale = scale;
+                leaf.dataset.amplitude = amplitude;
+                leaf.dataset.frequency = frequency;
+                leaf.dataset.resistance = resistance;
+                leaf.dataset.delay = delay;
+                leaf.dataset.rotateX = rotateX;
+                leaf.dataset.rotateY = rotateY;
+                
+                // 초기 스타일 설정
+                leaf.style.left = `${leaf.dataset.initialX}px`;
+                leaf.style.top = `${leaf.dataset.initialY}px`;
+                leaf.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+                leaf.style.opacity = '0';
+                
+                leavesContainer.appendChild(leaf);
+            }
+            
             // 컨테이너 스타일 설정
             const container = document.querySelector('.container');
             
@@ -396,6 +466,57 @@ document.addEventListener('DOMContentLoaded', function() {
                     z-index: 4; /* 터널 위에 위치 */
                     transform-origin: ${doorCenterX}px ${doorCenterY}px;
                     pointer-events: none;
+                }
+                .leaves-container {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    z-index: 5; /* 다른 효과보다 위에 표시 */
+                    opacity: 0;
+                }
+                
+                .leaf {
+                    position: absolute;
+                    width: 30px;
+                    height: 30px;
+                    opacity: 0;
+                    will-change: transform, opacity, left, top;
+                    transition: opacity 0.05s ease-out;
+                }
+                
+                .leaf-1 {
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,50 Q40,20 50,50 Q60,20 80,50 Q60,80 50,50 Q40,80 20,50 Z" fill="%23228B22"/></svg>') no-repeat center/contain;
+                }
+                
+                .leaf-2 {
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M30,20 L50,80 L70,20 Z" fill="%2332CD32"/></svg>') no-repeat center/contain;
+                }
+                
+                .leaf-3 {
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="30" ry="20" fill="%23006400"/></svg>') no-repeat center/contain;
+                }
+                
+                .leaf-4 {
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,20 C40,10 60,10 80,20 C90,40 90,60 80,80 C60,90 40,90 20,80 C10,60 10,40 20,20 Z" fill="%23228B22"/></svg>') no-repeat center/contain;
+                }
+                
+                .leaf-5 {
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,20 C70,20 85,35 85,55 C85,75 70,90 50,90 C30,90 15,75 15,55 C15,35 30,20 50,20 Z" fill="%2332CD32"/></svg>') no-repeat center/contain;
+                }
+                
+                .twig-1 {
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><line x1="10" y1="50" x2="90" y2="50" stroke="%23654321" stroke-width="5"/></svg>') no-repeat center/contain;
+                    width: 40px;
+                    height: 10px;
+                }
+                
+                .twig-2 {
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,50 L90,50 M50,30 L70,50 L50,70" stroke="%23654321" stroke-width="5" fill="none"/></svg>') no-repeat center/contain;
+                    width: 40px;
+                    height: 20px;
                 }
             `;
             document.head.appendChild(style);
@@ -434,6 +555,82 @@ document.addEventListener('DOMContentLoaded', function() {
             // 속도선 크기 업데이트
             speedLines.style.backgroundSize = `${50 - progress * 40}px ${50 - progress * 40}px`;
             speedLines.style.transform = `scale(${1 + progress})`;
+            
+            // 바람 세기 변화 시뮬레이션 (시간에 따라 바람 세기가 변함)
+            const windVariation = Math.sin(progress * 10) * 0.3 + 1; // 0.7 ~ 1.3 사이로 바람 세기 변화
+            
+            // 나뭇잎 애니메이션 업데이트
+            const leavesContainer = document.querySelector('.leaves-container');
+            if (leavesContainer) {
+                // 컨테이너 전체 표시
+                leavesContainer.style.opacity = Math.min(1, progress * 3); // 0.33 지점부터 완전히 표시
+                
+                // 바람 소리 효과를 위한 스타일 추가 (배경 이동)
+                leavesContainer.style.backgroundImage = `linear-gradient(90deg, 
+                    rgba(255,255,255,0) ${10 + progress * 60}%, 
+                    rgba(255,255,255,0.05) ${15 + progress * 65}%, 
+                    rgba(255,255,255,0) ${20 + progress * 70}%)`;
+                
+                // 각 나뭇잎의 애니메이션 업데이트
+                const leaves = leavesContainer.querySelectorAll('.leaf');
+                leaves.forEach((leaf, index) => {
+                    // 각 나뭇잎마다 약간 다른 타이밍 적용
+                    const leafDelay = parseFloat(leaf.dataset.delay || 0);
+                    const adjustedProgress = Math.max(0, Math.min(1, (progress - leafDelay) * 1.2));
+                    
+                    if (adjustedProgress > 0) {
+                        // 나뭇잎 표시
+                        leaf.style.opacity = Math.min(1, adjustedProgress * 3);
+                        
+                        // 저장된 데이터 가져오기
+                        const initialX = parseFloat(leaf.dataset.initialX);
+                        const initialY = parseFloat(leaf.dataset.initialY);
+                        const moveX = parseFloat(leaf.dataset.moveX);
+                        const moveY = parseFloat(leaf.dataset.moveY);
+                        const rotation = parseFloat(leaf.dataset.rotation);
+                        const rotationDelta = parseFloat(leaf.dataset.rotationDelta);
+                        const scale = parseFloat(leaf.dataset.scale);
+                        const amplitude = parseFloat(leaf.dataset.amplitude);
+                        const frequency = parseFloat(leaf.dataset.frequency);
+                        const resistance = parseFloat(leaf.dataset.resistance);
+                        const rotateX = parseFloat(leaf.dataset.rotateX);
+                        const rotateY = parseFloat(leaf.dataset.rotateY);
+                        
+                        // 바람의 영향을 받는 진행률 (저항에 따라 다름)
+                        const windEffect = adjustedProgress * (2 - resistance) * windVariation;
+                        
+                        // 위치 계산 - 사인 곡선을 사용하여 바람에 날리는 효과
+                        const waveOffset = Math.sin(adjustedProgress * frequency) * amplitude * (1 - adjustedProgress);
+                        const accelerationFactor = Math.pow(adjustedProgress, 0.7); // 가속도 효과 (점점 더 빨라짐)
+                        
+                        const currentX = initialX + moveX * accelerationFactor;
+                        const currentY = initialY + moveY * adjustedProgress + waveOffset;
+                        
+                        // 회전 계산 - 바람 세기에 따라 회전 속도가 달라짐
+                        const currentRotation = rotation + rotationDelta * windEffect;
+                        
+                        // 3D 회전 효과 추가 - 바람에 따라 나뭇잎이 뒤집히는 효과
+                        const currentRotateX = rotateX * Math.sin(adjustedProgress * 6) * (1 - adjustedProgress);
+                        const currentRotateY = rotateY * Math.sin(adjustedProgress * 5) * (1 - adjustedProgress);
+                        
+                        // 스타일 적용 - 3D 변환을 포함한 복합 변환
+                        leaf.style.left = `${currentX}px`;
+                        leaf.style.top = `${currentY}px`;
+                        leaf.style.transform = `
+                            rotate(${currentRotation}deg) 
+                            rotateX(${currentRotateX}deg) 
+                            rotateY(${currentRotateY}deg)
+                            scale(${scale * (1 - adjustedProgress * 0.3)})
+                        `;
+                        
+                        // 나뭇잎이 화면 밖으로 나갔을 때 투명도 감소
+                        if (currentX < 0 || currentX > window.innerWidth || 
+                            currentY < 0 || currentY > window.innerHeight) {
+                            leaf.style.opacity = Math.max(0, 1 - (adjustedProgress - 0.7) * 3);
+                        }
+                    }
+                });
+            }
         }
         
         function updateClickCount() {
