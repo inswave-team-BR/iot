@@ -27,6 +27,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 음악 플레이어 초기화
     initMusicPlayer();
+
+    const homeTab = document.querySelector('.tab-item[data-tab="home"]');
+    homeTab.classList.add('active');
+
+    // 홈 탭 관련 영역 중 아이템바, 배경 선택은 숨기고 background-stage만 보이게 설정
+    document.getElementById('guestbook').style.display = 'none';
+    document.getElementById('miniroom').style.display = 'none';
+    document.getElementById('diary').style.display = 'none';
+
+    const decorateElements = document.querySelectorAll('.background-selector, .item-bar');
+    decorateElements.forEach(el => el.style.display = 'none');
+
 });
 
 /**
@@ -133,6 +145,13 @@ function updateVisitorCount() {
  */
 function initTabMenu() {
     const tabItems = document.querySelectorAll('.tab-item');
+
+     //시연
+     const decorateElements = document.querySelectorAll('.background-selector, .item-bar, #decorate-area');
+     const guestbookArea = document.getElementById('guestbook');
+     const miniroomArea = document.getElementById('miniroom');
+     const diaryArea = document.getElementById('diary');
+     
     
     tabItems.forEach(tab => {
         tab.addEventListener('click', function() {
@@ -152,13 +171,20 @@ function initTabMenu() {
             
             // 선택한 탭에 따라 콘텐츠 표시
             if (tabName === 'home') {
-                document.getElementById('guestbook').style.display = 'block';
-                document.getElementById('miniroom').style.display = 'block';
-            } else if (tabName === 'diary') {
-                document.getElementById('diary').style.display = 'block';
-            } else if (tabName === 'guestbook') {
-                document.getElementById('guestbook').style.display = 'block';
-            }
+                decorateElements.forEach(el => el.style.display = 'block');
+
+                // 배경 영역 높이 & 레이아웃 강제 고정
+                const backgroundStage = document.querySelector('.background-stage');
+                backgroundStage.style.flex = '1';
+                backgroundStage.style.minHeight = '200px';
+                backgroundStage.style.height = ''; // 또는 'auto'
+                backgroundStage.style.position = 'relative'; // 혹시 모르니 다시 설정
+
+                } else {
+                decorateElements.forEach(el => el.style.display = 'none');
+                document.getElementById('diary').style.display = tabName === 'diary' ? 'block' : 'none';
+                document.getElementById('guestbook').style.display = tabName === 'guestbook' ? 'block' : 'none';
+                }
         });
     });
 }
