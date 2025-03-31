@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>게시판</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #f5f5f5;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+      }
+      canvas {
+        border: 2px solid #333;
+        background-color: #fff;
+        cursor: crosshair;
+      }
+      .controls,
+      .guestbook {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 10px;
+      }
+      button,
+      textarea,
+      #guestbookList img {
+        max-width: 200px;
+        display: block;
+        margin-bottom: 5px;
+      }
+      .replies {
+        max-height: 100px;
+        overflow-y: auto;
+        background: #fff;
+        margin-top: 10px;
+        padding: 5px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>게시판</h2>
+    <div class="guestbook">
+      <input type="text" id="nickname" placeholder="닉네임 입력" />
+      <button onclick="setUser()">로그인</button>
+    </div>
+    <p id="currentUser"></p>
+
+    <div class="controls">
+      <label
+        >선 색상: <input type="color" id="colorPicker" value="#000000"
+      /></label>
+      <label
+        >선 두께: <input type="range" id="lineWidth" min="1" max="20" value="3"
+      /></label>
+      <button id="eraserBtn">지우개</button>
+      <button id="clearBtn">전체 지우기</button>
+    </div>
+    <div>
+      <canvas id="canvas" width="300" height="300"></canvas>
+    </div>
+
+    <div class="guestbook">
+      <textarea
+        id="message"
+        placeholder="방명록 글을 작성하세요"
+        rows="4"
+        cols="50"
+      ></textarea>
+      <button id="saveBtn">저장</button>
+    </div>
+
+    <h3>📜 방명록 목록</h3>
+    <div id="guestbookList"></div>
+
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const colorPicker = document.getElementById("colorPicker");
+      const lineWidth = document.getElementById("lineWidth");
+      const eraserBtn = document.getElementById("eraserBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const message = document.getElementById("message");
+      const saveBtn = document.getElementById("saveBtn");
+      const guestbookList = document.getElementById("guestbookList");
+      const currentUserEl = document.getElementById("currentUser");
+      const nicknameInput = document.getElementById("nickname");
+
+      let painting = false;
+      let erasing = false;
+
+      function setUser() {
+        const nickname = nicknameInput.value.trim();
+        if (!nickname) return alert("닉네임을 입력하세요.");
+        const userId = crypto.randomUUID();
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify({ userId, nickname })
+        );
+        currentUserEl.textContent = `현재 사용자: ${nickname}`;
+      }
+
+      function getCurrentUser() {
+        return JSON.parse(localStorage.getItem("currentUser"));
+      }
+
+      function startPosition(e) {
+        painting = true;
+        draw(e);
+      }
+      function endPosition() {
+        painting = false;
+        ctx.beginPath();
+      }
+
+      function draw(e) {
+        if (!painting) return;
+        const rect = canvas.getBoundingClientRect();
+        ctx.lineWidth = lineWidth.value;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = erasing ? "#ffffff" : colorPicker.value;
+        ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+      }
+
+      canvas.addEventListener("mousedown", startPosition);
+      canvas.addEventListener("mouseup", endPosition);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseleave", endPosition);
+
+      eraserBtn.addEventListener("click", () => {
+        erasing = !erasing;
+        eraserBtn.textContent = erasing ? "그리기" : "지우개";
+      });
+
+      clearBtn.addEventListener("click", () =>
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+      );
+
+      saveBtn.addEventListener("click", () => {
+        const user = getCurrentUser();
+        if (!user) return alert("로그인 후 저장하세요.");
+        const imgData = canvas.toDataURL();
+        const text = message.value.trim();
+        if (!text) return alert("글을 작성해 주세요.");
+
+        const entry = {
+          id: crypto.randomUUID(),
+          userId: user.userId,
+          nickname: user.nickname,
+          image: imgData,
+          text,
+          timestamp: new Date().toLocaleString(),
+        };
+        const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+        guestbook.unshift(entry);
+        localStorage.setItem("guestbook", JSON.stringify(guestbook));
+        renderGuestbook();
+        message.value = "";
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+
+      function deleteEntry(entryId) {
+        const user = getCurrentUser();
+        const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+        const target = guestbook.find((g) => g.id === entryId);
+        if (!target || target.userId !== user?.userId)
+          return alert("본인 글만 삭제할 수 있습니다.");
+        if (!confirm("정말 삭제하시겠습니까?")) return;
+        const newGuestbook = guestbook.filter((g) => g.id !== entryId);
+        localStorage.setItem("guestbook", JSON.stringify(newGuestbook));
+        renderGuestbook();
+      }
+
+      function addOrEditComment(entryId) {
+        const user = getCurrentUser();
+        if (!user) return alert("로그인 후 작성하세요.");
+        const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+        const target = guestbook.find((g) => g.id === entryId);
+        let text = prompt(
+          target.comment ? "댓글 수정하기" : "댓글 작성하기",
+          target.comment?.text || ""
+        );
+        if (text === null || text.trim() === "") return;
+        target.comment = {
+          userId: user.userId,
+          nickname: user.nickname,
+          text,
+          timestamp: new Date().toLocaleString(),
+          replies: target.comment?.replies || [],
+        };
+        localStorage.setItem("guestbook", JSON.stringify(guestbook));
+        renderGuestbook();
+      }
+
+      function deleteComment(entryId) {
+        const user = getCurrentUser();
+        const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+        const target = guestbook.find((g) => g.id === entryId);
+        if (!target?.comment || target.comment.userId !== user?.userId)
+          return alert("본인 댓글만 삭제할 수 있습니다.");
+        if (!confirm("댓글을 삭제하시겠습니까?")) return;
+        delete target.comment;
+        localStorage.setItem("guestbook", JSON.stringify(guestbook));
+        renderGuestbook();
+      }
+
+      function addReply(entryId) {
+        const user = getCurrentUser();
+        if (!user) return alert("로그인 후 작성하세요.");
+        const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+        const target = guestbook.find((g) => g.id === entryId);
+        if (!target?.comment)
+          return alert("댓글이 있어야 대댓글을 작성할 수 있습니다.");
+        if (user.userId !== target.userId)
+          return alert("글 작성자만 대댓글 작성 가능합니다.");
+
+        const replyText = prompt("대댓글 작성하기");
+        if (!replyText) return;
+        target.comment.replies.push({
+          userId: user.userId,
+          nickname: user.nickname,
+          text: replyText,
+          timestamp: new Date().toLocaleString(),
+        });
+        localStorage.setItem("guestbook", JSON.stringify(guestbook));
+        renderGuestbook();
+      }
+
+      function deleteReply(entryId, replyIdx) {
+        const user = getCurrentUser();
+        const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+        const target = guestbook.find((g) => g.id === entryId);
+        const reply = target?.comment?.replies[replyIdx];
+        if (!reply || reply.userId !== user?.userId)
+          return alert("본인 대댓글만 삭제 가능합니다.");
+        if (!confirm("대댓글을 삭제하시겠습니까?")) return;
+        target.comment.replies.splice(replyIdx, 1);
+        localStorage.setItem("guestbook", JSON.stringify(guestbook));
+        renderGuestbook();
+      }
+
+      function renderGuestbook() {
+        const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+        const user = getCurrentUser();
+        guestbookList.innerHTML = guestbook
+          .map(
+            (entry) => `
+        <div style="background:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
+          <div>
+          <img src="${entry.image}" alt="그림" >
+          </div>
+          <div>
+          <p>${entry.text}</p>
+          <small>작성자: ${entry.nickname} (${entry.timestamp})</small><br>
+          ${
+            user?.userId === entry.userId
+              ? `<button onclick="deleteEntry('${entry.id}')">삭제</button>`
+              : ""
+          }
+          <div style="margin-top:10px; padding:10px; background:#f0f0f0; border-radius:6px;">
+            ${
+              entry.comment
+                ? `
+              <p><strong>${entry.comment.nickname}:</strong> ${
+                    entry.comment.text
+                  }</p>
+              <small>${entry.comment.timestamp}</small><br>
+              ${
+                user?.userId === entry.comment.userId
+                  ? `<button onclick="addOrEditComment('${entry.id}')">댓글 수정</button>
+              <button onclick="deleteComment('${entry.id}')">댓글 삭제</button>`
+                  : ""
+              }
+              <button onclick="addReply('${entry.id}')">대댓글 달기</button>
+              <div class="replies">
+                ${entry.comment.replies
+                  ?.map(
+                    (reply, idx) => `
+                  <div style="border-bottom:1px solid #ddd; padding:5px 0;">
+                    <strong>${reply.nickname}:</strong> ${reply.text} <small>${
+                      reply.timestamp
+                    }</small>
+                    ${
+                      user?.userId === reply.userId
+                        ? `<button onclick="deleteReply('${entry.id}', ${idx})">삭제</button>`
+                        : ""
+                    }
+                  </div>
+                `
+                  )
+                  .join("")}
+              </div>
+            `
+                : `<button onclick="addOrEditComment('${entry.id}')">댓글 달기</button>`
+            }
+          </div>
+        </div>
+      `
+          )
+          .join("");
+      }
+
+      renderGuestbook();
+    </script>
+  </body>
+</html>
