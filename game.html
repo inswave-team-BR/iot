@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        text-align: center;
+        font-family: sans-serif;
+      }
+      canvas {
+        border: 1px solid #d3d3d3;
+        background-color: #f1f1f1;
+        display: block;
+        margin: auto;
+      }
+      #startBtn {
+        font-size: 20px;
+        padding: 10px 20px;
+        margin-top: 20px;
+      }
+      #countdown {
+        font-size: 48px;
+        font-weight: bold;
+        margin-top: 20px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎤 소리로 점프 게임</h1>
+    <canvas id="gameCanvas" width="480" height="270"></canvas>
+    <button id="startBtn">게임 시작</button>
+    <div id="countdown"></div>
+    <p>소리를 질러 점프! 장애물과 구멍을 피해 오래 살아남으세요.</p>
+    <p id="scoreDisplay">SCORE: 0</p>
+
+    <script>
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+      const startBtn = document.getElementById("startBtn");
+      const countdownEl = document.getElementById("countdown");
+      const scoreDisplay = document.getElementById("scoreDisplay");
+
+      let audioContext, analyser, microphone;
+      let dataArray, bufferLength;
+
+      let player,
+        grounds = [],
+        obstacles = [],
+        holes = [];
+      const clouds = [];
+      let gravity = 0.5;
+      let isJumping = false;
+      let canJump = true;
+      let gameSpeed = 2;
+      let frameCount = 0;
+      let gameRunning = false;
+      let monitoring = false;
+
+      const loadingBar = document.createElement("div");
+      loadingBar.style.position = "fixed";
+      loadingBar.style.top = "0";
+      loadingBar.style.left = "0";
+      loadingBar.style.height = "4px";
+      loadingBar.style.backgroundColor = "#3b82f6";
+      loadingBar.style.transition = "width 2s linear";
+      loadingBar.style.width = "0%";
+      document.body.appendChild(loadingBar);
+
+      class Player {
+        constructor() {
+          this.width = 30;
+          this.height = 30;
+          this.x = 50;
+          this.y = canvas.height - 10 - this.height; // 바닥 위로
+          this.vy = 0;
+        }
+        update() {
+          this.vy += gravity;
+          this.y += this.vy;
+          const floorY = canvas.height - 10;
+          if (this.y >= floorY - this.height) {
+            this.y = floorY - this.height;
+            this.vy = 0;
+            isJumping = false;
+            canJump = true;
+          }
+          ctx.fillStyle = "red";
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+        jump() {
+          if (canJump) {
+            this.vy = -11;
+            isJumping = true;
+            canJump = false;
+          }
+        }
+      }
+
+      class Ground {
+        constructor(x, width) {
+          this.x = x;
+          this.y = canvas.height - 10;
+          this.width = width;
+          this.height = 10;
+        }
+        update() {
+          this.x -= gameSpeed;
+          ctx.fillStyle = "#444";
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+      }
+
+      class Obstacle {
+        constructor(x) {
+          this.x = x + 10;
+          this.y = canvas.height - 40;
+          this.width = 20;
+          this.height = 30;
+        }
+        update() {
+          this.x -= gameSpeed;
+          ctx.fillStyle = "green";
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+        checkCollision(player) {
+          return (
+            player.x < this.x + this.width &&
+            player.x + player.width > this.x &&
+            player.y < this.y + this.height &&
+            player.y + player.height > this.y
+          );
+        }
+      }
+
+      class Cloud {
+        constructor(x, y, size) {
+          this.x = x;
+          this.y = y;
+          this.size = size;
+        }
+        update() {
+          this.x -= 0.3;
+          if (this.x + this.size < 0) {
+            this.x = canvas.width + Math.random() * 100;
+            this.y = Math.random() * 100;
+          }
+          ctx.fillStyle = "#ccc";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.arc(this.x + this.size, this.y, this.size, 0, Math.PI * 2);
+          ctx.arc(
+            this.x + this.size / 2,
+            this.y - this.size / 2,
+            this.size,
+            0,
+            Math.PI * 2
+          );
+          ctx.fill();
+        }
+      }
+
+      function createClouds() {
+        clouds.length = 0;
+        for (let i = 0; i < 5; i++) {
+          clouds.push(
+            new Cloud(
+              Math.random() * canvas.width,
+              Math.random() * 80 + 10,
+              Math.random() * 10 + 10
+            )
+          );
+        }
+      }
+
+      function createGroundAndGaps() {
+        grounds = [];
+        obstacles = [];
+        let x = 0;
+        const groundWidth = 40;
+        const totalWidth = canvas.width * 6;
+        const safeZoneWidth = canvas.width; // ✅ 초반 한 화면은 안전하게
+
+        while (x < totalWidth) {
+          grounds.push(new Ground(x, groundWidth));
+
+          if (x > safeZoneWidth && Math.random() < 0.2) {
+            obstacles.push(new Obstacle(x + groundWidth - 20));
+          }
+
+          x += groundWidth;
+        }
+      }
+
+      function updateGame() {
+        if (!gameRunning) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#aeeaff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        frameCount++;
+        scoreDisplay.textContent = "SCORE: " + frameCount;
+        clouds.forEach((c) => c.update());
+        player.update();
+
+        // 땅 이동
+        grounds.forEach((g) => g.update());
+        grounds = grounds.filter((g) => g.x + g.width > 0);
+
+        // 장애물 이동 및 생성
+        obstacles.forEach((obs) => obs.update());
+        obstacles = obstacles.filter((obs) => obs.x + obs.width > 0);
+
+        // 주기적으로 새로운 땅과 장애물 추가
+        if (frameCount % 120 === 0) {
+          const lastX =
+            grounds.length > 0
+              ? grounds[grounds.length - 1].x + 40
+              : canvas.width;
+          grounds.push(new Ground(lastX, 40));
+          if (Math.random() < 0.3) {
+            obstacles.push(new Obstacle(lastX + 40));
+          }
+        }
+
+        for (let i = 0; i < obstacles.length; i++) {
+          const obs = obstacles[i];
+          if (obs.checkCollision(player)) {
+            endGame();
+            return;
+          }
+        }
+
+        requestAnimationFrame(updateGame);
+      }
+
+      function monitorMic() {
+        if (!monitoring) return;
+        const decibels = calculateDecibels();
+        if (decibels > 50 && !isJumping) {
+          player.jump();
+        }
+        requestAnimationFrame(monitorMic);
+      }
+
+      function calculateDecibels() {
+        analyser.getByteTimeDomainData(dataArray);
+        let sum = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          const val = (dataArray[i] - 128) / 128;
+          sum += val * val;
+        }
+        const rms = Math.sqrt(sum / bufferLength);
+        return 40 * Math.log10(rms) + 100;
+      }
+
+      function startMicAndGame() {
+        loadingBar.style.width = "0%";
+        loadingBar.style.display = "block";
+        requestAnimationFrame(() => {
+          loadingBar.style.width = "100%";
+        });
+
+        setTimeout(() => {
+          navigator.mediaDevices
+            .getUserMedia({ audio: true })
+            .then((stream) => {
+              audioContext = new AudioContext();
+              microphone = audioContext.createMediaStreamSource(stream);
+              analyser = audioContext.createAnalyser();
+              analyser.fftSize = 2048;
+              bufferLength = analyser.frequencyBinCount;
+              dataArray = new Uint8Array(bufferLength);
+              microphone.connect(analyser);
+
+              monitoring = true;
+              monitorMic();
+
+              player = new Player();
+              frameCount = 0;
+              createGroundAndGaps();
+              createClouds();
+              gameRunning = true;
+              updateGame();
+              loadingBar.style.display = "none";
+            })
+            .catch((err) => {
+              alert("마이크 사용 권한이 필요합니다.");
+              console.error(err);
+              startBtn.style.display = "inline-block";
+              loadingBar.style.display = "none";
+            });
+        }, 2000);
+      }
+
+      function endGame() {
+        gameRunning = false;
+        monitoring = false;
+        if (audioContext) audioContext.close();
+        alert("게임 오버! SCORE: " + frameCount);
+        startBtn.style.display = "inline-block";
+      }
+
+      function startCountdown(callback) {
+        let count = 3;
+        countdownEl.style.display = "block";
+        countdownEl.textContent = count;
+        const interval = setInterval(() => {
+          count--;
+          if (count > 0) {
+            countdownEl.textContent = count;
+          } else if (count === 0) {
+            countdownEl.textContent = "GO!";
+          } else {
+            clearInterval(interval);
+            countdownEl.style.display = "none";
+            callback();
+          }
+        }, 1000);
+      }
+
+      startBtn.addEventListener("click", () => {
+        startBtn.style.display = "none";
+        startCountdown(() => startMicAndGame());
+      });
+    </script>
+  </body>
+</html>
