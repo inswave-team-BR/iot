@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>칸반 보드</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        margin: 0;
+        background: #f4f6fa;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+      }
+      .board {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+      }
+      .column {
+        position: relative;
+        z-index: 0;
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        width: 280px;
+        flex-shrink: 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .column h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      .card-title-input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+      }
+      .card-title-input:focus {
+        border-color: #4b7bec;
+      }
+
+      .member-select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        font-size: 13px;
+        margin-top: 8px;
+      }
+
+      .save-card-btn {
+        margin-top: 12px;
+        padding: 8px 14px;
+        background-color: #4cd137;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        cursor: pointer;
+        float: right;
+        transition: background 0.2s;
+      }
+      .save-card-btn:hover {
+        background-color: #44bd32;
+      }
+      .member-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 12px;
+        padding-left: 0;
+        list-style: none;
+      }
+
+      .member-list li {
+        margin-right: 6px;
+        cursor: pointer;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .member-list li::before {
+        content: "👥 ";
+        position: absolute;
+        left: 0;
+      }
+      .member-list li:hover {
+        background-color: #ffdede;
+        color: #c0392b;
+        text-decoration: line-through;
+      }
+      .card-members::before,
+      .modal-members::before {
+        content: "👥 ";
+      }
+
+      .card-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+        min-height: 30px; /* 👈 이것만 있으면 빈 컬럼도 드롭 가능해짐 */
+      }
+      .card {
+        background: #fafafa;
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        z-index: 1;
+      }
+      .card.dragging {
+        opacity: 0.5;
+      }
+      .add-card-btn,
+      .add-column-btn {
+        width: 100%;
+        padding: 8px;
+        margin-top: 6px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .delete-column,
+      .edit-column {
+        display: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+        padding: 3px;
+        margin-top: 6px;
+        float: right;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        background: #ffdddd;
+      }
+      .delete-column {
+        padding-inline: 6px;
+      }
+      .col-header:hover .delete-column,
+      .col-header:hover .edit-column {
+        display: inline-block;
+      }
+
+      .column .edit-column {
+        right: 36px;
+        background: #e0f7ff;
+      }
+      .add-card-btn,
+      .add-column-btn {
+        background-color: #eef1f5;
+        color: #333;
+      }
+      .add-card-btn:hover,
+      .add-column-btn:hover {
+        background-color: #d6e4f0;
+      }
+      .column-header {
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .card .delete-btn,
+      .card .edit-btn {
+        display: none;
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 3px;
+        background: #ffdddd;
+      }
+      .card .delete-btn {
+        padding-inline: 6px;
+      }
+
+      .card .edit-btn {
+        right: 30px;
+        background: #e0f7ff;
+      }
+
+      .card:hover .delete-btn,
+      .card:hover .edit-btn {
+        display: inline-block;
+      }
+      /* 모달 기본 스타일 */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background: #fff;
+        width: 500px;
+        max-width: 90%;
+        margin: 80px auto;
+        padding: 15px;
+        border-radius: 12px;
+        position: relative;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 4px;
+      }
+
+      .close-btn {
+        font-size: 20px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: #999;
+        transition: color 0.2s ease;
+        padding: 4px 8px;
+      }
+
+      .close-btn:hover {
+        color: #333;
+      }
+
+      .modal-title {
+        width: 100%;
+        font-size: 18px;
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      .modal-title[contenteditable="true"] {
+        border: 1px solid #4b7bec;
+        border-radius: 6px;
+        padding: 8px;
+        outline: none;
+      }
+
+      .modal-members {
+        font-size: 14px;
+        color: #444;
+        margin-left: 10px;
+        margin-bottom: 12px;
+      }
+
+      .modal-editor {
+        min-height: 200px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .edit-save-btn {
+        background-color: #eef1f5;
+        margin-top: 12px;
+        padding: 8px 14px;
+        color: black;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        cursor: pointer;
+        float: right;
+        transition: background 0.2s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="board">
+      <div class="column">
+        <button class="add-column-btn">+ 컬럼 추가</button>
+      </div>
+    </div>
+    <!-- 상세 모달 -->
+    <div id="detailModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-title" contenteditable="false">제목 입력</div>
+        <div class="modal-members"></div>
+        <div class="modal-editor" placeholder="내용을 입력하세요..."></div>
+        <div style="margin-top: 10px; display: flex; justify-content: flex-end">
+          <button id="toggleEdit" class="edit-save-btn">✏️ 편집</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let draggedCard = null;
+      let draggedColumn = null;
+      let hoveredCard = null;
+      let hoveredColumn = null;
+      let currentEditingCard = null;
+
+      // 카드 드래그 이벤트 연결
+      function makeCardDraggable(card) {
+        card.addEventListener("dragstart", () => {
+          draggedCard = card;
+          card.classList.add("dragging");
+        });
+
+        card.addEventListener("dragend", () => {
+          card.classList.remove("dragging");
+          hoveredCard = null;
+          draggedCard = null;
+        });
+        card.addEventListener("dragenter", () => {
+          hoveredCard = card;
+        });
+      }
+
+      // 컬럼 드래그 이벤트 연결
+      function makeColDraggable(column) {
+        column.addEventListener("dragstart", (e) => {
+          if (e.target.closest(".card")) return;
+
+          draggedColumn = column; // ✅ 이게 꼭 있어야 drop에서 작동함
+          column.style.opacity = "0.5";
+
+          const img = new Image();
+          img.src = "";
+          e.dataTransfer.setDragImage(img, 0, 0);
+        });
+
+        column.addEventListener("dragend", () => {
+          column.style.opacity = "1";
+          draggedColumn = null;
+        });
+      }
+
+      // 삭제 버튼 설정
+      function setupDeleteButton(card) {
+        const deleteBtn = card.querySelector(".delete-btn");
+        deleteBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (confirm("카드를 삭제합니다.")) {
+            card.remove();
+            saveBoardToStorage(); // 삭제 후 저장
+          }
+        });
+      }
+
+      function setupEditColumn(column) {
+        const editBtn = column.querySelector(".edit-column");
+        const titleElem = column.querySelector("h2");
+
+        editBtn.addEventListener("click", () => {
+          const currentTitle = titleElem.textContent.trim();
+          const input = document.createElement("input");
+          input.type = "text";
+          input.value = currentTitle;
+          input.style.fontSize = "18px";
+          input.style.width = "100%";
+          input.style.marginBottom = "6px";
+          input.style.marginTop = "25px";
+
+          titleElem.replaceWith(input);
+          input.focus();
+
+          input.addEventListener("blur", () => {
+            const newTitle = input.value.trim() || "🆕 새 컬럼";
+            const newTitleElem = document.createElement("h2");
+            newTitleElem.textContent = newTitle;
+            input.replaceWith(newTitleElem);
+            setupEditColumn(column);
+
+            saveBoardToStorage(); // ✅ 제목 변경 후 저장 추가
+          });
+
+          input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") input.blur();
+          });
+        });
+      }
+
+      // 삭제 컬럼 설정
+      function setupDeleteColumn(column) {
+        const deleteBtn = column.querySelector(".delete-column");
+        deleteBtn.addEventListener("click", () => {
+          if (window.confirm("컬럼를 삭제합니다.")) {
+            column.remove();
+            saveBoardToStorage(); // ✅ 삭제 후 저장!
+          }
+        });
+      }
+
+      // 카드 생성 함수
+      function createCard(
+        cardData = {
+          title: "🆕 새 카드",
+          id: Date.now().toString(),
+          members: "",
+          detail: "",
+        }
+      ) {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.draggable = true;
+        card.style.position = "relative"; // 버튼 위치 위해 필요
+        card.dataset.id = cardData.id;
+        card.dataset.detail = cardData.detail;
+
+        card.innerHTML = `
+    <h3>${cardData.title}</h3>
+      <div class = "card-members" style="font-size: 12px; color: #555; margin-top: 4px;">
+         ${cardData.members}
+      </div>
+      <button class="edit-btn">✏️</button>
+      <button class="delete-btn">X</button>
+  `;
+
+        makeCardDraggable(card);
+        setupDeleteButton(card);
+        setupEditButton(card);
+        return card;
+      }
+      function switchToEditMode(card) {
+        if (currentEditingCard && currentEditingCard !== card) {
+          const prevCard = currentEditingCard;
+          const titleInput = prevCard.querySelector(".card-title-input");
+          const selectedList = prevCard.querySelectorAll(".member-list li");
+          currentEditingCard = card;
+          if (titleInput) {
+            const title = titleInput.value.trim() || "🆕 새 카드";
+            const members = Array.from(selectedList).map((li) =>
+              li.textContent.trim()
+            );
+
+            prevCard.innerHTML = `
+        <h3>${title}</h3>
+        <div style="font-size: 12px; color: #555; margin-top: 4px;">
+          ${members.join(", ")}
+        </div>
+        <button class="edit-btn">✏️</button>
+        <button class="delete-btn">X</button>
+      `;
+            setupDeleteButton(prevCard);
+            setupEditButton(prevCard);
+            makeCardDraggable(prevCard);
+          }
+        }
+
+        currentEditingCard = card;
+        const members = ["김시연", "이재성", "이재원", "황유석"];
+
+        const prevTitle =
+          card.querySelector("h3")?.textContent.trim() || "🆕 새 카드";
+        const prevMembersText = card.querySelector("div")?.textContent || "";
+        const prevMembers = prevMembersText
+          .replace("👥", "")
+          .split(",")
+          .map((m) => m.trim())
+          .filter(Boolean);
+
+        const selectedMembers = [...prevMembers];
+
+        // 카드 편집 UI 구성 (li는 비워두고 JS로 생성)
+        card.innerHTML = `
+    <div id="edit-card-box">
+      <div>
+        <input type="text" class="card-title-input" value="${prevTitle}" placeholder="${prevTitle}" />
+      </div>
+      <div style="margin-top:8px;">
+        <select class="member-select">
+          <option disabled selected>👥 팀원을 선택하세요</option>
+          ${members.map((m) => `<option value="${m}">${m}</option>`).join("")}
+        </select>
+      </div>
+      <div class="member-list-wrapper" style="font-size: 14px; color: #555;">
+        <ul class="member-list"></ul>
+      </div>
+      <button class="save-card-btn" style="margin-top:10px; padding:5px 10px;">✅ 확인</button>
+    </div>
+  `;
+
+        const titleInput = card.querySelector(".card-title-input");
+        const select = card.querySelector(".member-select");
+        const memberList = card.querySelector(".member-list");
+        const saveBtn = card.querySelector(".save-card-btn");
+
+        // 👇 클릭 시 삭제 가능한 <li> 생성
+        function setupMemberClick(li, name) {
+          li.addEventListener("click", (e) => {
+            e.stopPropagation(); // 저장 방지
+            selectedMembers.splice(selectedMembers.indexOf(name), 1);
+            updateMemberList();
+          });
+        }
+
+        function updateMemberList() {
+          memberList.innerHTML = "";
+          selectedMembers.forEach((name) => {
+            const li = document.createElement("li");
+            li.textContent = name;
+            setupMemberClick(li, name);
+            memberList.appendChild(li);
+          });
+        }
+
+        select.addEventListener("change", () => {
+          const value = select.value;
+          if (!selectedMembers.includes(value)) {
+            selectedMembers.push(value);
+            updateMemberList();
+          }
+          select.selectedIndex = 0;
+        });
+        select.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault(); // 셀렉트 열림 방지
+            saveCard(); // 저장 실행
+          }
+        });
+
+        updateMemberList(); // 초기 멤버 리스트 렌더링
+
+        // 저장 처리
+        function saveCard() {
+          const title = titleInput.value.trim() || prevTitle;
+          const detail = card.dataset.detail || ""; // 기존 detail 유지
+          const rawMembers = selectedMembers.join(", ");
+
+          card.innerHTML = `
+    <h3>${title}</h3>
+    <div class="card-members" style="font-size: 12px; color: #555; margin-top: 4px;">
+      ${rawMembers}
+    </div>
+    <button class="edit-btn">✏️</button>
+    <button class="delete-btn">X</button>
+  `;
+
+          card.dataset.detail = detail; // ✅ detail은 여전히 DOM에 보관
+
+          setupDeleteButton(card);
+          setupEditButton(card);
+          makeCardDraggable(card);
+          currentEditingCard = null;
+          // ✅ 이제는 여기서만 저장
+          saveBoardToStorage();
+        }
+
+        // 확인 버튼
+        saveBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          saveCard();
+        });
+
+        // 제목 입력 시 초기화
+        let titleCleared = false;
+        titleInput.addEventListener("focus", () => {
+          if (!titleCleared) {
+            titleInput.value = "";
+            titleCleared = true;
+          }
+        });
+
+        titleInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault(); // 줄바꿈 방지
+            saveCard(); // 저장 실행
+          }
+        });
+
+        // 외부 클릭 시 저장
+        setTimeout(() => {
+          document.addEventListener(
+            "click",
+            function handler(e) {
+              if (!card.contains(e.target)) {
+                saveCard();
+                document.removeEventListener("click", handler);
+              }
+            },
+            { once: true }
+          );
+        }, 0);
+
+        titleInput.focus();
+      }
+
+      function setupEditButton(card) {
+        const editBtn = card.querySelector(".edit-btn");
+        editBtn.addEventListener("click", (e) => {
+          e.stopPropagation(); // 카드 클릭 이벤트 방지
+          switchToEditMode(card);
+        });
+      }
+
+      // 컬럼 생성 함수
+      function createColumn(title = "🆕 새 컬럼") {
+        const column = document.createElement("div");
+        column.className = "column";
+        column.draggable = true;
+        column.innerHTML = `<div class = "col-header">
+          <button class="edit-column">✏️</button>
+          <button class="delete-column">X</button>
+            <h2>${title}</h2>
+          </div>
+          <div class="card-list"></div>
+          <div class="wrap-add-card">
+            <button class="add-card-btn">+ 카드 추가</button>
+          </div>
+        `;
+
+        column.addEventListener("dragenter", () => {
+          hoveredColumn = column;
+        });
+
+        const cardList = column.querySelector(".card-list");
+
+        // 카드 드롭 전용 영역
+        cardList.addEventListener("dragover", (e) => e.preventDefault());
+
+        cardList.addEventListener("dragenter", () => {
+          hoveredColumn = column;
+          cardList.style.backgroundColor = "#eef5ff";
+        });
+        cardList.addEventListener("dragleave", () => {
+          cardList.style.backgroundColor = "transparent";
+        });
+
+        cardList.addEventListener("drop", (e) => {
+          if (!draggedCard) return;
+
+          const box = hoveredCard.getBoundingClientRect();
+          const isAbove = e.clientY < box.top + box.height / 2;
+
+          /*
+          if (draggedCard) {
+            cardList.appendChild(draggedCard);
+            cardList.style.backgroundColor = "transparent";
+          }*/
+
+          if (!hoveredCard || !cardList.contains(hoveredCard)) {
+            cardList.appendChild(draggedCard);
+          } else {
+            const box = hoveredCard.getBoundingClientRect();
+            const isAbove = e.clientY < box.top + box.height / 2;
+
+            if (isAbove) {
+              hoveredCard.parentElement.insertBefore(draggedCard, hoveredCard);
+            } else {
+              hoveredCard.parentElement.insertBefore(
+                draggedCard,
+                hoveredCard.nextSibling
+              );
+            }
+          }
+          draggedCard = null;
+          hoveredCard = null;
+        });
+
+        // 카드 추가 버튼 기능
+        const addBtn = column.querySelector(".add-card-btn");
+        addBtn.addEventListener("click", () => {
+          const newCard = createCard();
+          cardList.appendChild(newCard);
+          saveBoardToStorage(); // 컬럼 추가 시 호출
+        });
+
+        makeColDraggable(column);
+        setupEditColumn(column);
+        setupDeleteColumn(column);
+        return column;
+      }
+
+      // 컬럼 추가 버튼 기능
+      const addColumnBtn = document.querySelector(".add-column-btn");
+      addColumnBtn.addEventListener("click", () => {
+        const newColumn = createColumn(
+          prompt("컬럼 이름을 입력하세요") || "🆕 새 컬럼"
+        );
+
+        // 컬럼 추가 버튼 바로 앞에 삽입
+        const board = document.querySelector(".board");
+        board.insertBefore(newColumn, addColumnBtn.parentElement);
+
+        saveBoardToStorage(); // 컬럼 추가 시 호출
+      });
+
+      const board = document.querySelector(".board");
+
+      board.addEventListener("dragover", (e) => {
+        e.preventDefault();
+      });
+
+      board.addEventListener("drop", (e) => {
+        if (!draggedColumn || !hoveredColumn) return;
+
+        const box = hoveredColumn.getBoundingClientRect();
+        const isLeft = e.clientX < box.left + box.width / 2;
+
+        if (isLeft) {
+          board.insertBefore(draggedColumn, hoveredColumn);
+        } else {
+          board.insertBefore(draggedColumn, hoveredColumn.nextSibling);
+        }
+
+        hoveredColumn = null;
+        draggedColumn = null;
+      });
+
+      // 모달 요소
+      const modal = document.getElementById("detailModal");
+      const closeBtn = modal.querySelector(".close-btn");
+      const modalTitle = modal.querySelector(".modal-title");
+      const modalEditor = modal.querySelector(".modal-editor");
+      const modalMembers = modal.querySelector(".modal-members");
+
+      // 카드 클릭 시 모달 열기
+      document.addEventListener("click", (e) => {
+        if (currentEditingCard) return;
+
+        const card = e.target.closest(".card");
+        if (!card) return;
+        if (
+          !e.target.classList.contains("edit-btn") &&
+          !e.target.classList.contains("delete-btn")
+        ) {
+          if (card.querySelector("#edit-card-box")) return;
+
+          const title = card.querySelector("h3")?.textContent || "";
+          const members =
+            card.querySelector(".card-members")?.textContent || "";
+          const content = card.dataset.detail || "";
+
+          modalTitle.textContent = title;
+          modalTitle.setAttribute("contenteditable", "false");
+
+          modalMembers.textContent = members;
+          modalEditor.innerHTML = content;
+
+          modal.currentCard = card;
+          modal.style.display = "block";
+        }
+      });
+
+      // 닫기 버튼
+      closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+        saveModalChanges();
+        resetModalFields(); // ✅ 추가
+      });
+
+      // 외부 클릭 시 닫기
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+          saveModalChanges();
+          resetModalFields(); // ✅ 추가
+        }
+      });
+
+      // 저장 함수
+      function saveModalChanges() {
+        if (!modal.currentCard) return;
+
+        const cardId = modal.currentCard.dataset.id;
+        const newTitle = modalTitle.textContent.trim();
+        const newContent = modalEditor.innerHTML;
+        const newMembers = modalMembers.textContent;
+
+        // 카드 DOM 업데이트
+        modal.currentCard.querySelector("h3").textContent = newTitle;
+        modal.currentCard.dataset.detail = newContent;
+        modal.currentCard.querySelector(".card-members").textContent =
+          newMembers;
+
+        // ✅ 전체 보드 상태 저장
+        saveBoardToStorage();
+      }
+
+      const toggleBtn = document.getElementById("toggleEdit");
+      const editor = document.querySelector(".modal-editor");
+      let isEditing = false;
+      let savedHtml = ""; // 전역으로 저장할 변수
+
+      toggleBtn.addEventListener("click", () => {
+        if (!isEditing) {
+          savedHtml = editor.innerHTML; // ✅ 저장 시점
+          editor.textContent = savedHtml; // 👉 HTML 태그를 텍스트로 보여주기
+          editor.setAttribute("contenteditable", "true");
+          modalTitle.setAttribute("contenteditable", "true");
+
+          toggleBtn.innerHTML = "✅ 저장";
+          toggleBtn.classList.add("save-card-btn");
+          toggleBtn.classList.remove("edit-save-btn");
+        } else {
+          savedHtml = editor.textContent; // 편집 중인 텍스트 저장
+          editor.innerHTML = savedHtml; // 텍스트를 HTML로 렌더링
+          editor.setAttribute("contenteditable", "false");
+          modalTitle.setAttribute("contenteditable", "false");
+
+          toggleBtn.innerHTML = "✏️ 편집";
+          toggleBtn.classList.add("edit-save-btn");
+          toggleBtn.classList.remove("save-card-btn");
+        }
+        isEditing = !isEditing;
+      });
+
+      function saveBoardToStorage() {
+        const columns = Array.from(document.querySelectorAll(".column")).slice(
+          0,
+          -1
+        );
+        const boardData = columns.map((col) => {
+          const title = col.querySelector("h2").textContent;
+          const cards = Array.from(col.querySelectorAll(".card")).map(
+            (card) => {
+              return {
+                id: card.dataset.id,
+                title: card.querySelector("h3").textContent,
+                members: card.querySelector(".card-members")?.textContent || "",
+                detail: card.dataset.detail || "",
+              };
+            }
+          );
+          return { title, cards };
+        });
+        localStorage.setItem("kanbanBoard", JSON.stringify(boardData));
+      }
+      function resetModalFields() {
+        modalTitle.textContent = "";
+        modalTitle.setAttribute("contenteditable", "false");
+
+        modalEditor.innerHTML = "";
+        modalEditor.setAttribute("contenteditable", "false");
+
+        modalMembers.textContent = "";
+        toggleBtn.innerHTML = "✏️ 편집";
+        toggleBtn.classList.remove("save-card-btn");
+        toggleBtn.classList.add("edit-save-btn");
+        isEditing = false;
+      }
+
+      function loadBoardFromStorage() {
+        const data = JSON.parse(localStorage.getItem("kanbanBoard") || "[]");
+        const board = document.querySelector(".board");
+        data.forEach((col) => {
+          const column = createColumn(col.title);
+          const cardList = column.querySelector(".card-list");
+          col.cards.forEach((card) => {
+            const newCard = createCard(card);
+            cardList.appendChild(newCard);
+          });
+          board.insertBefore(column, board.lastElementChild);
+        });
+      }
+      window.addEventListener("DOMContentLoaded", loadBoardFromStorage);
+    </script>
+  </body>
+</html>
