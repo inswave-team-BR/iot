@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Map</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    #map {
+      width: 100%;
+      height: 400px;
+      margin-top: 20px;
+    }
+    .marker-circle {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+      cursor: pointer;
+    }
+  </style>
+
+  <!-- ✅ 카카오 지도 API + 장소 검색 라이브러리 포함 -->
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=faedc692ee4f1fb94b995cdb777abeb9&libraries=services"></script>
+
+</head>
+<body>
+
+
+<!-- ✅ 사용자 선택 드롭다운 -->
+<select id="userSelect">
+  <option value="">-- 사용자 선택 --</option>
+  <option value="김시연">김시연</option>
+  <option value="이재성">이재성</option>
+  <option value="이재원">이재원</option>
+  <option value="황유석">황유석</option>
+</select>
+
+<!-- ✅ 지도 영역 -->
+<div id="map"></div>
+
+<script>
+  const userSelect = document.getElementById('userSelect');
+
+  const map = new kakao.maps.Map(document.getElementById('map'), {
+    center: new kakao.maps.LatLng(37.58377, 126.999943),
+    level: 3
+  });
+
+  const userColors = {
+    김시연: '#e74c3c',
+    이재성: '#3498db',
+    이재원: '#f1c40f',
+    황유석: '#2ecc71'
+  };
+
+  const overlays = [];
+
+  // ✅ 저장된 마커 로드
+  const savedMarkers = JSON.parse(localStorage.getItem('markers')) || [];
+
+  savedMarkers.forEach(markerData => {
+    addMarker(markerData.user, markerData.lat, markerData.lng, false);
+  });
+
+  // ✅ 지도 클릭 시 마커 생성
+  kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+    const selectedUser = userSelect.value;
+
+    if (!selectedUser) {
+      alert("사용자를 먼저 선택해주세요!");
+      return;
+    }
+
+    const lat = mouseEvent.latLng.getLat();
+    const lng = mouseEvent.latLng.getLng();
+
+    // 마커 생성 및 저장
+    addMarker(selectedUser, lat, lng, true);
+  });
+
+  // ✅ 마커 생성 함수
+  function addMarker(user, lat, lng, shouldSave) {
+    const position = new kakao.maps.LatLng(lat, lng);
+    const color = userColors[user];
+
+    const markerEl = document.createElement('div');
+    markerEl.className = 'marker-circle';
+    markerEl.style.backgroundColor = color;
+    markerEl.title = user;
+
+    const overlay = new kakao.maps.CustomOverlay({
+      content: markerEl,
+      position: position,
+      yAnchor: 1,
+      clickable: true
+    });
+
+    overlay.setMap(map);
+    overlays.push(overlay);
+
+    // 마커 저장
+    if (shouldSave) {
+      savedMarkers.push({ user, lat, lng });
+      localStorage.setItem('markers', JSON.stringify(savedMarkers));
+    }
+
+    // 삭제 기능
+    markerEl.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const currentUser = userSelect.value;
+      if (currentUser !== user) {
+        alert("이 마커는 생성자만 삭제할 수 있습니다.");
+        return;
+      }
+
+      if (confirm(`${user}님의 마커를 삭제하시겠습니까?`)) {
+        overlay.setMap(null);
+      
+        // localStorage에서도 제거
+        const updated = savedMarkers.filter(m => !(m.user === user && m.lat === lat && m.lng === lng));
+        localStorage.setItem('markers', JSON.stringify(updated));
+      
+        // 🧠 전역 배열도 업데이트! (이게 중요!!)
+        savedMarkers.length = 0; // 기존 배열 비우고
+        updated.forEach(m => savedMarkers.push(m)); // 업데이트된 값 다시 넣기
+      }
+      
+    });
+  }
+
+
+ 
+</script>
+
+
+
+</body>
+</html>
