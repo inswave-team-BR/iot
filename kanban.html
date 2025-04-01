@@ -12,6 +12,9 @@
         box-sizing: border-box;
         font-family: "Inter", sans-serif;
       }
+      html::-webkit-scrollbar {
+        display: none; /* for Chrome, Safari, and Opera */
+      }
       body {
         margin: 0;
         background: #f4f6fa;
@@ -23,6 +26,7 @@
         display: flex;
         gap: 20px;
         overflow-x: auto;
+        scrollbar-width: none;
       }
       .column {
         position: relative;
