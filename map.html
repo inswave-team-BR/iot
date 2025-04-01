@@ -39,6 +39,12 @@
   <option value="황유석">황유석</option>
 </select>
 
+<!-- ✅ 초기화 버튼 추가 -->
+<div style="margin-top: 10px; margin-bottom: 10px;">
+  <button id="clearMarkersBtn" style="padding: 6px 12px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+    모든 마커 초기화
+  </button>
+
 <!-- ✅ 지도 영역 -->
 <div id="map"></div>
 
@@ -131,6 +137,35 @@
       
     });
   }
+
+  // ✅ map이 완전히 로드되고 화면에 보이면 다시 중심 좌표 재설정!
+  function resetMapCenter() {
+    map.relayout();
+    map.setCenter(new kakao.maps.LatLng(37.58377, 126.999943));
+  }
+
+  window.addEventListener("load", () => {
+    setTimeout(resetMapCenter, 300);
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(resetMapCenter, 500); // 조금 더 확실하게
+  });
+
+  // ✅ 모든 마커 초기화 버튼
+  document.getElementById('clearMarkersBtn').addEventListener('click', function () {
+    if (confirm("정말 모든 마커를 삭제하시겠습니까?")) {
+      overlays.forEach(overlay => overlay.setMap(null));
+      overlays.length = 0;
+
+      localStorage.removeItem('markers');
+      savedMarkers.length = 0;
+
+      alert("✅ 모든 마커가 삭제되었습니다.");
+    }
+  });
+
+
 
 
  
