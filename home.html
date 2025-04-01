@@ -156,6 +156,20 @@
             transform: scale(1.08);
             box-shadow: 0 0 20px rgba(32, 201, 151, 0.8);
           }
+
+          /* 기본 색상 고정 */
+          .footer .social-links a i.bi-facebook,
+          .footer .social-links a i.bi-youtube {
+          color: #000 !important;
+          }
+
+          /* hover 시에도 색상 유지 */
+          .footer .social-links a:hover i.bi-facebook,
+          .footer .social-links a:hover i.bi-youtube {
+          color: #000 !important;
+          }
+
+  
           
     
     
@@ -188,7 +202,7 @@
           <li><a href="#hero" class="active">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="#team">Team</a></li>
+          <!--<li><a href="#team">Team</a></li>-->
           <!--<li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="#">Dropdown 1</a></li>
@@ -399,9 +413,9 @@
               <div class="icon">
                 <i class="bi bi-activity"></i>
               </div>
-              <a href="service-details.html" class="stretched-link">
-                <h3>뭐가 들어가야되나</h3>
-              </a>
+              <a href="javascript:void(0)" class="stretched-link" onclick="toggleTeam()">
+                <h3>Team 소개</h3>
+              </a>              
               <!--<p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>-->
             </div>
           </div><!-- End Service Item -->
@@ -411,9 +425,9 @@
               <div class="icon">
                 <i class="bi bi-broadcast"></i>
               </div>
-              <a href="service-details.html" class="stretched-link">
+              <a href="javascript:void(0)" class="stretched-link" onclick="toggleKanban()">
                 <h3>Kanban Board</h3>
-              </a>
+              </a>              
               <!--<p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>-->
             </div>
           </div>
@@ -423,9 +437,9 @@
               <div class="icon">
                 <i class="bi bi-easel"></i>
               </div>
-              <a href="map.html" class="stretched-link">
+              <a href="javascript:void(0)" class="stretched-link" onclick="toggleMap()">
                 <h3>Map</h3>
-              </a>
+              </a>              
               <!--<p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>-->
             </div>
           </div><!-- End Service Item -->
@@ -474,11 +488,33 @@
       </div>
 
     </section><!-- /Services Section -->
+
+    <!-- Kanban Board iframe Section -->
+<section id="kanban-frame" class="section" style="display: none;">
+  <div class="container">
+    <!--<div class="section-title">
+      <h2>Kanban Board</h2>
+      <p>작업을 시각적으로 관리하세요!</p>
+    </div>-->
+    <iframe id="kanbanIframe" src="kanban.html" width="100%" height="800" style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(114, 12, 12, 0.1);"></iframe>
+  </div>
+</section>
+
+<!-- Map iframe Section -->
+<!-- Services > Map 클릭 시 iframe으로 보여줄 섹션 -->
+<section id="map-frame" class="section" style="display: none;">
+  <div class="container">
+    <iframe id="mapIframe" src="map.html" width="100%" height="600" style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); visibility: hidden;" onload="this.style.visibility='visible'"></iframe>
+  </div>
+</section>
+
+
+
     
     
 
     <!-- Team Section -->
-    <section id="team" class="team section">
+    <section id="team" class="team section" style="display: none;">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -591,6 +627,52 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <script>
+    function toggleTeam() {
+      const team = document.getElementById("team");
+      const kanban = document.getElementById("kanban-frame");
+      const map = document.getElementById("map-frame");
+  
+      const isVisible = team.style.display === "block";
+  
+      team.style.display = isVisible ? "none" : "block";
+      kanban.style.display = "none";
+      map.style.display = "none";
+  
+      if (!isVisible) team.scrollIntoView({ behavior: "smooth" });
+    }
+  
+    function toggleKanban() {
+      const team = document.getElementById("team");
+      const kanban = document.getElementById("kanban-frame");
+      const map = document.getElementById("map-frame");
+  
+      const isVisible = kanban.style.display === "block";
+  
+      kanban.style.display = isVisible ? "none" : "block";
+      team.style.display = "none";
+      map.style.display = "none";
+  
+      if (!isVisible) kanban.scrollIntoView({ behavior: "smooth" });
+    }
+  
+    function toggleMap() {
+      const team = document.getElementById("team");
+      const kanban = document.getElementById("kanban-frame");
+      const map = document.getElementById("map-frame");
+  
+      const isVisible = map.style.display === "block";
+  
+      map.style.display = isVisible ? "none" : "block";
+      team.style.display = "none";
+      kanban.style.display = "none";
+  
+      if (!isVisible) map.scrollIntoView({ behavior: "smooth" });
+    }
+  </script>
+  
+  
+
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -664,7 +746,7 @@
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
-          <a href="index.html" class="d-flex align-items-center">
+          <a href="" class="d-flex align-items-center">
             <span class="sitename">&lt;BR&gt;</span>
           </a>
           <div class="footer-contact pt-3">
@@ -674,7 +756,9 @@
           </div>
 
           <p class="mt-2">
-            <span onclick="toggleMap()" style="cursor: pointer; color: #20c997; text-decoration: underline;">위치</span>
+            <!-- footer 쪽 -->
+            <span onclick="toggleFooterMap()" style="cursor: pointer; color: #20c997; text-decoration: underline;">위치</span>
+
           </p>
           
           <div id="map" style="width: 100%; height: 400px; display: none; margin-top: 20px;"></div>
@@ -686,7 +770,7 @@
             <li><i class="bi bi-chevron-right"></i> <a href="#hero">Home</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="#about">About</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="#services">Services</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#team">Team</a></li>
+            <!--<li><i class="bi bi-chevron-right"></i> <a href="#team">Team</a></li>-->
           </ul>
         </div>
         <!--
@@ -752,7 +836,7 @@
   <!-- 🔽 이 스크립트를 추가 -->
 <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=faedc692ee4f1fb94b995cdb777abeb9"></script>
 <script>
-  function toggleMap() {
+  function toggleFooterMap() {
     const mapDiv = document.getElementById("map");
     if (mapDiv.style.display === "none") {
       mapDiv.style.display = "block";
@@ -775,6 +859,19 @@
     }
   }
 </script>
+<!--
+<script>
+  function toggleKanban() {
+    const kanbanSection = document.getElementById("kanban-frame");
+    if (kanbanSection.style.display === "none" || kanbanSection.style.display === "") {
+      kanbanSection.style.display = "block";
+      kanbanSection.scrollIntoView({ behavior: "smooth" });
+    } else {
+      kanbanSection.style.display = "none";
+    }
+  }
+</script>-->
+
 
 </body>
 
