@@ -1,11 +1,40 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+   function getMemberNameFromURL() {
+    const path = window.location.pathname.split('/');
+    for (let i = 0; i < path.length; i++) {
+      if (path[i] === 'minihome' && i + 1 < path.length) {
+        return path[i + 1];
+      }
+    }
+    return 'default';
+  }
+  
   const undoBtn = document.getElementById('undo-btn');
   const resetBtn = document.getElementById('reset-btn');
   const editBtn = document.getElementById('edit-btn');
   const saveBtn = document.getElementById('save-btn');
   const editButtons = document.getElementById('edit-buttons');
   const updateNewsBox = document.getElementById('update-news');
+  const addBubbleBtn = document.getElementById('add-bubble-btn');
 
+  addBubbleBtn.addEventListener('click', () => {
+    const bubble = document.createElement('div');
+    bubble.classList.add('speech-bubble');
+    bubble.contentEditable = true;
+    bubble.textContent = '말풍선을 입력하세요';
+    bubble.setAttribute('draggable', 'false');
+    bubble.style.position = 'absolute';
+    bubble.style.left = '20px';
+    bubble.style.top = '20px';
+
+    makeDraggable(bubble);
+
+    setupDeleteOnDoubleClick(bubble);
+
+    decorateArea.appendChild(bubble);
+    placedItems.push(bubble);
+  });
 
   let isEditing = false;
 
@@ -42,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('decorate-area').style.pointerEvents = 'auto';
 
     // 아이템 다시 드래그 가능하게
-    decorateArea.querySelectorAll('.draggable-item').forEach(item => {
+    decorateArea.querySelectorAll('.draggable-item, .speech-bubble').forEach(item => {
       item.setAttribute('draggable', 'false');
       item.style.pointerEvents = 'auto';
       makeDraggable(item);
@@ -67,15 +96,17 @@ document.addEventListener('DOMContentLoaded', function () {
   
     document.getElementById('decorate-area').style.pointerEvents = 'none';
   
-    decorateArea.querySelectorAll('.draggable-item').forEach(item => {
+    decorateArea.querySelectorAll('.draggable-item, .speech-bubble').forEach(item => {
       item.setAttribute('draggable', 'false');
       item.style.pointerEvents = 'none';
     });
   
     const itemsData = [];
-    decorateArea.querySelectorAll('.draggable-item').forEach(item => {
+    decorateArea.querySelectorAll('.draggable-item, .speech-bubble').forEach(item => {
       itemsData.push({
-        src: item.src,
+        type: item.classList.contains('speech-bubble') ? 'bubble' : 'image',
+        src: item.classList.contains('speech-bubble') ? null : item.src,
+        text: item.classList.contains('speech-bubble') ? item.textContent : null,
         left: item.style.left,
         top: item.style.top
       });
@@ -86,8 +117,11 @@ document.addEventListener('DOMContentLoaded', function () {
       items: itemsData
     };
   
+    const memberName = getMemberNameFromURL();
+    const saveKey = 'miniroom_data_' + memberName;
     // localStorage에 저장
-    localStorage.setItem('miniroom_data', JSON.stringify(saveData));
+    localStorage.setItem(saveKey, JSON.stringify(saveData));
+    //localStorage.setItem('miniroom_data', JSON.stringify(saveData));
   
     // ✅ 저장 후 업데이트 뉴스 다시 보여주기
     if (updateNewsBox) {
@@ -227,29 +261,59 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
   
-
-  const saved = localStorage.getItem('miniroom_data');
+  const memberName = getMemberNameFromURL();
+  const loadKey = 'miniroom_data_' + memberName;
+  const saved = localStorage.getItem(loadKey);
+  //const saved = localStorage.getItem('miniroom_data');
+  
   if (saved) {
     const parsed = JSON.parse(saved);
-
+  
     // 배경 복원
     currentBackgroundImage = parsed.background;
     decorateArea.style.backgroundImage = currentBackgroundImage;
-
+  
     // 아이템 복원
     parsed.items.forEach(data => {
-      const img = document.createElement('img');
-      img.src = data.src;
-      img.classList.add('draggable-item');
-      img.style.left = data.left;
-      img.style.top = data.top;
-      img.setAttribute('draggable', 'false');
-      decorateArea.appendChild(img);
-      placedItems.push(img);
-      setupDeleteOnDoubleClick(img); // 삭제 기능도 다시 연결
-    });
-  }
+    let el;
 
+    if (data.type === 'bubble') {
+      // 말풍선이면 <div>
+      el = document.createElement('div');
+      el.classList.add('speech-bubble');
+      el.contentEditable = true;
+      el.textContent = data.text;
+
+      el.style.position = 'absolute';
+      el.style.minWidth = '80px';
+      el.style.maxWidth = '200px';
+      el.style.padding = '8px 12px';
+      el.style.border = '1px solid #888';
+      el.style.borderRadius = '10px';
+      el.style.background = 'white';
+      el.style.fontSize = '12px';
+      el.style.boxShadow = '1px 1px 3px rgba(0,0,0,0.2)';
+      el.style.whiteSpace = 'pre-wrap';
+      el.style.wordBreak = 'break-word';
+    } else {
+      // 이미지면 <img>
+      el = document.createElement('img');
+      el.src = data.src;
+      el.classList.add('draggable-item');
+    }
+
+    el.style.left = data.left;
+    el.style.top = data.top;
+    el.setAttribute('draggable', 'false');
+    el.style.pointerEvents = isEditing ? 'auto' : 'none';
+
+    makeDraggable(el);
+    setupDeleteOnDoubleClick(el);
+    decorateArea.appendChild(el);
+    placedItems.push(el);
+  });
+
+  }
   // 편집 버튼 누르면 뉴스 숨기기
 editBtn.addEventListener("click", () => {
   if (updateNewsBox) {
