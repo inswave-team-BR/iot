@@ -113,35 +113,37 @@
                             <div class="tab-item" data-tab="diary">다이어리</div>
                             <div class="tab-item" data-tab="guestbook">방명록</div>
                         </div>
+
+                        
                         
                         <!-- 콘텐츠 영역 -->
                         <div class="content-area">
 
-                             <!-- 시연 -->
+                               <!-- 업데이트 뉴스 영역 -->
+                                <div id="update-news" style="margin-bottom: 15px;">
+                                    <p class="update-label">
+                                        <span class="update-title">Updated news</span>&nbsp;&nbsp;
+                                        <span class="update-meta">BGM | 스크랩 | 인기</span>
+                                    </p>
+                                    <p class="update-line">· [스크랩] 싸이월드 BGM 2021</p>
+                                    <p class="update-line">· [스크랩] 음원 라인업 공개…</p>
+                                    <p class="update-line">· [스크랩] Fly, 앨범 버전</p>
+                                    <p class="update-line">· [스크랩] 11월 16일 발매</p>
+                                </div>
+
+
                                 <!-- 꾸미기 영역 시작 -->
                                 <div>
-                                    <!-- 되돌리기 & 초기화 버튼 -->
-                                    <!-- <div style="margin-bottom: 10px;">
-                                        <button id="undo-btn">되돌리기</button>
-                                        <button id="reset-btn">초기화</button>
-                                        <button id="save-btn">저장</button>
-                                        <button id="edit-btn">편집</button>
-                                    </div> -->
-                                    <!-- 편집 관련 버튼 (초기에는 숨김) -->
-<div id="edit-buttons" style="display: none; margin-bottom: 10px;">
-    <button id="undo-btn">되돌리기</button>
-    <button id="reset-btn">초기화</button>
-    <button id="save-btn">저장</button>
-</div>
-
-<!-- 편집 시작 버튼 (초기에는 보임) -->
-<div style="margin-bottom: 10px;">
-    <button id="edit-btn">편집</button>
-</div>
+                                
+                                
+                                <!-- 편집 중에 보이는 버튼들 -->
+                                <div id="edit-buttons" style="display: none; margin-bottom: 10px;">
+                                    <button id="undo-btn" class="cy-btn">↩️ 되돌리기</button>
+                                    <button id="reset-btn" class="cy-btn">🗑 초기화</button>
+                                    <button id="save-btn" class="cy-btn">💾 저장</button>
+                                </div>
                                 
                                 <div id="decorate-area" class="decorate-area">
-
-                                    
 
                                     <!-- 배경 설정 + 아이템 배치되는 공간 -->
                                     <div class="background-stage"></div>
@@ -169,7 +171,6 @@
                                 </div> 
 
                             </div>
-                            <!-- // 시연 -->
 
                             <!-- 방명록 영역 -->
                             <div class="guestbook-area" id="guestbook">
@@ -222,6 +223,7 @@
                                 </div><!-- /방명록 항목 2 -->
                             </div><!-- /방명록 영역 -->
                             
+  
                             <!-- 미니룸 영역 -->
                             <div class="miniroom-area" id="miniroom">
                                 <!-- 미니룸 헤더 -->
@@ -240,6 +242,12 @@
                                     <button>등록</button>
                                 </div>
                             </div><!-- /미니룸 영역 -->
+
+                           <!-- 편집 버튼 -->
+                           <div style="margin-top: 20px; margin-bottom: 10px;">
+                                <button id="edit-btn" class="cy-btn">✏️ 편집</button>
+                           </div>
+  
                             
                             <!-- 다이어리 영역 (숨김 상태) -->
                             <div class="diary-area" id="diary" style="display: none;">
