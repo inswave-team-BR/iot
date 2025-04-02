@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const editBtn = document.getElementById('edit-btn');
   const saveBtn = document.getElementById('save-btn');
   const editButtons = document.getElementById('edit-buttons');
+  const updateNewsBox = document.getElementById('update-news');
+
+
+  let isEditing = false;
 
   const editUIElements = document.querySelectorAll(
     '.background-selector, .item-bar, #edit-buttons'
@@ -51,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
     isEditing = false;
     editUIElements.forEach(el => el.style.display = 'none');
     editBtn.style.display = 'inline-block';
-
+  
     const backgroundStage = document.querySelector('.background-stage');
     backgroundStage.style.flex = '1';
     backgroundStage.style.minHeight = '200px';
@@ -60,14 +64,37 @@ document.addEventListener('DOMContentLoaded', function () {
     backgroundStage.style.position = 'relative';
     backgroundStage.style.backgroundImage = currentBackgroundImage; 
     backgroundStage.offsetHeight;
-
+  
     document.getElementById('decorate-area').style.pointerEvents = 'none';
-
+  
     decorateArea.querySelectorAll('.draggable-item').forEach(item => {
       item.setAttribute('draggable', 'false');
       item.style.pointerEvents = 'none';
     });
+  
+    const itemsData = [];
+    decorateArea.querySelectorAll('.draggable-item').forEach(item => {
+      itemsData.push({
+        src: item.src,
+        left: item.style.left,
+        top: item.style.top
+      });
+    });
+  
+    const saveData = {
+      background: currentBackgroundImage,
+      items: itemsData
+    };
+  
+    // localStorage에 저장
+    localStorage.setItem('miniroom_data', JSON.stringify(saveData));
+  
+    // ✅ 저장 후 업데이트 뉴스 다시 보여주기
+    if (updateNewsBox) {
+      updateNewsBox.style.display = 'block';
+    }
   });
+  
 
   // 배경 선택
   document.querySelectorAll('.background-selector img').forEach(img => {
@@ -166,26 +193,71 @@ document.addEventListener('DOMContentLoaded', function () {
   // 탭 전환 후 홈 탭일 때 배경 복원
   const tabItems = document.querySelectorAll('.tab-item');
   tabItems.forEach(tab => {
-    tab.addEventListener('click', () => {
-      if (tab.getAttribute('data-tab') === 'home') {
+    tab.addEventListener("click", () => {
+      const tabName = tab.dataset.tab;
+  
+      const isHome = tabName === "home";
+      const isNotEditing = !isEditing;
+  
+      // 편집 버튼: 홈 탭이고 편집 중 아닐 때만 보이기
+      editBtn.style.display = isHome && isNotEditing ? "inline-block" : "none";
+  
+      // 뉴스: 홈 탭이고 편집 중 아닐 때만 보이기
+      if (updateNewsBox) {
+        updateNewsBox.style.display = isHome && isNotEditing ? "block" : "none";
+      }
+  
+      // 홈 탭이면 배경 복원 및 편집 UI 처리
+      if (isHome) {
         const bg = document.querySelector('.background-stage');
         bg.style.flex = '1';
         bg.style.minHeight = '200px';
         bg.style.height = '200px';
         bg.style.position = 'relative';
         bg.style.backgroundImage = currentBackgroundImage;
-
+  
         bg.offsetHeight;
-      
-        // 편집 상태에 따라 편집 UI 보이기
+  
         if (isEditing) {
           editUIElements.forEach(el => el.style.display = 'block');
-          editBtn.style.display = 'none';
         } else {
           editUIElements.forEach(el => el.style.display = 'none');
-          editBtn.style.display = 'inline-block';
         }
-      }      
+      }
     });
   });
+  
+
+  const saved = localStorage.getItem('miniroom_data');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+
+    // 배경 복원
+    currentBackgroundImage = parsed.background;
+    decorateArea.style.backgroundImage = currentBackgroundImage;
+
+    // 아이템 복원
+    parsed.items.forEach(data => {
+      const img = document.createElement('img');
+      img.src = data.src;
+      img.classList.add('draggable-item');
+      img.style.left = data.left;
+      img.style.top = data.top;
+      img.setAttribute('draggable', 'false');
+      decorateArea.appendChild(img);
+      placedItems.push(img);
+      setupDeleteOnDoubleClick(img); // 삭제 기능도 다시 연결
+    });
+  }
+
+  // 편집 버튼 누르면 뉴스 숨기기
+editBtn.addEventListener("click", () => {
+  if (updateNewsBox) {
+    updateNewsBox.style.display = "none";
+  }
+});
+
+
+
+
 });
