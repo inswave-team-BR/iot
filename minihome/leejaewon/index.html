@@ -187,58 +187,130 @@
 
     <!-- 그림 모달창 -->
     <div
-      id="drawing-modal"
+  id="drawing-modal"
+  style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  "
+>
+  <div
+    style="
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 400px;
+      max-width: 90%;
+
+    "
+  >
+    <!-- 도구 패널 -->
+    <div
+      class="controls"
       style="
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
+        display: flex;
+        justify-content: space-between;
         align-items: center;
-        z-index: 9999;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin:15px 20px;
+        font-size: 14px;
+        width: 300px;
       "
     >
-      <div
+      <label style="display: flex; align-items: center; gap: 6px">
+        선 색상:
+        <input type="color" id="colorPicker" value="#000000" style="cursor: pointer" />
+      </label>
+      <label style="display: flex; align-items: center; gap: 6px">
+        선 두께:
+        <input
+          type="range"
+          id="lineWidth"
+          min="1"
+          max="20"
+          value="3"
+          style="cursor: pointer"
+        />
+      </label>
+      <button
+        id="eraserBtn"
         style="
-          background: white;
-          padding: 20px;
-          border-radius: 10px;
-          text-align: center;
+          padding: 6px 12px;
+          font-size: 14px;
+          border: 1px solid #aaa;
+          background: #f9f9f9;
+          border-radius: 6px;
+          cursor: pointer;
         "
       >
-        <!-- 도구 패널 -->
-        <div class="controls" style="margin-bottom: 10px">
-          <label
-            >선 색상: <input type="color" id="colorPicker" value="#000000"
-          /></label>
-          <label
-            >선 두께:
-            <input type="range" id="lineWidth" min="1" max="20" value="3"
-          /></label>
-          <button id="eraserBtn">지우개</button>
-          <button id="clearBtn">전체 지우기</button>
-        </div>
-
-        <!-- 캔버스 -->
-        <div>
-          <canvas
-            id="drawingCanvas"
-            width="300"
-            height="300"
-            style="border: 1px solid #aaa"
-          ></canvas>
-        </div>
-
-        <!-- 확인/취소 버튼 -->
-        <div style="margin-top: 10px">
-          <button id="drawingSaveBtn">확인</button>
-          <button onclick="closeDrawingModal()">취소</button>
-        </div>
-      </div>
+        지우개
+      </button>
+      <button
+        id="clearBtn"
+        style="
+          padding: 6px 12px;
+          font-size: 14px;
+          border: 1px solid #aaa;
+          background: #f9f9f9;
+          border-radius: 6px;
+          cursor: pointer;
+        "
+      >
+        전체 지우기
+      </button>
     </div>
+
+    <!-- 캔버스 -->
+    <div>
+      <canvas
+        id="drawingCanvas"
+        width="300"
+        height="300"
+        style="border: 1px solid #ccc; border-radius: 6px; background-color: #fff"
+      ></canvas>
+    </div>
+
+    <!-- 확인/취소 버튼 -->
+    <div style="margin-top: 15px; display: flex; justify-content: center; gap: 10px">
+      <button
+        id="drawingSaveBtn"
+        style="
+          padding: 6px 12px;
+          font-size: 14px;
+          border: 1px solid #aaa;
+          background: #f0f0f0;
+          border-radius: 6px;
+          cursor: pointer;
+        "
+      >
+        확인
+      </button>
+      <button
+        onclick="closeDrawingModal()"
+        style="
+          padding: 6px 12px;
+          font-size: 14px;
+          border: 1px solid #aaa;
+          background: #f0f0f0;
+          border-radius: 6px;
+          cursor: pointer;
+        "
+      >
+        취소
+      </button>
+    </div>
+  </div>
+</div>
   </body>
   <script src="../../guestBook.js"></script>
 </html>
