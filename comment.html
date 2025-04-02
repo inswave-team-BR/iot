@@ -75,6 +75,36 @@
     <h3>📜 방명록 목록</h3>
     <div id="guestbookList"></div>
 
+    <!-- 방명록 영역 -->
+    <div class="guestbook-area" id="guestbook">
+      <!-- 방명록 항목 1 -->
+      <div class="guestbook-entry">
+        <!-- 방명록 헤더 -->
+        <div class="entry-header">
+          <div class="entry-author">
+            <span class="entry-number">No.1</span> 이도라에몽
+          </div>
+          <div class="entry-action">삭제</div>
+        </div>
+
+        <!-- 방명록 내용 -->
+        <div class="entry-content">
+          <div class="entry-text">
+            안녕하세요! 미니홈피 구경 잘 했어요. 저도 놀러오세요~
+            <div class="entry-date">2023.08.10 12:34</div>
+          </div>
+          <div class="entry-image">
+            <img
+              src="https://via.placeholder.com/80x80.png?text=Doraemon"
+              alt="도라에몽"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- /방명록 항목 1 -->
+    </div>
+    <!-- /방명록 영역 -->
+
     <script>
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
@@ -94,7 +124,7 @@
       function setUser() {
         const nickname = nicknameInput.value.trim();
         if (!nickname) return alert("닉네임을 입력하세요.");
-        const userId = crypto.randomUUID();
+        const userId = localStorage.getItem("user").userId;
         localStorage.setItem(
           "currentUser",
           JSON.stringify({ userId, nickname })
@@ -103,7 +133,7 @@
       }
 
       function getCurrentUser() {
-        return JSON.parse(localStorage.getItem("currentUser"));
+        return JSON.parse(localStorage.getItem("user"));
       }
 
       function startPosition(e) {
@@ -147,14 +177,15 @@
         const imgData = canvas.toDataURL();
         const text = message.value.trim();
         if (!text) return alert("글을 작성해 주세요.");
-
+        const data = Math.random().toString(16).slice(2);
+        console.log(data);
         const entry = {
-          id: crypto.randomUUID(),
+          id: data,
           userId: user.userId,
-          nickname: user.nickname,
+          nickname: user.name,
           image: imgData,
           text,
-          timestamp: new Date().toLocaleString(),
+          timestamp: formatDate(new Date()),
         };
         const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
         guestbook.unshift(entry);
@@ -163,6 +194,22 @@
         message.value = "";
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       });
+      function formatDate(date) {
+        const pad = (n) => n.toString().padStart(2, "0");
+        return (
+          date.getFullYear() +
+          "-" +
+          pad(date.getMonth() + 1) +
+          "-" +
+          pad(date.getDate()) +
+          " " +
+          pad(date.getHours()) +
+          ":" +
+          pad(date.getMinutes()) +
+          ":" +
+          pad(date.getSeconds())
+        );
+      }
 
       function deleteEntry(entryId) {
         const user = getCurrentUser();
@@ -247,60 +294,81 @@
       function renderGuestbook() {
         const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
         const user = getCurrentUser();
+        const guestbookList = document.getElementById("guestbook");
         guestbookList.innerHTML = guestbook
           .map(
-            (entry) => `
-        <div style="background:#fff; padding:10px; margin-bottom:10px; border-radius:8px;">
-          <div>
-          <img src="${entry.image}" alt="그림" >
+            (entry, idx) => `
+      <!-- 방명록 항목 ${idx + 1} -->
+      <div class="guestbook-entry">
+        <!-- 방명록 헤더 -->
+        <div class="entry-header">
+          <div class="entry-author">
+            <span class="entry-number">No.${idx + 1}</span> ${entry.nickname}
           </div>
-          <div>
-          <p>${entry.text}</p>
-          <small>작성자: ${entry.nickname} (${entry.timestamp})</small><br>
           ${
             user?.userId === entry.userId
-              ? `<button onclick="deleteEntry('${entry.id}')">삭제</button>`
+              ? `<div class="entry-action" onclick="deleteEntry('${entry.id}')">삭제</div>`
               : ""
           }
-          <div style="margin-top:10px; padding:10px; background:#f0f0f0; border-radius:6px;">
-            ${
-              entry.comment
-                ? `
+        </div>
+
+        <!-- 방명록 내용 -->
+        <div class="entry-content">
+          <div class="entry-text">
+            ${entry.text}
+            <div class="entry-date">${entry.timestamp}</div>
+          </div>
+          <div class="entry-image">
+            <img src="${entry.image}" alt="${entry.nickname}" />
+          </div>
+        </div>
+
+        <!-- 댓글 영역 -->
+        <div class="entry-comments" style="margin-top: 10px;">
+          ${
+            entry.comment
+              ? `
+            <div class="comment-box" style="padding:10px; background:#f9f9f9; border-radius:6px;">
               <p><strong>${entry.comment.nickname}:</strong> ${
-                    entry.comment.text
-                  }</p>
-              <small>${entry.comment.timestamp}</small><br>
+                  entry.comment.text
+                }</p>
+              <small>${entry.comment.timestamp}</small><br/>
               ${
                 user?.userId === entry.comment.userId
                   ? `<button onclick="addOrEditComment('${entry.id}')">댓글 수정</button>
-              <button onclick="deleteComment('${entry.id}')">댓글 삭제</button>`
+                     <button onclick="deleteComment('${entry.id}')">댓글 삭제</button>`
                   : ""
               }
               <button onclick="addReply('${entry.id}')">대댓글 달기</button>
-              <div class="replies">
-                ${entry.comment.replies
-                  ?.map(
-                    (reply, idx) => `
-                  <div style="border-bottom:1px solid #ddd; padding:5px 0;">
-                    <strong>${reply.nickname}:</strong> ${reply.text} <small>${
-                      reply.timestamp
-                    }</small>
-                    ${
-                      user?.userId === reply.userId
-                        ? `<button onclick="deleteReply('${entry.id}', ${idx})">삭제</button>`
-                        : ""
-                    }
-                  </div>
-                `
-                  )
-                  .join("")}
+
+              <!-- 대댓글 리스트 -->
+              <div class="replies" style="margin-top:5px;">
+                ${
+                  entry.comment.replies
+                    ?.map(
+                      (reply, rIdx) => `
+                    <div style="border-top:1px solid #ddd; padding:5px 0;">
+                      <strong>${reply.nickname}:</strong> ${reply.text}
+                      <small>${reply.timestamp}</small>
+                      ${
+                        user?.userId === reply.userId
+                          ? `<button onclick="deleteReply('${entry.id}', ${rIdx})">삭제</button>`
+                          : ""
+                      }
+                    </div>
+                  `
+                    )
+                    .join("") || ""
+                }
               </div>
-            `
-                : `<button onclick="addOrEditComment('${entry.id}')">댓글 달기</button>`
-            }
-          </div>
+            </div>
+          `
+              : `<button onclick="addOrEditComment('${entry.id}')">댓글 달기</button>`
+          }
         </div>
-      `
+      </div>
+      <!-- /방명록 항목 ${idx + 1} -->
+    `
           )
           .join("");
       }
