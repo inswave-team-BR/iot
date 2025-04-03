@@ -664,10 +664,20 @@
           switchToEditMode(card);
         });
       }
-
+      // 가이드 라인 생성함수
+      function createGuideLine() {
+        const guideLine = document.createElement("div");
+        guideLine.className = "guide-line";
+        guideLine.style.height = "6px";
+        guideLine.style.background = "#4b7bec";
+        guideLine.style.margin = "4px 0";
+        guideLine.style.borderRadius = "3px";
+        return guideLine;
+      }
       // 컬럼 생성 함수
       function createColumn(title = "🆕 새 컬럼") {
         const column = document.createElement("div");
+        const guideLine = createGuideLine();
         column.className = "column";
         column.draggable = true;
         column.innerHTML = `<div class = "col-header">
@@ -690,17 +700,48 @@
         // 카드 드롭 전용 영역
         cardList.addEventListener("dragover", (e) => e.preventDefault());
 
-        cardList.addEventListener("dragenter", () => {
+        cardList.addEventListener("dragenter", (e) => {
           hoveredColumn = column;
-          cardList.style.backgroundColor = "#eef5ff";
+
+          const targetCard = e.target.closest(".card");
+          if (!targetCard || !cardList.contains(targetCard)) {
+            if (!cardList.contains(guideLine)) {
+              cardList.appendChild(guideLine); // 빈 칸에도
+            }
+            return;
+          }
+
+          hoveredCard = targetCard;
+
+          // insertBefore 하기 전에 중복 제거
+          if (guideLine.parentNode) {
+            guideLine.parentNode.removeChild(guideLine);
+          }
+
+          // 위아래 위치 판단
+          const box = targetCard.getBoundingClientRect();
+          const isAbove = e.clientY < box.top + box.height / 2;
+
+          if (isAbove) {
+            cardList.insertBefore(guideLine, targetCard);
+          } else {
+            cardList.insertBefore(guideLine, targetCard.nextSibling);
+          }
         });
-        cardList.addEventListener("dragleave", () => {
-          cardList.style.backgroundColor = "transparent";
+        cardList.addEventListener("dragleave", (e) => {
+          if (guideLine.parentNode && !cardList.contains(e.relatedTarget)) {
+            guideLine.remove();
+          }
         });
 
         cardList.addEventListener("drop", (e) => {
           if (!draggedCard) return;
-
+          if (guideLine.parentNode) {
+            cardList.insertBefore(draggedCard, guideLine);
+            guideLine.remove();
+          } else {
+            cardList.appendChild(draggedCard);
+          }
           const box = hoveredCard.getBoundingClientRect();
           const isAbove = e.clientY < box.top + box.height / 2;
 
