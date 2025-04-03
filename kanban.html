@@ -929,7 +929,7 @@
             (card) => {
               return {
                 id: card.dataset.id,
-                title: card.querySelector("h3").textContent,
+                title: card.querySelector("h3")?.textContent || "",
                 members: card.querySelector(".card-members")?.textContent || "",
                 detail: card.dataset.detail || "",
               };
