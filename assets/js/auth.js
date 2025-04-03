@@ -10,7 +10,7 @@ if (signupForm) {
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
     // 이미 존재하는 아이디인지 체크
-    const existingUser = users.find(user => user.id === id);
+    const existingUser = users.find((user) => user.id === id);
     if (existingUser) {
       alert("이미 존재하는 아이디입니다.");
       return;
@@ -19,6 +19,7 @@ if (signupForm) {
     // 새 사용자 추가
     users.push({ name, id, password });
     localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem(`${id}_guestbook`, JSON.stringify([])); // 사용자별 방명록 초기화
     alert("회원가입 완료! 로그인 해주세요.");
     window.location.href = "login.html";
   });
@@ -33,7 +34,9 @@ if (loginForm) {
     const password = document.getElementById("login-password").value;
 
     const users = JSON.parse(localStorage.getItem("users")) || [];
-    const matchedUser = users.find(user => user.id === id && user.password === password);
+    const matchedUser = users.find(
+      (user) => user.id === id && user.password === password
+    );
 
     if (matchedUser) {
       localStorage.setItem("user", JSON.stringify(matchedUser)); // 로그인 상태 저장
