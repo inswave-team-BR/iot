@@ -19,14 +19,14 @@
         margin: 0;
         background: #f4f6fa;
         padding: 20px;
-        overflow-x: auto; /* ✅ 추가해도 안전 */
+        overflow-x: auto;
       }
       .board {
         display: flex;
         gap: 20px;
         overflow-x: auto;
         scrollbar-width: none;
-        min-width: max-content; /* ✅ 핵심 */
+        min-width: max-content;
         margin-top: 60px;
       }
       #board-title {
@@ -668,8 +668,8 @@
       function createGuideLine() {
         const guideLine = document.createElement("div");
         guideLine.className = "guide-line";
-        guideLine.style.height = "6px";
-        guideLine.style.background = "#4b7bec";
+        guideLine.style.height = "10px";
+        guideLine.style.background = "#cccccc";
         guideLine.style.margin = "4px 0";
         guideLine.style.borderRadius = "3px";
         return guideLine;
@@ -744,12 +744,6 @@
           }
           const box = hoveredCard.getBoundingClientRect();
           const isAbove = e.clientY < box.top + box.height / 2;
-
-          /*
-          if (draggedCard) {
-            cardList.appendChild(draggedCard);
-            cardList.style.backgroundColor = "transparent";
-          }*/
 
           if (!hoveredCard || !cardList.contains(hoveredCard)) {
             cardList.appendChild(draggedCard);
