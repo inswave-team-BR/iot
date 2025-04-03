@@ -19,16 +19,38 @@
         margin: 0;
         background: #f4f6fa;
         padding: 20px;
-        display: flex;
-        justify-content: center;
+        overflow-x: auto; /* ✅ 추가해도 안전 */
       }
       .board {
         display: flex;
         gap: 20px;
         overflow-x: auto;
         scrollbar-width: none;
+        min-width: max-content; /* ✅ 핵심 */
+        margin-top: 60px;
       }
-      
+      #board-title {
+        position: fixed; /* 고정 */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        line-height: 60px; /* 세로 정렬 */
+        background: #f4f6fa;
+        z-index: 100;
+        text-align: center;
+        font-size: 24px;
+        color: #2f3640;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 살짝 그림자 */
+        margin: 0;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: fit-content; /* ✅ 여기만 수정! */
+      }
+
       .column {
         position: relative;
         z-index: 0;
@@ -293,9 +315,12 @@
     </style>
   </head>
   <body>
-    <div class="board">
-      <div class="column">
-        <button class="add-column-btn">+ 컬럼 추가</button>
+    <div class="container">
+      <h1 id="board-title" contenteditable="false">📌 칸반 프로젝트 보드 📌</h1>
+      <div class="board">
+        <div class="column">
+          <button class="add-column-btn">+ 컬럼 추가</button>
+        </div>
       </div>
     </div>
     <!-- 상세 모달 -->
@@ -319,6 +344,32 @@
       let hoveredCard = null;
       let hoveredColumn = null;
       let currentEditingCard = null;
+
+      const boardTitle = document.getElementById("board-title");
+
+      // 클릭하면 편집 가능하게
+      boardTitle.addEventListener("click", () => {
+        boardTitle.setAttribute("contenteditable", "true");
+        boardTitle.focus();
+      });
+
+      // 포커스 벗어나면 저장 + 편집 불가하게
+      boardTitle.addEventListener("blur", () => {
+        boardTitle.setAttribute("contenteditable", "false");
+        const title = boardTitle.textContent.trim() || "📌 칸반 프로젝트 보드";
+        boardTitle.textContent = title; // 비어있으면 기본값
+
+        // 필요하면 localStorage에 저장
+        localStorage.setItem("kanbanTitle", title);
+      });
+
+      // 페이지 로드시 저장된 제목 불러오기
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedTitle = localStorage.getItem("kanbanTitle");
+        if (savedTitle) {
+          boardTitle.textContent = savedTitle;
+        }
+      });
 
       // 카드 드래그 이벤트 연결
       function makeCardDraggable(card) {
