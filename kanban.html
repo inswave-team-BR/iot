@@ -625,14 +625,14 @@
         });
 
         // 제목 입력 시 초기화
-        let titleCleared = false;
+        /* let titleCleared = false;
         titleInput.addEventListener("focus", () => {
           if (!titleCleared) {
             titleInput.value = "";
             titleCleared = true;
           }
         });
-
+*/
         titleInput.addEventListener("keydown", (e) => {
           if (e.key === "Enter") {
             e.preventDefault(); // 줄바꿈 방지
