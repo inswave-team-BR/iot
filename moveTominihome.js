@@ -3,7 +3,7 @@ const host = document.getElementsByClassName("toMini");
 for (let i = 0; i < host.length; i++) {
   host[i].addEventListener("click", function () {
     const idValue = this.querySelector("h4").id;
-    window.location.href = `minihome/leejaewon/index.html?id=${idValue}`;
+    window.location.href = `mini/mini.html?id=${idValue}`;
   });
 }
 /*
