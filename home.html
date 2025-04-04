@@ -15,11 +15,13 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  
+
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
@@ -32,39 +34,39 @@
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-  
+
     #user-info .welcome-text {
       white-space: nowrap;
       font-weight: 500;
       font-size: 0.95rem;
       margin-bottom: 0;
     }
-  
+
     #user-info .button-group {
       display: flex;
       gap: 0.5rem;
     }
-  
+
     #user-info .button-group .btn {
       min-width: 90px;
       text-align: center;
     }
-  
+
     @media (max-width: 576px) {
       #user-info {
         flex-direction: column;
         align-items: flex-end;
       }
-  
+
       #user-info .welcome-text {
         margin-bottom: 0.3rem;
       }
-  
+
       #user-info .button-group {
         width: 100%;
         flex-direction: column;
       }
-  
+
       #user-info .button-group .btn {
         width: 100%;
       }
@@ -78,104 +80,99 @@
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    
+
     .team-card:hover {
       transform: scale(1.05);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
-    
+
     .team-card .icon {
       font-size: 48px;
       margin-bottom: 15px;
       color: #20c997;
     }
-    
+
     .team-card .role {
       font-weight: 600;
       margin-bottom: 10px;
       color: #555;
     }
-    
+
     .team-card .desc {
       font-size: 0.9rem;
       color: #777;
     }
-    
+
 
     /* 커스터마이징 된 팀 카드 hover 효과 */
-        .icon-box.team-card {
-          transition: 0.3s ease;
-          background: #ffffff;
-          border-radius: 16px;
-          padding: 40px 20px;
-          text-align: center;
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-          height: 100%;
-          cursor: pointer;
-          border: 1px solid #e5e5e5;
-        }
-        
-        .icon-box.team-card:hover {
-          background: #58d68d;
-          transform: translateY(-6px);
-          box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .icon-box.team-card .icon {
-          font-size: 42px;
-          color: #58d68d;
-          margin-bottom: 20px;
-          transition: 0.3s;
-        }
-        
-        .icon-box.team-card:hover .icon {
-          color: white;
-        }
-        
-        .icon-box.team-card .title {
-          font-weight: 600;
-          font-size: 20px;
-          color: #333;
-          transition: 0.3s;
-        }
-        
-        .icon-box.team-card:hover .title {
-          color: white;
-        }
+    .icon-box.team-card {
+      transition: 0.3s ease;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      height: 100%;
+      cursor: pointer;
+      border: 1px solid #e5e5e5;
+    }
 
-        .btn-watch-video {
-            background: linear-gradient(135deg, #58d68d, #20c997);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(32, 201, 151, 0.5);
-          }
-          
-          .btn-watch-video:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 20px rgba(32, 201, 151, 0.8);
-          }
+    .icon-box.team-card:hover {
+      background: #58d68d;
+      transform: translateY(-6px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
 
-          /* 기본 색상 고정 */
-          .footer .social-links a i.bi-facebook,
-          .footer .social-links a i.bi-youtube {
-          color: #000 !important;
-          }
+    .icon-box.team-card .icon {
+      font-size: 42px;
+      color: #58d68d;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
 
-          /* hover 시에도 색상 유지 */
-          .footer .social-links a:hover i.bi-facebook,
-          .footer .social-links a:hover i.bi-youtube {
-          color: #000 !important;
-          }
+    .icon-box.team-card:hover .icon {
+      color: white;
+    }
 
-  
-          
-    
-    
+    .icon-box.team-card .title {
+      font-weight: 600;
+      font-size: 20px;
+      color: #333;
+      transition: 0.3s;
+    }
+
+    .icon-box.team-card:hover .title {
+      color: white;
+    }
+
+    .btn-watch-video {
+      background: linear-gradient(135deg, #58d68d, #20c997);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(32, 201, 151, 0.5);
+    }
+
+    .btn-watch-video:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px rgba(32, 201, 151, 0.8);
+    }
+
+    /* 기본 색상 고정 */
+    .footer .social-links a i.bi-facebook,
+    .footer .social-links a i.bi-youtube {
+      color: #000 !important;
+    }
+
+    /* hover 시에도 색상 유지 */
+    .footer .social-links a:hover i.bi-facebook,
+    .footer .social-links a:hover i.bi-youtube {
+      color: #000 !important;
+    }
   </style>
-  
-  
+
+
 
   <!-- =======================================================
   * Template Name: eStartup
@@ -220,11 +217,11 @@
               <li><a href="#">Dropdown 4</a></li>
             </ul>
           </li>-->
-          
+
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-      
+
       <!--<div id="user-info" class="d-flex align-items-center justify-content-end gap-2 flex-wrap">
         <span class="welcome-text">👋 ${userInfo.name}님 환영합니다!</span>
         <div class="button-group d-flex gap-2">
@@ -236,8 +233,8 @@
       <div id="user-info" class="d-flex align-items-center justify-content-end gap-2 flex-wrap">
         <!-- 로그인 여부에 따라 동적으로 채워짐 -->
       </div>
-  
-      
+
+
   </header>
 
   <main class="main">
@@ -252,7 +249,9 @@
             <p>Sed autem laudantium dolores. Voluptatem itaque ea consequatur eveniet. Eum quas beatae cumque eum quaerat.</p>-->
             <div class="d-flex">
               <!--<a href="#about" class="btn-get-started">Get Started</a>-->
-              <a href="https://www.youtube.com/watch?v=YwxAiEAUFKo" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+              <a href="https://www.youtube.com/watch?v=YwxAiEAUFKo"
+                class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch
+                  Video</span></a>
             </div>
           </div>
           <div class="col-lg-6 order-1 order-lg-2">
@@ -302,56 +301,56 @@
     <!-- About Section -->
     <section id="about" class="about section">
 
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Personal Homepage</h2>
-            <div><span>Personal</span> <span class="description-title">Homepage</span></div>
-          </div>
-          
-    
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Personal Homepage</h2>
+        <div><span>Personal</span> <span class="description-title">Homepage</span></div>
+      </div>
+
+
       <!-- 🔽 여기에 team-card 넣기 -->
       <div class="container">
-      <div class="row gy-4 mt-1">
-        <div class="col-xl-3 col-md-6">
-          <a href="minihome/kimsiyeon/index.html" class="text-decoration-none">
-            <div class="icon-box team-card">
-              <div class="icon"><i class="bi bi-person-fill"></i></div>
-              <h4 class="title">김시연</h4>
-            </div>
-          </a>
-        </div>
-      
-        <div class="col-xl-3 col-md-6">
-          <a href="minihome/leejaeseong/index.html" class="text-decoration-none">
-            <div class="icon-box team-card">
-              <div class="icon"><i class="bi bi-person-fill"></i></div>
-              <h4 class="title">이재성</h4>
-            </div>
-          </a>
-        </div>
-      
-        <div class="col-xl-3 col-md-6">
-          <a href="minihome/leejaewon/index.html" class="text-decoration-none">
-            <div class="icon-box team-card">
-              <div class="icon"><i class="bi bi-person-fill"></i></div>
-              <h4 class="title">이재원</h4>
-            </div>
-          </a>
-        </div>
-      
-        <div class="col-xl-3 col-md-6">
-          <a href="minihome/hwangyooseok/index.html" class="text-decoration-none">
-            <div class="icon-box team-card">
-              <div class="icon"><i class="bi bi-person-fill"></i></div>
-              <h4 class="title">황유석</h4>
-            </div>
-          </a>
+        <div class="row gy-4 mt-1">
+          <div class="col-xl-3 col-md-6">
+            <a href="minihome/kimsiyeon/index.html" class="text-decoration-none">
+              <div class="icon-box team-card">
+                <div class="icon"><i class="bi bi-person-fill"></i></div>
+                <h4 class="title">김시연</h4>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-xl-3 col-md-6">
+            <a href="minihome/leejaeseong/index.html" class="text-decoration-none">
+              <div class="icon-box team-card">
+                <div class="icon"><i class="bi bi-person-fill"></i></div>
+                <h4 class="title">이재성</h4>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-xl-3 col-md-6">
+            <a href="minihome/leejaewon/index.html" class="text-decoration-none">
+              <div class="icon-box team-card">
+                <div class="icon"><i class="bi bi-person-fill"></i></div>
+                <h4 class="title">이재원</h4>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-xl-3 col-md-6">
+            <a href="minihome/hwangyooseok/index.html" class="text-decoration-none">
+              <div class="icon-box team-card">
+                <div class="icon"><i class="bi bi-person-fill"></i></div>
+                <h4 class="title">황유석</h4>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-      
-    
+
+
       <!-- 👇 아래 기존 About 내용 유지 -->
-       <!--
+      <!--
       <div class="container">
 
         <div class="row gy-4">
@@ -408,41 +407,54 @@
 
         <div class="row gy-4">
 
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="service-item  position-relative">
               <div class="icon">
                 <i class="bi bi-activity"></i>
               </div>
               <a href="javascript:void(0)" class="stretched-link" onclick="toggleTeam()">
                 <h3>Team 소개</h3>
-              </a>              
+              </a>
               <!--<p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>-->
             </div>
           </div><!-- End Service Item -->
 
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="service-item position-relative">
               <div class="icon">
                 <i class="bi bi-broadcast"></i>
               </div>
               <a href="javascript:void(0)" class="stretched-link" onclick="toggleKanban()">
                 <h3>Kanban Board</h3>
-              </a>              
+              </a>
               <!--<p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>-->
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div class="service-item position-relative">
               <div class="icon">
                 <i class="bi bi-easel"></i>
               </div>
               <a href="javascript:void(0)" class="stretched-link" onclick="toggleMap()">
                 <h3>Map</h3>
-              </a>              
+              </a>
               <!--<p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>-->
             </div>
-          </div><!-- End Service Item -->
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-graph-up-arrow"></i>
+              </div>
+              <a href="javascript:void(0)" class="stretched-link" onclick="toggleChart()">
+                <h3>Chart</h3>
+              </a>
+            </div>
+          </div>
+
+          <!-- End Service Item -->
           <!--
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
             <div class="service-item position-relative">
@@ -490,28 +502,40 @@
     </section><!-- /Services Section -->
 
     <!-- Kanban Board iframe Section -->
-<section id="kanban-frame" class="section" style="display: none;">
-  <div class="container">
-    <!--<div class="section-title">
+    <section id="kanban-frame" class="section" style="display: none;">
+      <div class="container">
+        <!--<div class="section-title">
       <h2>Kanban Board</h2>
       <p>작업을 시각적으로 관리하세요!</p>
     </div>-->
-    <iframe id="kanbanIframe" src="kanban.html" width="100%" height="800" style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(114, 12, 12, 0.1);"></iframe>
-  </div>
-</section>
+        <iframe id="kanbanIframe" src="kanban.html" width="100%" height="800"
+          style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(114, 12, 12, 0.1);"></iframe>
+      </div>
+    </section>
 
-<!-- Map iframe Section -->
-<!-- Services > Map 클릭 시 iframe으로 보여줄 섹션 -->
-<section id="map-frame" class="section" style="display: none;">
-  <div class="container">
-    <iframe id="mapIframe" src="map.html" width="100%" height="600" style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); visibility: hidden;" onload="this.style.visibility='visible'"></iframe>
-  </div>
-</section>
+    <!-- Map iframe Section -->
+    <!-- Services > Map 클릭 시 iframe으로 보여줄 섹션 -->
+    <section id="map-frame" class="section" style="display: none;">
+      <div class="container">
+        <iframe id="mapIframe" src="map.html" width="100%" height="600"
+          style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"
+          onload="this.contentWindow.resetMapCenter()"></iframe>
+      </div>
+    </section>
+
+    <!-- Chart iframe Section -->
+    <section id="chart-frame" class="section" style="display: none;">
+      <div class="container">
+        <iframe id="chartIframe" src="chart.html" width="100%" height="700"
+          style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); visibility: hidden;"
+          onload="this.style.visibility='visible'"></iframe>
+      </div>
+    </section>
 
 
 
-    
-    
+
+
 
     <!-- Team Section -->
     <section id="team" class="team section" style="display: none;">
@@ -567,12 +591,12 @@
       </div>
 
     </section><!-- /Pricing Section -->
-    
-    
-    
+
+
+
 
   </main>
-<!--
+  <!--
   <footer id="footer" class="footer light-background">
 
     <div class="container">
@@ -592,28 +616,29 @@
 
   </footer>-->
   <!-- 회원탈퇴 모달 -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">회원탈퇴 확인</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <p>정말로 탈퇴하시겠습니까?<br><strong>비밀번호를 입력해주세요.</strong></p>
-        <input type="password" class="form-control" id="delete-password" placeholder="비밀번호 입력">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-danger" onclick="handleDelete()">탈퇴</button>
+  <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">회원탈퇴 확인</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>정말로 탈퇴하시겠습니까?<br><strong>비밀번호를 입력해주세요.</strong></p>
+          <input type="password" class="form-control" id="delete-password" placeholder="비밀번호 입력">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          <button type="button" class="btn btn-danger" onclick="handleDelete()">탈퇴</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>
@@ -632,53 +657,95 @@
       const team = document.getElementById("team");
       const kanban = document.getElementById("kanban-frame");
       const map = document.getElementById("map-frame");
-  
+      const chart = document.getElementById("chart-frame");
+
       const isVisible = team.style.display === "block";
-  
+
       team.style.display = isVisible ? "none" : "block";
       kanban.style.display = "none";
       map.style.display = "none";
-  
+      chart.style.display = "none";
+
       if (!isVisible) team.scrollIntoView({ behavior: "smooth" });
     }
-  
+
     function toggleKanban() {
       const team = document.getElementById("team");
       const kanban = document.getElementById("kanban-frame");
       const map = document.getElementById("map-frame");
-  
+      const chart = document.getElementById("chart-frame");
+
       const isVisible = kanban.style.display === "block";
-  
+
       kanban.style.display = isVisible ? "none" : "block";
       team.style.display = "none";
       map.style.display = "none";
-  
+      chart.style.display = "none";
+
       if (!isVisible) kanban.scrollIntoView({ behavior: "smooth" });
     }
-  
+
     function toggleMap() {
       const team = document.getElementById("team");
       const kanban = document.getElementById("kanban-frame");
       const map = document.getElementById("map-frame");
-  
+      const chart = document.getElementById("chart-frame");
+      const iframe = document.getElementById("mapIframe");
+
       const isVisible = map.style.display === "block";
-  
+
       map.style.display = isVisible ? "none" : "block";
       team.style.display = "none";
       kanban.style.display = "none";
-  
-      if (!isVisible) map.scrollIntoView({ behavior: "smooth" });
+      chart.style.display = "none";
+
+      if (!isVisible) {
+        // 강제 리로드
+        iframe.src = iframe.src;
+
+        // iframe 로딩되면 중심 재설정
+        iframe.onload = () => {
+          iframe.contentWindow.resetMapCenter?.();
+          map.scrollIntoView({ behavior: "smooth" });
+        };
+      }
     }
+
+    function toggleChart() {
+      const team = document.getElementById("team");
+      const kanban = document.getElementById("kanban-frame");
+      const map = document.getElementById("map-frame");
+      const chart = document.getElementById("chart-frame");
+      const iframe = document.getElementById("chartIframe");
+
+      const isVisible = chart.style.display === "block";
+
+      chart.style.display = isVisible ? "none" : "block";
+      team.style.display = "none";
+      kanban.style.display = "none";
+      map.style.display = "none";
+
+      if (!isVisible) {
+        iframe.onload = () => {
+          chart.scrollIntoView({ behavior: "smooth" });
+        };
+        setTimeout(() => {
+          chart.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+
+
   </script>
-  
-  
+
+
 
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const userInfo = JSON.parse(localStorage.getItem("user"));
       const userInfoDiv = document.getElementById("user-info");
-  
+
       if (userInfo && userInfo.name) {
         userInfoDiv.innerHTML = `
         <span class="me-3">👋 ${userInfo.name}님 환영합니다!</span>
@@ -693,36 +760,52 @@
         `;
       }
     });
-  
+
     function logout() {
       localStorage.removeItem("user");
       alert("로그아웃 되었습니다.");
       window.location.href = "home.html";
     }
-  
+
     function handleDelete() {
       const inputPw = document.getElementById("delete-password").value;
       const user = JSON.parse(localStorage.getItem("user"));
       let users = JSON.parse(localStorage.getItem("users")) || [];
-    
+
+      // ✅ userColors 불러오기
+      let userColors = JSON.parse(localStorage.getItem("userColors")) || {};
+      let allMarkers = JSON.parse(localStorage.getItem("markers")) || [];
+
       const matched = users.find(u => u.id === user.id && u.password === inputPw);
-    
+
       if (!matched) {
         alert("❌ 비밀번호가 일치하지 않습니다.");
         return;
       }
-    
+
       const confirmDelete = confirm("정말로 계정을 삭제하시겠습니까?");
       if (confirmDelete) {
+        // ✅ users에서 제거
         users = users.filter(u => u.id !== user.id);
         localStorage.setItem("users", JSON.stringify(users));
+
+        // ✅ userColors에서 색상 제거
+        delete userColors[user.name];
+        localStorage.setItem("userColors", JSON.stringify(userColors));
+
+        // ✅ markers에서 해당 사용자의 마커 삭제
+        allMarkers = allMarkers.filter(m => m.user !== user.name);
+        localStorage.setItem("markers", JSON.stringify(allMarkers));
+
+        // ✅ 현재 로그인 정보 제거
         localStorage.removeItem("user");
-    
+
         alert("✅ 회원탈퇴가 완료되었습니다.");
         window.location.href = "home.html";
       }
     }
-    
+
+
   </script>
   <footer id="footer" class="footer">
     <!--
@@ -752,15 +835,16 @@
           <div class="footer-contact pt-3">
             <p>서울특별시 종로구 창경궁로 254 동원빌딩 7층</p>
             <p class="mt-3"><strong>대표번호:</strong> <span>02-2188-6900</span></p>
-           
+
           </div>
 
           <p class="mt-2">
             <!-- footer 쪽 -->
-            <span onclick="toggleFooterMap()" style="cursor: pointer; color: #20c997; text-decoration: underline;">위치</span>
+            <span onclick="toggleFooterMap()"
+              style="cursor: pointer; color: #20c997; text-decoration: underline;">위치</span>
 
           </p>
-          
+
           <div id="map" style="width: 100%; height: 400px; display: none; margin-top: 20px;"></div>
         </div>
 
@@ -789,32 +873,32 @@
           <div class="social-links d-flex justify-content-center" style="gap: 15px;">
             <!-- 네이버 블로그 -->
             <a href="https://blog.naver.com/kosapr" target="_blank"
-               style="width: 48px; height: 48px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              style="width: 48px; height: 48px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
               <img src="assets/img/naverblog.png" alt="네이버블로그" style="width: 28px; height: 28px;">
             </a>
-          
+
             <!-- 페이스북 -->
             <a href="https://www.facebook.com/people/한국소프트웨어산업협회/61550673369738/" target="_blank"
-               style="width: 48px; height: 48px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              style="width: 48px; height: 48px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
               <i class="bi bi-facebook" style="font-size: 24px;"></i>
             </a>
-          
+
             <!-- 카카오톡 -->
             <a href="https://pf.kakao.com/_Zxjfsb/friend" target="_blank"
-               style="width: 48px; height: 48px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              style="width: 48px; height: 48px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
               <img src="assets/img/kakaotalk.png" alt="카카오톡" style="width: 28px; height: 28px;">
             </a>
-          
+
             <!-- 유튜브 -->
             <a href="https://www.youtube.com/@kosa3223" target="_blank"
-               style="width: 48px; height: 48px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              style="width: 48px; height: 48px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
               <i class="bi bi-youtube" style="font-size: 24px;"></i>
             </a>
           </div>
-          
-          
+
+
         </div>
-        
+
 
       </div>
     </div>
@@ -826,40 +910,45 @@
         <!-- You can delete the links only if you've purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a href="https://themewagon.com">ThemeWagon
-      </a></div><a href="https://themewagon.com">
-    </a></div><a href="https://themewagon.com">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a
+          href="https://themewagon.com">ThemeWagon
+        </a>
+      </div><a href="https://themewagon.com">
+      </a>
+    </div><a href="https://themewagon.com">
 
-  </a></footer>
+    </a>
+  </footer>
 
   </footer>
   <!-- 🔽 이 스크립트를 추가 -->
-<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=faedc692ee4f1fb94b995cdb777abeb9"></script>
-<script>
-  function toggleFooterMap() {
-    const mapDiv = document.getElementById("map");
-    if (mapDiv.style.display === "none") {
-      mapDiv.style.display = "block";
+  <script type="text/javascript"
+    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=faedc692ee4f1fb94b995cdb777abeb9"></script>
+  <script>
+    function toggleFooterMap() {
+      const mapDiv = document.getElementById("map");
+      if (mapDiv.style.display === "none") {
+        mapDiv.style.display = "block";
 
-      const container = document.getElementById('map');
-      const options = {
-        center: new kakao.maps.LatLng(37.583746, 126.999949),
-        level: 3
-      };
+        const container = document.getElementById('map');
+        const options = {
+          center: new kakao.maps.LatLng(37.583746, 126.999949),
+          level: 3
+        };
 
-      const map = new kakao.maps.Map(container, options);
+        const map = new kakao.maps.Map(container, options);
 
-      const markerPosition = new kakao.maps.LatLng(37.583746, 126.999949);
-      const marker = new kakao.maps.Marker({
-        position: markerPosition
-      });
-      marker.setMap(map);
-    } else {
-      mapDiv.style.display = "none";
+        const markerPosition = new kakao.maps.LatLng(37.583746, 126.999949);
+        const marker = new kakao.maps.Marker({
+          position: markerPosition
+        });
+        marker.setMap(map);
+      } else {
+        mapDiv.style.display = "none";
+      }
     }
-  }
-</script>
-<!--
+  </script>
+  <!--
 <script>
   function toggleKanban() {
     const kanbanSection = document.getElementById("kanban-frame");
