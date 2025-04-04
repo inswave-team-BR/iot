@@ -23,6 +23,11 @@
       <div class="cyworld-frame">
         <!-- 미니홈피 내부 콘텐츠 -->
         <div class="cyworld-content">
+          <!-- 로딩 스피너 -->
+          <div id="loadingSpinner">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            </div>
+          </div>
           <!-- 헤더 영역 -->
           <div class="cy-header">
             <!-- 방문자 카운터 -->
@@ -312,5 +317,17 @@
   </div>
 </div>
   </body>
+  <script>
+  setTimeout(function () {
+    const spinner = document.getElementById('loadingSpinner');
+    const header = document.querySelector('.cy-header');
+    const main = document.querySelector('.cy-main');
+    if (spinner) {
+      spinner.style.display = 'none';
+    }
+    if (header)header.style.opacity = '1';
+    if (main) main.style.opacity = '1';
+  }, 500); // 0.5 초 후에 로딩바 숨기기
+  </script>
   <script src="../../guestBook.js"></script>
 </html>
