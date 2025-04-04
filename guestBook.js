@@ -12,12 +12,20 @@ const currentUserEl = document.getElementById("currentUser");
 const nicknameInput = document.getElementById("nickname");
 const drawingModal = document.getElementById("drawing-modal");
 const drawingsave = document.getElementById("drawingSaveBtn");
-
 const ITEMS_PER_PAGE = 5;
+let currentHost = null;
 let currentPage = 1;
 
 let painting = false;
 let erasing = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  currentHost = urlParams.get("id");
+
+  // 초기 렌더링
+  renderGuestbook(currentHost);
+});
 
 minicanvas.addEventListener("click", () => {
   drawingModal.style.display = "flex";
@@ -101,10 +109,12 @@ saveBtn.addEventListener("click", () => {
     text,
     timestamp: formatDate(new Date()),
   };
-  const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+  const guestbook = JSON.parse(
+    localStorage.getItem(`${currentHost}_guestbook`) || "[]"
+  );
   guestbook.unshift(entry);
-  localStorage.setItem("guestbook", JSON.stringify(guestbook));
-  renderGuestbook();
+  localStorage.setItem(`${currentHost}_guestbook`, JSON.stringify(guestbook));
+  renderGuestbook(currentHost);
   message.value = "";
   minicanvas.innerHTML = "";
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -135,11 +145,12 @@ function deleteEntry(entryId) {
   if (!confirm("정말 삭제하시겠습니까?")) return;
   const newGuestbook = guestbook.filter((g) => g.id !== entryId);
   localStorage.setItem("guestbook", JSON.stringify(newGuestbook));
-  renderGuestbook();
+  renderGuestbook(currentHost);
 }
 
-function renderGuestbook(page = currentPage) {
-  const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+function renderGuestbook(id, page = currentPage) {
+  console.log("renderGuestbook", id, page);
+  const guestbook = JSON.parse(localStorage.getItem(`${id}_guestbook`) || "[]");
   const user = getCurrentUser();
   const totalItems = guestbook.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
@@ -189,13 +200,10 @@ function renderPagination(totalPages) {
     const pageNum = i + 1;
     return `<button 
                 class="page-btn ${currentPage === pageNum ? "active" : ""}" 
-                onclick="renderGuestbook(${pageNum})"
+                onclick="renderGuestbook('${currentHost}',${pageNum})"
                 style="margin: 2px; padding: 3px 6px; font-size: 11px;"
               >${pageNum}</button>`;
   }).join("");
 
   guestbookList.innerHTML += `<div style="text-align:center; margin-top:10px;">${paginationHTML}</div>`;
 }
-
-// 초기 렌더링
-renderGuestbook();
