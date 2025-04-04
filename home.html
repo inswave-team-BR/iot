@@ -24,6 +24,9 @@
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
@@ -169,10 +172,394 @@
           color: #000 !important;
           }
 
-  
-          
+    #weatherWidget {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      position: relative;
+    }
     
+    .weather-container {
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 15px;
+      padding: 15px;
+      padding-top: 0; /* 상단 패딩 제거 */
+      margin: 10px 0;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 
+                  0 2px 5px rgba(0, 0, 0, 0.08), 
+                  inset 0 1px 1px rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
     
+    .chart-container {
+      height: 240px;
+      padding: 15px 10px 10px;
+      position: relative;
+    }
+    
+    .chart-note {
+      font-size: 11px;
+      color: #7A8694;
+      text-align: center;
+      margin-top: 8px;
+      padding: 0 5px;
+    }
+    
+    .location-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #2A6EB5;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      text-decoration: underline dotted;
+      text-underline-offset: 3px;
+      padding-top: 8px; /* 주간 날씨 제목과 동일한 패딩 */
+      display: inline-flex; /* 인라인 플렉스로 변경 */
+      align-items: center; /* 세로 중앙 정렬 */
+      gap: 5px; /* 아이콘과 텍스트 사이 간격 */
+    }
+    
+    .location-hint {
+      font-size: 11px;
+      font-weight: normal;
+      color: #666;
+      margin-top: 3px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    
+    .location-hint i {
+      font-size: 12px;
+      color: #4A90E2;
+    }
+    
+    .location-coords {
+      font-size: 10px;
+      color: #999;
+      margin-bottom: 10px;
+    }
+    
+    .weather-icon {
+      font-size: 50px;
+      margin: 5px 0;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .current-temp {
+      font-size: 42px;
+      font-weight: 700;
+      margin: 5px 0;
+      color: #2A6EB5;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.12);
+    }
+    
+    .weather-desc {
+      font-size: 14px;
+      margin: 5px 0;
+      color: #4A4A4A;
+      font-weight: 500;
+    }
+    
+    .weather-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .metric {
+      text-align: center;
+      margin: 0 10px;
+      position: relative;
+    }
+    
+    .metric-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #4A90E2;
+      margin-top: 3px;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+    }
+    
+    .metric-label {
+      font-size: 12px;
+      color: #7A8694;
+      margin-top: 2px;
+    }
+    
+    .last-updated {
+      font-size: 10px;
+      color: #999;
+      text-align: center;
+      margin-top: 15px;
+      margin-bottom: 3px;
+    }
+
+    .weather-info {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 15px;
+      padding-top: 0; /* 상단 패딩 제거 */
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(240, 245, 250, 0.9));
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8),
+                  0 3px 6px rgba(0, 0, 0, 0.08);
+    }
+    
+    .weekly-chart-title {
+      color: #2A6EB5;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding-top: 8px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+    
+    .city-name {
+      font-weight: 600;
+      color: #4A90E2;
+    }
+    
+    /* 날씨 위젯 상단 정렬을 위한 스타일 */
+    .row.g-3.d-flex {
+      align-items: flex-start;
+    }
+    
+    .weather-info, .weather-container {
+      height: 100%;
+      margin-top: 0;
+    }
+    
+    @media (max-width: 575.98px) {
+      .col-current-weather {
+        order: 1;
+      }
+      
+      .col-weekly-chart {
+        order: 2;
+      }
+      
+      .chart-container {
+        height: 200px !important;
+        min-height: 200px !important;
+      }
+      
+      .weekly-chart-title {
+        margin-bottom: 5px;
+      }
+    }
+
+    .air-quality-container {
+      margin-top: 15px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .air-quality-title {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 5px;
+      font-weight: 500;
+      text-align: center;
+    }
+    
+    .air-quality-metrics {
+      display: flex;
+      justify-content: space-around;
+    }
+    
+    .air-metric {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 5px 10px;
+      position: relative;
+    }
+    
+    .air-metric-icon {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    
+    .air-metric-value {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 2px 0;
+    }
+    
+    .air-metric-label {
+      font-size: 10px;
+      color: #777;
+    }
+
+    .air-metric-status {
+      font-size: 9px;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 2px 6px;
+      margin-top: 3px;
+      color: white;
+    }
+    
+    /* 미세먼지 상태별 색상 */
+    .air-good {
+      color: #3498db;
+    }
+    
+    .air-good-bg {
+      background-color: #3498db;
+    }
+    
+    .air-moderate {
+      color: #2ecc71;
+    }
+    
+    .air-moderate-bg {
+      background-color: #2ecc71;
+    }
+    
+    .air-unhealthy-sensitive {
+      color: #f39c12;
+    }
+    
+    .air-unhealthy-sensitive-bg {
+      background-color: #f39c12;
+    }
+    
+    .air-unhealthy {
+      color: #e74c3c;
+    }
+    
+    .air-unhealthy-bg {
+      background-color: #e74c3c;
+    }
+    
+    .air-very-unhealthy {
+      color: #9b59b6;
+    }
+    
+    .air-very-unhealthy-bg {
+      background-color: #9b59b6;
+    }
+    
+    .air-hazardous {
+      color: #8e44ad;
+    }
+    
+    .air-hazardous-bg {
+      background-color: #8e44ad;
+    }
+    
+    /* 지역별 날씨 지도 마커 스타일 */
+    .region-weather-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      width: 35px;
+      text-align: center;
+    }
+    
+    .region-weather-emoji {
+      font-size: 18px;
+      margin-bottom: 1px;
+    }
+    
+    .region-weather-temp {
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      padding: 1px 4px;
+      font-weight: bold;
+      color: #2A6EB5;
+      font-size: 11px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .region-name {
+      font-size: 9px;
+      font-weight: bold;
+      color: #333;
+      text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+      background-color: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      padding: 1px 3px;
+      margin-top: 1px;
+    }
+    
+    /* 지역별 날씨 팝업 스타일 */
+    .region-weather-popup {
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      min-width: 180px;
+      max-width: 220px;
+      position: fixed;
+      z-index: 9999; /* 더 높은 z-index 값으로 설정 */
+      transition: box-shadow 0.2s ease;
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+    
+    .region-weather-popup.dragging {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .region-weather-popup-title {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #2A6EB5;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+      cursor: move; /* 드래그 가능함을 시각적으로 표시 */
+      position: relative;
+    }
+    
+    .region-weather-popup-title::before {
+      content: '⋮⋮';
+      position: absolute;
+      left: -5px;
+      top: 0;
+      font-size: 14px;
+      color: #aaa;
+      opacity: 0.7;
+    }
+    
+    .region-weather-popup-content {
+      font-size: 14px;
+    }
+    
+    .region-weather-popup-close {
+      position: absolute;
+      top: 5px;
+      right: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #999;
+    }
+    
+    .region-weather-popup-close:hover {
+      color: #333;
+    }
   </style>
   
   
@@ -256,7 +643,250 @@
             </div>
           </div>
           <div class="col-lg-6 order-1 order-lg-2">
-            <img src="assets/img/hero-img.png" class="img-fluid" alt="">
+            <div id="weather-widget" class="p-3" style="max-width: 100%; margin: 0 auto; overflow-x: hidden;">
+              <!-- 모바일 화면에서 순서 조정을 위한 CSS 추가 -->
+              <style>
+                /* 모바일 화면 (575.98px 이하) */
+                @media (max-width: 575.98px) {
+                  .col-current-weather, .col-weekly-chart {
+                    width: 100% !important;
+                    flex: 0 0 100% !important;
+                    max-width: 100% !important;
+                    margin-bottom: 1rem;
+                  }
+                  .weather-chart-col {
+                    order: 2;
+                  }
+                  .weather-info-col {
+                    order: 1;
+                  }
+                  .chart-container {
+                    height: 200px !important;
+                    min-height: 200px !important;
+                  }
+                  #korea-weather-map {
+                    height: 250px !important;
+                    min-height: 250px !important;
+                  }
+                  /* 작은 화면에서의 추가 수정 */
+                  .weather-container {
+                    height: auto !important;
+                    min-height: 450px !important;
+                  }
+                  .weather-info {
+                    height: auto !important;
+                  }
+                  #weather-widget .row.g-3.d-flex {
+                    flex-direction: column;
+                  }
+                  /* 지도 컨테이너 개선 */
+                  .col-weekly-chart .weather-container > div {
+                    min-height: 200px;
+                    margin-bottom: 10px;
+                  }
+                  /* 지도와 차트 영역 사이 간격 */
+                  .weather-divider {
+                    margin: 10px 0 !important;
+                  }
+                  /* 날씨 컨테이너 내부 여백 조정 */
+                  .weather-container {
+                    padding: 10px !important;
+                  }
+                  .weekly-chart-title {
+                    padding-top: 8px !important;
+                    margin-bottom: 8px !important;
+                  }
+                }
+                
+                /* 태블릿 화면 (576px - 991px) */
+                @media (min-width: 576px) and (max-width: 991.98px) {
+                  .col-current-weather {
+                    width: 100% !important;
+                    flex: 0 0 100% !important;
+                    max-width: 100% !important;
+                    margin-bottom: 1rem;
+                  }
+                  .col-weekly-chart {
+                    width: 100% !important;
+                    flex: 0 0 100% !important;
+                    max-width: 100% !important;
+                  }
+                  .chart-container {
+                    height: 180px !important;
+                  }
+                  #korea-weather-map {
+                    height: 180px !important;
+                  }
+                  
+                  /* 태블릿 가로 모드 (768px 이상) */
+                  @media (min-width: 768px) {
+                    .col-current-weather {
+                      width: 40% !important;
+                      flex: 0 0 40% !important;
+                      max-width: 40% !important;
+                      margin-bottom: 0;
+                    }
+                    .col-weekly-chart {
+                      width: 60% !important;
+                      flex: 0 0 60% !important;
+                      max-width: 60% !important;
+                    }
+                  }
+                }
+                
+                /* 데스크탑 화면 (992px 이상) */
+                @media (min-width: 992px) {
+                  .col-current-weather {
+                    width: 40% !important;
+                    flex: 0 0 40% !important;
+                    max-width: 40% !important;
+                  }
+                  .col-weekly-chart {
+                    width: 60% !important;
+                    flex: 0 0 60% !important;
+                    max-width: 60% !important;
+                  }
+                  .chart-container {
+                    height: 190px !important;
+                  }
+                  #korea-weather-map {
+                    height: 190px !important;
+                  }
+                }
+                
+                /* 큰 데스크탑 화면 (1200px 이상) */
+                @media (min-width: 1200px) {
+                  #weather-widget {
+                    max-width: 1140px;
+                    margin: 0 auto;
+                  }
+                  .chart-container {
+                    height: 200px !important;
+                  }
+                  #korea-weather-map {
+                    height: 200px !important;
+                  }
+                }
+                
+                /* 추가 공통 스타일 */
+                #weather-widget .row {
+                  width: 100%;
+                  margin: 0;
+                }
+                
+                /* 매우 작은 화면에서의 추가 조정 (400px 이하) */
+                @media (max-width: 400px) {
+                  #korea-weather-map {
+                    min-height: 200px !important;
+                    height: 200px !important;
+                  }
+                  .chart-container {
+                    min-height: 180px !important;
+                    height: 180px !important;
+                  }
+                  .weather-container > div {
+                    margin-bottom: 15px;
+                  }
+                }
+                
+                /* 공통 스타일 - 미디어 쿼리 밖에 배치 */
+                #weather-widget {
+                  width: 100%;
+                  overflow-x: hidden;
+                }
+                
+                /* 지도와 차트 공통 스타일 */
+                .chart-container, #korea-weather-map {
+                  min-height: 150px;
+                  position: relative;
+                  transition: height 0.3s ease;
+                  overflow: hidden;
+                }
+              </style>
+              <div class="row g-3 d-flex" style="align-items: stretch;">
+                <div class="col-md-4 col-current-weather pe-md-2">
+                  <div class="weather-info" style="height: 100%;">
+                    <div id="location-name" class="location-name" title="클릭하여 도시 검색">
+                      위치 확인 중... <i class="bi bi-search" style="font-size: 14px; margin-left: 3px;"></i>
+                    </div>
+                    <div class="location-hint" style="margin-bottom: 6px;">
+                      <i class="bi bi-info-circle"></i> 지역명을 클릭하여 원하는 도시의 날씨를 검색할 수 있습니다
+                    </div>
+                    <div id="location-coords" class="location-coords" style="margin-bottom: 8px;">GPS 정보를 불러오는 중입니다</div>
+                    <div id="weather-icon" class="weather-icon" style="font-size: 35px; margin: 1px 0;">
+                      <i class="bi bi-cloud-sun"></i>
+                    </div>
+                    <div id="weather-temp" class="current-temp" style="font-size: 30px; margin: 1px 0;">--°C</div>
+                    <div id="weather-desc" class="weather-desc" style="font-size: 12px; margin: 3px 0;">날씨 정보 로딩 중...</div>
+                    <div class="weather-metrics" style="margin-top: 4px; padding: 3px;">
+                      <div class="metric">
+                        <div class="metric-label">체감온도</div>
+                        <div id="weather-feels" class="metric-value">--</div>
+                      </div>
+                      <div class="metric">
+                        <div class="metric-label">습도</div>
+                        <div id="weather-humidity" class="metric-value">--</div>
+                      </div>
+                      <div class="metric">
+                        <div class="metric-label">풍속</div>
+                        <div id="weather-wind" class="metric-value">--</div>
+                      </div>
+                    </div>
+                    
+                    <!-- 미세먼지 정보 추가 -->
+                    <div class="air-quality-container" style="margin-top: 5px; padding: 4px;">
+                      <div class="air-quality-title">대기질 정보</div>
+                      <div class="air-quality-metrics">
+                        <div class="air-metric">
+                          <div class="air-metric-icon" id="pm10-icon">
+                            <i class="bi bi-wind"></i>
+                          </div>
+                          <div class="air-metric-value" id="pm10-value">--</div>
+                          <div class="air-metric-label">미세먼지</div>
+                          <div class="air-metric-status" id="pm10-status">--</div>
+                        </div>
+                        <div class="air-metric">
+                          <div class="air-metric-icon" id="pm25-icon">
+                            <i class="bi bi-cloud-haze"></i>
+                          </div>
+                          <div class="air-metric-value" id="pm25-value">--</div>
+                          <div class="air-metric-label">초미세먼지</div>
+                          <div class="air-metric-status" id="pm25-status">--</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div id="last-updated" class="last-updated" style="margin-top: 5px; margin-bottom: 1px;">--</div>
+                  </div>
+                </div>
+                
+                <!-- 주간 날씨 예보 (상단에 배치) -->
+                <div class="col-md-8 col-weekly-chart">
+                  <div class="weather-container" style="margin: 0; height: 100%; display: flex; flex-direction: column;">
+                    <!-- 주간 날씨 영역 -->
+                    <div style="flex: 1; display: flex; flex-direction: column; min-height: 200px;">
+                      <div class="weekly-chart-title" style="margin-bottom: 3px; padding-top: 3px; font-size: 0.85rem;">주간 날씨 예보 <span id="forecast-city" class="city-name"></span></div>
+                      <div class="chart-container" style="flex: 1; height: 180px; min-height: 200px; padding: 5px 10px 3px; overflow: hidden;">
+                        <canvas id="weeklyWeatherChart"></canvas>
+                      </div>
+                      <div class="chart-note" style="margin-top: 2px; font-size: 9px;">* 그래프를 클릭하면 상세 정보를 볼 수 있습니다.</div>
+                    </div>
+                    
+                    <!-- 구분선 -->
+                    <hr class="weather-divider" style="margin: 2px 0; border-color: rgba(0,0,0,0.1); border-style: solid;">
+                    
+                    <!-- 지도 영역 -->
+                    <div style="flex: 1; display: flex; flex-direction: column; min-height: 200px;">
+                      <div class="weekly-chart-title" style="margin-top: 3px; margin-bottom: 3px; padding-top: 3px; font-size: 0.85rem;">지역별 날씨 지도</div>
+                      <div id="korea-weather-map" style="flex: 1; width:100%; height: 180px; position:relative; min-height: 200px; overflow: hidden;"></div>
+                      <div class="chart-note" style="margin-top: 2px; font-size: 9px;">* 지역의 날씨 아이콘이나 기온을 클릭하면 상세 정보를 볼 수 있습니다.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 기존 지역별 날씨 지도 행 제거 -->
+            </div>
           </div>
         </div>
       </div>
@@ -466,19 +1096,6 @@
                 <h3>Velit Doloremque</h3>
               </a>
               <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
-              <a href="service-details.html" class="stretched-link"></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-chat-square-text"></i>
-              </div>
-              <a href="service-details.html" class="stretched-link">
-                <h3>Dolori Architecto</h3>
-              </a>
-              <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
               <a href="service-details.html" class="stretched-link"></a>
             </div>
           </div>-->
@@ -724,6 +1341,904 @@
     }
     
   </script>
+  
+  <!-- 날씨 기능 스크립트 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 기본 위치 정보 (서울 시청)
+      const defaultLatitude = 37.5665;
+      const defaultLongitude = 126.9780;
+      
+      // 위치 정보 가져오기
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          // 위치 정보 성공적으로 가져왔을 때
+          function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            // 위치 정보 표시
+            document.getElementById('location-coords').textContent = 
+              `위도: ${latitude.toFixed(4)}, 경도: ${longitude.toFixed(4)}`;
+            
+            // 현재 위치에서 가장 가까운 koreaRegions 지역 찾기
+            const closestRegion = findClosestRegion(latitude, longitude);
+            
+            if (closestRegion) {
+              console.log(`가장 가까운 지역: ${closestRegion.name}, 해당 지역의 좌표 사용`);
+              
+              // 위치 정보 업데이트
+              document.getElementById('location-name').innerHTML = 
+                `${closestRegion.name} (가장 가까운 지역) <i class="bi bi-search" style="font-size: 14px; margin-left: 3px;"></i>`;
+              document.getElementById('location-coords').textContent = 
+                `위도: ${closestRegion.lat.toFixed(4)}, 경도: ${closestRegion.lng.toFixed(4)}`;
+              
+              // 주간 날씨 예보 제목에도 도시 이름 표시
+              document.getElementById('forecast-city').textContent = `(${closestRegion.name})`;
+              
+              // 가장 가까운 지역의 좌표로 날씨 데이터 가져오기
+              fetchWeatherData(closestRegion.lat, closestRegion.lng);
+              
+              // 위치 이름 가져오기 (리버스 지오코딩)
+              fetchLocationName(closestRegion.lat, closestRegion.lng);
+            } else {
+              // OpenWeatherMap API로 날씨 데이터 가져오기
+              fetchWeatherData(latitude, longitude);
+              
+              // 위치 이름 가져오기 (리버스 지오코딩)
+              fetchLocationName(latitude, longitude);
+            }
+          },
+          // 위치 정보 가져오기 실패했을 때
+          function(error) {
+            console.error("위치 정보를 가져오는데 실패했습니다:", error);
+            document.getElementById('location-name').innerHTML = "위치 정보를 가져올 수 없습니다 <i class=\"bi bi-search\" style=\"font-size: 14px; margin-left: 3px;\"></i>";
+            document.getElementById('location-coords').textContent = "기본 위치(서울)를 사용합니다";
+            document.getElementById('weather-desc').textContent = "날씨 정보 로딩 중...";
+            
+            // 기본 위치(서울)로 날씨 데이터 가져오기
+            fetchWeatherData(defaultLatitude, defaultLongitude);
+            fetchLocationName(defaultLatitude, defaultLongitude);
+          },
+          // 위치 정보 설정
+          {
+            enableHighAccuracy: true,  // 높은 정확도 사용
+            timeout: 5000,            // 5초 제한시간
+            maximumAge: 0             // 캐시된 위치 사용하지 않음
+          }
+        );
+      } else {
+        // 브라우저가 위치 정보를 지원하지 않을 때
+        document.getElementById('location-name').innerHTML = "위치 정보를 지원하지 않는 브라우저입니다 <i class=\"bi bi-search\" style=\"font-size: 14px; margin-left: 3px;\"></i>";
+        document.getElementById('location-coords').textContent = "기본 위치(서울)를 사용합니다";
+        
+        // 기본 위치(서울)로 날씨 데이터 가져오기
+        fetchWeatherData(defaultLatitude, defaultLongitude);
+        fetchLocationName(defaultLatitude, defaultLongitude);
+      }
+      
+      // 위치 직접 설정 기능 추가 (화면 클릭 시)
+      document.getElementById('location-name').addEventListener('click', function() {
+        const cityName = prompt("도시 이름을 입력하세요 (예: 서울, 부산, 대구):", "서울");
+        if (cityName) {
+          searchLocationByName(cityName);
+        }
+      });
+    });
+    
+    // 도시 이름으로 위치 검색
+    function searchLocationByName(cityName) {
+      // 먼저 koreaRegions 배열에서 일치하는 도시 찾기
+      const regionMatch = koreaRegions.find(region => region.name === cityName);
+      
+      if (regionMatch) {
+        // koreaRegions에 정의된 도시인 경우 미리 정의된 좌표 사용
+        const latitude = regionMatch.lat;
+        const longitude = regionMatch.lng;
+        const locationName = regionMatch.name;
+        
+        console.log(`지역 매칭: ${locationName} 지역 발견, 미리 정의된 좌표 사용`);
+        console.log(`위도: ${latitude}, 경도: ${longitude}`);
+        
+        // 위치 정보 표시
+        document.getElementById('location-name').innerHTML = `${locationName} <i class="bi bi-search" style="font-size: 14px; margin-left: 3px;"></i>`;
+        document.getElementById('location-coords').textContent = 
+          `위도: ${latitude.toFixed(4)}, 경도: ${longitude.toFixed(4)}`;
+        
+        // 주간 날씨 예보 제목에도 도시 이름 표시
+        document.getElementById('forecast-city').textContent = `(${locationName})`;
+          
+        // 날씨 데이터 가져오기 (주간 예보 포함)
+        fetchWeatherData(latitude, longitude);
+        
+        // 차트 로딩 상태 해제
+        document.getElementById('weeklyWeatherChart').style.opacity = '1';
+        
+        return; // 함수 종료
+      }
+      
+      // koreaRegions에 없는 도시인 경우 기존 API 검색 사용
+      const apiKey = '4d8fb5b93d4af21d66a2948710284366'; // OpenWeatherMap API 키
+      const apiUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`;
+      
+      // 검색 시작 로딩 표시
+      document.getElementById('location-name').innerHTML = `검색 중... <i class="bi bi-search" style="font-size: 14px; margin-left: 3px;"></i>`;
+      document.getElementById('location-coords').textContent = "위치 정보를 가져오는 중...";
+      
+      // 차트 로딩 표시
+      if (window.weeklyChart) {
+        window.weeklyChart.destroy();
+        window.weeklyChart = null;
+      }
+      document.getElementById('weeklyWeatherChart').style.opacity = '0.5';
+      
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            const latitude = data[0].lat;
+            const longitude = data[0].lon;
+            const locationName = data[0].name;
+            const country = data[0].country;
+            
+            console.log('검색된 도시 정보:', data[0]);
+            console.log(`위도: ${latitude}, 경도: ${longitude}`);
+            
+            // 위치 정보 표시
+            document.getElementById('location-name').innerHTML = `${locationName}, ${country} <i class="bi bi-search" style="font-size: 14px; margin-left: 3px;"></i>`;
+            document.getElementById('location-coords').textContent = 
+              `위도: ${latitude.toFixed(4)}, 경도: ${longitude.toFixed(4)}`;
+            
+            // 주간 날씨 예보 제목에도 도시 이름 표시
+            document.getElementById('forecast-city').textContent = `(${locationName})`;
+              
+            // 날씨 데이터 가져오기 (주간 예보 포함)
+            fetchWeatherData(latitude, longitude);
+          } else {
+            alert("입력하신 도시를 찾을 수 없습니다.");
+            // 로딩 상태 해제
+            document.getElementById('weeklyWeatherChart').style.opacity = '1';
+          }
+        })
+        .catch(error => {
+          console.error("도시 검색 중 오류 발생:", error);
+          alert("도시 검색 중 오류가 발생했습니다.");
+          // 로딩 상태 해제
+          document.getElementById('weeklyWeatherChart').style.opacity = '1';
+        });
+    }
+
+    // OpenWeatherMap API로 날씨 데이터 가져오기
+    function fetchWeatherData(latitude, longitude) {
+      const apiKey = '4d8fb5b93d4af21d66a2948710284366'; // OpenWeatherMap API 키
+      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=kr`;
+      
+      // 현재 날씨 데이터 가져오기
+      fetch(weatherUrl)
+        .then(response => response.json())
+        .then(data => {
+          console.log('현재 날씨 데이터:', data);
+          
+          // 시간대 정보 저장 (초 단위)
+          const timezone = data.timezone;
+          console.log('도시 시간대 정보(초):', timezone);
+          
+          // 현재 날씨 데이터 표시
+          displayWeatherData(data);
+          
+          // 주간 날씨 예보 데이터 가져오기 (시간대 정보 전달)
+          fetchWeeklyForecast(latitude, longitude, timezone);
+          
+          // 미세먼지 데이터 가져오기
+          fetchAirPollutionData(latitude, longitude);
+        })
+        .catch(error => {
+          console.error("날씨 데이터를 가져오는데 실패했습니다:", error);
+          document.getElementById('weather-desc').textContent = "날씨 정보를 불러올 수 없습니다";
+        });
+    }
+    
+    // 7일 날씨 예보 데이터 가져오기
+    function fetchWeeklyForecast(latitude, longitude, timezone) {
+      const apiKey = '4d8fb5b93d4af21d66a2948710284366'; // OpenWeatherMap API 키
+      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=kr`;
+      
+      // 로딩 상태 표시
+      document.getElementById('weeklyWeatherChart').style.opacity = '0.5';
+      
+      // 기존 차트 제거 (도시 변경 시 새로운 데이터로 완전히 대체하기 위함)
+      if (window.weeklyChart) {
+        window.weeklyChart.destroy();
+        window.weeklyChart = null;
+      }
+      
+      // 시간대 정보가 없으면 다시 가져오기
+      if (timezone === undefined) {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=kr`)
+          .then(response => response.json())
+          .then(data => {
+            const timezone = data.timezone;
+            console.log('시간대 정보 재요청:', timezone);
+            processWeeklyForecast(latitude, longitude, timezone);
+          })
+          .catch(error => {
+            console.error("시간대 정보를 가져오는데 실패했습니다:", error);
+            // 기본 UTC+9 (한국 시간) 사용
+            processWeeklyForecast(latitude, longitude, 32400);
+          });
+      } else {
+        processWeeklyForecast(latitude, longitude, timezone);
+      }
+    }
+    
+    // 주간 예보 데이터 처리
+    function processWeeklyForecast(latitude, longitude, timezone) {
+      const apiKey = '4d8fb5b93d4af21d66a2948710284366'; // OpenWeatherMap API 키
+      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=kr`;
+      
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          console.log('받은 5일 예보 데이터:', data);
+          console.log('사용 중인 시간대 정보(초):', timezone);
+          
+          // 현재 UTC 시간
+          const now = new Date();
+          const utcNow = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+          console.log('현재 UTC 시간:', utcNow);
+          
+          // 선택한 도시의 현재 시간 (UTC + 시간대 오프셋)
+          const cityTime = new Date(utcNow.getTime() + timezone * 1000);
+          cityTime.setHours(0, 0, 0, 0); // 해당 도시의 자정으로 설정
+          console.log('도시 현지 시간 (자정):', cityTime);
+          
+          // 해당 도시의 오늘 기준 UTC 시간 계산
+          const cityTodayUTC = new Date(cityTime.getTime() - timezone * 1000);
+          console.log('도시의 오늘 자정 (UTC 기준):', cityTodayUTC);
+          
+          // 오늘 이후의 데이터만 필터링
+          const filteredData = data.list.filter(item => {
+            const itemDate = new Date(item.dt * 1000);
+            return itemDate >= cityTodayUTC;
+          });
+          
+          console.log('필터링된 데이터 수:', filteredData.length);
+          
+          // 날짜별로 그룹화 (하루 중 가장 높은 기온과 가장 낮은 기온을 찾기 위함)
+          const dailyGroups = {};
+          
+          filteredData.forEach(item => {
+            // API 응답의 dt는 UTC 기준 Unix 타임스탬프
+            const utcDate = new Date(item.dt * 1000);
+            
+            // 도시 현지 시간으로 변환
+            const cityLocalTime = new Date(utcDate.getTime() + timezone * 1000);
+            
+            // 현지 날짜만 추출하여 키로 사용
+            const dateStr = `${cityLocalTime.getFullYear()}-${cityLocalTime.getMonth() + 1}-${cityLocalTime.getDate()}`;
+            
+            if (!dailyGroups[dateStr]) {
+              dailyGroups[dateStr] = [];
+            }
+            
+            dailyGroups[dateStr].push({
+              ...item,
+              localDateTime: cityLocalTime
+            });
+          });
+          
+          console.log('날짜별 그룹:', Object.keys(dailyGroups));
+          
+          // 각 날짜에서 가장 높은 기온과 가장 낮은 기온 추출
+          const dailyData = [];
+          
+          for (const dateStr in dailyGroups) {
+            const dayData = dailyGroups[dateStr];
+            
+            // 가장 높은 기온 찾기
+            const maxTemp = Math.max(...dayData.map(item => item.main.temp));
+            
+            // 가장 낮은 기온 찾기
+            const minTemp = Math.min(...dayData.map(item => item.main.temp));
+            
+            // 정오에 가장 가까운 시간의 데이터 찾기
+            let closestToNoon = dayData[0];
+            let minDiff = Infinity;
+            
+            dayData.forEach(item => {
+              const localTime = item.localDateTime;
+              const hours = localTime.getHours();
+              const diff = Math.abs(12 - hours);
+              
+              if (diff < minDiff) {
+                minDiff = diff;
+                closestToNoon = item;
+              }
+            });
+            
+            // 날짜 객체 생성 (해당 날짜의 현지 시간 정보)
+            const [year, month, day] = dateStr.split('-').map(num => parseInt(num));
+            const dateObj = new Date(year, month - 1, day);
+            
+            dailyData.push({
+              date: dateObj,
+              dateStr: dateStr,
+              maxTemp: maxTemp,
+              minTemp: minTemp,
+              weather: closestToNoon.weather[0],
+              icon: closestToNoon.weather[0].icon
+            });
+          }
+          
+          // 날짜순으로 정렬
+          dailyData.sort((a, b) => new Date(a.dateStr) - new Date(b.dateStr));
+          
+          console.log('정렬된 일일 데이터:', dailyData);
+          
+          // 최대 5일까지만 사용
+          if (dailyData.length > 5) {
+            dailyData.length = 5;
+          }
+          
+          // 차트에 표시할 데이터 준비
+          const dates = dailyData.map(item => {
+            const date = item.date;
+            const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+            const dayName = dayNames[date.getDay()];
+            return `${date.getMonth() + 1}/${date.getDate()} (${dayName})`;
+          });
+          
+          const maxTemps = dailyData.map(item => Math.round(item.maxTemp));
+          const minTemps = dailyData.map(item => Math.round(item.minTemp));
+          const weatherIcons = dailyData.map(item => item.icon);
+          
+          console.log('차트용 날짜 레이블:', dates);
+          console.log('최고 기온 데이터:', maxTemps);
+          console.log('최저 기온 데이터:', minTemps);
+          
+          // 주간 날씨 차트 생성
+          createWeeklyChart(dates, maxTemps, minTemps, weatherIcons);
+          
+          // 로딩 상태 해제
+          document.getElementById('weeklyWeatherChart').style.opacity = '1';
+        })
+        .catch(error => {
+          console.error("주간 날씨 데이터를 가져오는데 실패했습니다:", error);
+          // 오류 시 차트 영역에 오류 메시지 표시
+          if (window.weeklyChart) {
+            window.weeklyChart.destroy();
+            window.weeklyChart = null;
+          }
+          const ctx = document.getElementById('weeklyWeatherChart').getContext('2d');
+          ctx.font = '14px Arial';
+          ctx.fillStyle = '#e74c3c';
+          ctx.textAlign = 'center';
+          ctx.fillText('주간 날씨 데이터를 불러올 수 없습니다', ctx.canvas.width/2, ctx.canvas.height/2);
+          
+          // 로딩 상태 해제
+          document.getElementById('weeklyWeatherChart').style.opacity = '1';
+        });
+    }
+    
+    // 위치 이름 가져오기 (리버스 지오코딩)
+    function fetchLocationName(latitude, longitude) {
+      const apiKey = '4d8fb5b93d4af21d66a2948710284366'; // OpenWeatherMap API 키
+      const apiUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${apiKey}`;
+      
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            const locationName = data[0].name;
+            const country = data[0].country;
+            document.getElementById('location-name').innerHTML = `${locationName}, ${country} <i class="bi bi-search" style="font-size: 14px; margin-left: 3px;"></i>`;
+            // 주간 날씨 예보 제목에도 도시 이름 표시
+            document.getElementById('forecast-city').textContent = `(${locationName})`;
+          }
+        })
+        .catch(error => {
+          console.error("위치 이름을 가져오는데 실패했습니다:", error);
+        });
+    }
+    
+    // 마지막 업데이트 시간 표시 함수
+    function getCurrentTime() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      return `${hours}:${minutes}:${seconds}`;
+    }
+    
+    // 날짜 포맷팅 함수
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+      const dayName = dayNames[date.getDay()];
+      return `${year}-${month}-${day} (${dayName})`;
+    }
+    
+    // 날씨 데이터 표시
+    function displayWeatherData(data) {
+      const weatherTemp = document.getElementById('weather-temp');
+      const weatherDesc = document.getElementById('weather-desc');
+      const weatherIcon = document.getElementById('weather-icon');
+      const lastUpdated = document.getElementById('last-updated');
+      const weatherHumidity = document.getElementById('weather-humidity');
+      const weatherWind = document.getElementById('weather-wind');
+      const weatherFeels = document.getElementById('weather-feels');
+      
+      // 온도와 날씨 설명 표시
+      weatherTemp.textContent = `${Math.round(data.main.temp)}°C`;
+      weatherDesc.textContent = data.weather[0].description;
+      
+      // 추가 날씨 정보 표시
+      weatherHumidity.textContent = `${data.main.humidity}%`;
+      weatherWind.textContent = `${Math.round(data.wind.speed)}m/s`;
+      weatherFeels.textContent = `${Math.round(data.main.feels_like)}°C`;
+      
+      // 날씨 아이콘 변경
+      const iconCode = data.weather[0].icon;
+      weatherIcon.innerHTML = getWeatherIcon(iconCode);
+      
+      // 마지막 업데이트 시간 표시 (선택된 도시의 현지 시간 기준)
+      const cityDateTime = formatCityDateTime(data.dt, data.timezone);
+      lastUpdated.textContent = `마지막 업데이트: ${cityDateTime}`;
+    }
+    
+    // 날씨 아이콘 반환 (Bootstrap Icons 사용)
+    function getWeatherIcon(iconCode) {
+      // 아이콘 코드에 따라 Bootstrap 아이콘 반환
+      // 모든 아이콘에 grayscale 필터 적용
+      const iconMap = {
+        '01d': '<i class="bi bi-sun" style="font-size: 5rem; color: #555;"></i>', // 맑음 (낮)
+        '01n': '<i class="bi bi-moon" style="font-size: 5rem; color: #555;"></i>', // 맑음 (밤)
+        '02d': '<i class="bi bi-cloud-sun" style="font-size: 5rem; color: #555;"></i>', // 구름 조금 (낮)
+        '02n': '<i class="bi bi-cloud-moon" style="font-size: 5rem; color: #555;"></i>', // 구름 조금 (밤)
+        '03d': '<i class="bi bi-cloud" style="font-size: 5rem; color: #555;"></i>', // 구름 많음
+        '03n': '<i class="bi bi-cloud" style="font-size: 5rem; color: #555;"></i>', // 구름 많음
+        '04d': '<i class="bi bi-clouds" style="font-size: 5rem; color: #555;"></i>', // 흐림
+        '04n': '<i class="bi bi-clouds" style="font-size: 5rem; color: #555;"></i>', // 흐림
+        '09d': '<i class="bi bi-cloud-drizzle" style="font-size: 5rem; color: #555;"></i>', // 소나기
+        '09n': '<i class="bi bi-cloud-drizzle" style="font-size: 5rem; color: #555;"></i>', // 소나기
+        '10d': '<i class="bi bi-cloud-rain" style="font-size: 5rem; color: #555;"></i>', // 비
+        '10n': '<i class="bi bi-cloud-rain" style="font-size: 5rem; color: #555;"></i>', // 비
+        '11d': '<i class="bi bi-cloud-lightning" style="font-size: 5rem; color: #555;"></i>', // 뇌우
+        '11n': '<i class="bi bi-cloud-lightning" style="font-size: 5rem; color: #555;"></i>', // 뇌우
+        '13d': '<i class="bi bi-snow" style="font-size: 5rem; color: #555;"></i>', // 눈
+        '13n': '<i class="bi bi-snow" style="font-size: 5rem; color: #555;"></i>', // 눈
+        '50d': '<i class="bi bi-cloud-fog" style="font-size: 5rem; color: #555;"></i>', // 안개
+        '50n': '<i class="bi bi-cloud-fog" style="font-size: 5rem; color: #555;"></i>' // 안개
+      };
+      
+      return iconMap[iconCode] || '<i class="bi bi-cloud-sun" style="font-size: 5rem; color: #555;"></i>';
+    }
+    
+    // 선택된 도시의 시간대에 맞는 날짜 시간 포맷팅 함수
+    function formatCityDateTime(timestamp, timezone) {
+      // UTC 시간 계산
+      const utcTime = new Date(timestamp * 1000);
+      
+      // 도시 현지 시간 계산 (UTC + 시간대 오프셋)
+      const cityTime = new Date(utcTime.getTime() + timezone * 1000);
+      
+      const year = cityTime.getUTCFullYear();
+      const month = String(cityTime.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(cityTime.getUTCDate()).padStart(2, '0');
+      const hours = String(cityTime.getUTCHours()).padStart(2, '0');
+      const minutes = String(cityTime.getUTCMinutes()).padStart(2, '0');
+      const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+      const dayName = dayNames[cityTime.getUTCDay()];
+      
+      return `${year}-${month}-${day} (${dayName}) ${hours}:${minutes}`;
+    }
+    
+    // 차트 위에 온도값 표시
+    function addTemperatureLabels(chart, maxTemps, minTemps, weatherIcons) {
+      // 온도값 표시 플러그인 정의
+      const tempLabelsPlugin = {
+        id: 'tempLabels',
+        afterDatasetDraw: (chart) => {
+          const ctx = chart.ctx;
+          const chartArea = chart.chartArea;
+          const topPadding = chartArea.top;
+          
+          // 최고 온도 라벨
+          const meta0 = chart.getDatasetMeta(0);
+          meta0.data.forEach((dataPoint, index) => {
+            // 데이터 포인트 위치 
+            const x = dataPoint.x;
+            const y = Math.max(dataPoint.y - 20, topPadding + 5); // 차트 상단 경계를 넘지 않도록 조정
+            
+            // 그림자 효과 추가
+            ctx.shadowOffsetX = 1;
+            ctx.shadowOffsetY = 1;
+            ctx.shadowBlur = 2;
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+            
+            // 온도값 표시
+            ctx.fillStyle = '#2A6EB5';
+            ctx.font = 'bold 11px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${maxTemps[index]}°`, x, y);
+            
+            // 그림자 초기화
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.shadowBlur = 0;
+            
+            // 날씨 아이콘 표시 (차트 영역 상단 위에 배치)
+            const iconY = topPadding - 8; // 차트 위쪽 여백에 배치
+            if (window.innerWidth > 400) { // 매우 작은 화면에서만 숨김
+              ctx.font = '12px Arial';
+              ctx.fillText(weatherIcons[index], x, iconY);
+            }
+          });
+          
+          // 최저 온도 라벨
+          const meta1 = chart.getDatasetMeta(1);
+          meta1.data.forEach((dataPoint, index) => {
+            // 데이터 포인트 위치
+            const x = dataPoint.x;
+            const y = Math.min(dataPoint.y + 18, chartArea.bottom - 5); // 차트 하단 경계를 넘지 않도록 조정
+            
+            // 온도값 표시 (그림자 없음)
+            ctx.fillStyle = '#7A8694';
+            ctx.font = '10px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${minTemps[index]}°`, x, y);
+          });
+        }
+      };
+      
+      // 이전에 등록된 플러그인 제거 (안전한 방식으로)
+      try {
+        const tempLabelsPluginInstance = Chart.registry.plugins.get('tempLabels');
+        if (tempLabelsPluginInstance) {
+          Chart.unregister(tempLabelsPluginInstance);
+        }
+      } catch (e) {
+        // 오류 무시
+      }
+      
+      // 새 플러그인 등록
+      Chart.register(tempLabelsPlugin);
+      
+      // 차트 업데이트
+      chart.update();
+    }
+    
+    // 주간 날씨 차트 생성
+    function createWeeklyChart(dates, maxTemps, minTemps, icons) {
+      const ctx = document.getElementById('weeklyWeatherChart').getContext('2d');
+      
+      // 기존 차트 제거
+      if (window.weeklyChart) {
+        window.weeklyChart.destroy();
+        window.weeklyChart = null;
+      }
+      
+      // 차트 색상 설정 (컬러 그라데이션)
+      const gradientBg = ctx.createLinearGradient(0, 0, 0, 220);
+      gradientBg.addColorStop(0, 'rgba(74, 144, 226, 0.3)');
+      gradientBg.addColorStop(0.7, 'rgba(74, 144, 226, 0.1)');
+      gradientBg.addColorStop(1, 'rgba(74, 144, 226, 0.05)');
+      
+      // 날씨 아이콘 코드
+      const weatherIcons = icons.map(icon => {
+        switch(icon.substring(0, 2)) {
+          case '01': return '☀️'; 
+          case '02': return '⛅'; 
+          case '03': case '04': return '☁️'; 
+          case '09': return '🌧️'; 
+          case '10': return '🌦️'; 
+          case '11': return '⛈️';
+          case '13': return '❄️'; 
+          case '50': return '🌫️'; 
+          default: return '☁️';
+        }
+      });
+      
+      // 온도 데이터에서 최대/최소값 구하기 (차트 축 범위 조정용)
+      const allTemps = [...maxTemps, ...minTemps];
+      const minTemp = Math.min(...allTemps) - 2; // 여유 공간 추가
+      const maxTemp = Math.max(...allTemps) + 2; // 여유 공간 추가
+      
+      // 온도 데이터 저장 (레이블 표시용)
+      window.chartData = {
+        maxTemps: maxTemps,
+        minTemps: minTemps,
+        weatherIcons: weatherIcons
+      };
+      
+      // 차트 생성
+      window.weeklyChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: dates,
+          datasets: [
+            {
+              label: '최고 기온 (°C)',
+              data: maxTemps,
+              backgroundColor: 'rgba(74, 144, 226, 0.1)',
+              borderColor: '#4A90E2',
+              borderWidth: 3,
+              tension: 0.4,
+              fill: true,
+              pointBackgroundColor: '#4A90E2',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 2,
+              pointRadius: 5,
+              pointHoverRadius: 7,
+              pointShadowOffsetX: 3,
+              pointShadowOffsetY: 3,
+              pointShadowBlur: 5,
+              pointShadowColor: 'rgba(0, 0, 0, 0.2)'
+            },
+            {
+              label: '최저 기온 (°C)',
+              data: minTemps,
+              backgroundColor: 'transparent',
+              borderColor: '#9DB1C5',
+              borderWidth: 2,
+              borderDash: [5, 5],
+              tension: 0.4,
+              fill: false,
+              pointBackgroundColor: '#9DB1C5',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 1.5,
+              pointRadius: 4,
+              pointHoverRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              top: 30,    // 상단 여백 추가
+              right: 10,
+              bottom: 10,
+              left: 10
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(42, 110, 181, 0.9)',
+              titleColor: '#fff',
+              bodyColor: '#fff',
+              titleFont: {
+                size: 12,
+                weight: 'bold'
+              },
+              bodyFont: {
+                size: 12
+              },
+              padding: 12,
+              cornerRadius: 10,
+              displayColors: false,
+              callbacks: {
+                title: function(tooltipItems) {
+                  const index = tooltipItems[0].dataIndex;
+                  return `${dates[index]} ${weatherIcons[index]}`;
+                },
+                label: function(context) {
+                  if (context.datasetIndex === 0) {
+                    return `최고: ${context.raw}°C`;
+                  } else {
+                    return `최저: ${context.raw}°C`;
+                  }
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              display: true,
+              grid: {
+                color: 'rgba(200, 200, 200, 0.15)',
+                borderDash: [3, 3]
+              },
+              min: minTemp, // 최저 기온보다 낮게 설정
+              max: maxTemp, // 최고 기온보다 높게 설정
+              ticks: {
+                color: '#555',
+                font: {
+                  size: 10,
+                  weight: '500'
+                },
+                callback: function(value) {
+                  return value + '°';
+                },
+                padding: 8
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#555',
+                font: {
+                  size: 10,
+                  weight: '600'
+                },
+                padding: 8
+              }
+            }
+          },
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          hover: {
+            mode: 'index',
+            intersect: false
+          },
+          elements: {
+            line: {
+              shadowOffsetX: 2,
+              shadowOffsetY: 2,
+              shadowBlur: 5,
+              shadowColor: 'rgba(0, 0, 0, 0.1)'
+            }
+          },
+          animation: {
+            onComplete: function() {
+              // 애니메이션 완료 후 레이블 추가
+              addTemperatureLabels(window.weeklyChart, maxTemps, minTemps, weatherIcons);
+            }
+          }
+        }
+      });
+      
+      // 차트가 완전히 렌더링된 후 온도값 표시 적용 (추가 안전장치)
+      setTimeout(() => {
+        if (window.weeklyChart) {
+          addTemperatureLabels(window.weeklyChart, maxTemps, minTemps, weatherIcons);
+        }
+      }, 300);
+      
+      // 반응형 처리
+      window.addEventListener('resize', function() {
+        if (window.weeklyChart && window.chartData) {
+          window.weeklyChart.resize();
+          // 리사이즈 후 온도값도 다시 표시 (저장된 데이터 사용)
+          addTemperatureLabels(
+            window.weeklyChart, 
+            window.chartData.maxTemps, 
+            window.chartData.minTemps, 
+            window.chartData.weatherIcons
+          );
+        }
+      });
+    }
+
+    // 미세먼지 데이터 가져오기
+    function fetchAirPollutionData(latitude, longitude) {
+      const apiKey = '4d8fb5b93d4af21d66a2948710284366'; // OpenWeatherMap API 키
+      const apiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+      
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          // 미세먼지 데이터 표시
+          displayAirPollutionData(data);
+        })
+        .catch(error => {
+          console.error("미세먼지 데이터를 가져오는데 실패했습니다:", error);
+          document.getElementById('pm10-value').textContent = "정보 없음";
+          document.getElementById('pm25-value').textContent = "정보 없음";
+        });
+    }
+    
+    // 미세먼지 데이터 표시
+    function displayAirPollutionData(data) {
+      if (data && data.list && data.list.length > 0) {
+        const airData = data.list[0];
+        const pm10Value = airData.components.pm10.toFixed(1);
+        const pm25Value = airData.components.pm2_5.toFixed(1);
+        const aqi = airData.main.aqi; // Air Quality Index (1-5)
+        
+        // 미세먼지 값 표시
+        document.getElementById('pm10-value').textContent = `${pm10Value} μg/m³`;
+        document.getElementById('pm25-value').textContent = `${pm25Value} μg/m³`;
+        
+        // 미세먼지 수준에 따른 아이콘 색상 설정
+        setPM10Color(pm10Value);
+        setPM25Color(pm25Value);
+      }
+    }
+    
+    // 미세먼지 수준에 따른 색상 설정 (PM10)
+    function setPM10Color(value) {
+      const pm10Icon = document.getElementById('pm10-icon');
+      const pm10Value = document.getElementById('pm10-value');
+      const pm10Status = document.getElementById('pm10-status');
+      
+      pm10Icon.className = 'air-metric-icon';
+      pm10Value.className = 'air-metric-value';
+      pm10Status.className = 'air-metric-status';
+      
+      let statusText = '';
+      let statusClass = '';
+      
+      // 미세먼지 수준에 따른 클래스 추가
+      if (value <= 30) {
+        statusText = '좋음';
+        statusClass = 'air-good';
+        pm10Status.classList.add('air-good-bg');
+      } else if (value <= 80) {
+        statusText = '보통';
+        statusClass = 'air-moderate';
+        pm10Status.classList.add('air-moderate-bg');
+      } else if (value <= 150) {
+        statusText = '민감군 유해';
+        statusClass = 'air-unhealthy-sensitive';
+        pm10Status.classList.add('air-unhealthy-sensitive-bg');
+      } else if (value <= 250) {
+        statusText = '유해';
+        statusClass = 'air-unhealthy';
+        pm10Status.classList.add('air-unhealthy-bg');
+      } else {
+        statusText = '매우 유해';
+        statusClass = 'air-hazardous';
+        pm10Status.classList.add('air-hazardous-bg');
+      }
+      
+      pm10Icon.classList.add(statusClass);
+      pm10Value.classList.add(statusClass);
+      pm10Status.textContent = statusText;
+    }
+    
+    // 초미세먼지 수준에 따른 색상 설정 (PM2.5)
+    function setPM25Color(value) {
+      const pm25Icon = document.getElementById('pm25-icon');
+      const pm25Value = document.getElementById('pm25-value');
+      const pm25Status = document.getElementById('pm25-status');
+      
+      pm25Icon.className = 'air-metric-icon';
+      pm25Value.className = 'air-metric-value';
+      pm25Status.className = 'air-metric-status';
+      
+      let statusText = '';
+      let statusClass = '';
+      
+      // 초미세먼지 수준에 따른 클래스 추가
+      if (value <= 15) {
+        statusText = '좋음';
+        statusClass = 'air-good';
+        pm25Status.classList.add('air-good-bg');
+      } else if (value <= 35) {
+        statusText = '보통';
+        statusClass = 'air-moderate';
+        pm25Status.classList.add('air-moderate-bg');
+      } else if (value <= 75) {
+        statusText = '민감군 유해';
+        statusClass = 'air-unhealthy-sensitive';
+        pm25Status.classList.add('air-unhealthy-sensitive-bg');
+      } else if (value <= 150) {
+        statusText = '유해';
+        statusClass = 'air-unhealthy';
+        pm25Status.classList.add('air-unhealthy-bg');
+      } else {
+        statusText = '매우 유해';
+        statusClass = 'air-hazardous';
+        pm25Status.classList.add('air-hazardous-bg');
+      }
+      
+      pm25Icon.classList.add(statusClass);
+      pm25Value.classList.add(statusClass);
+      pm25Status.textContent = statusText;
+    }
+  </script>
+  
   <footer id="footer" class="footer">
     <!--
     <div class="footer-newsletter">
@@ -872,6 +2387,342 @@
   }
 </script>-->
 
+  <script>
+    // ... existing code ...
+    
+    // 페이지 로드 시 실행
+    document.addEventListener('DOMContentLoaded', function() {
+      // ... existing code ...
+      
+      // 지역별 날씨 지도 초기화
+      initKoreaWeatherMap();
+    });
+    
+    // 대한민국 주요 지역 정의 (위치 조정)
+    const koreaRegions = [
+      { name: '서울', lat: 37.5665, lng: 126.8380 }, // 서울 위치 더 서쪽으로 조정
+      { name: '부산', lat: 35.1796, lng: 129.1756 }, // 부산 위치 더 동쪽으로 조정
+      { name: '대구', lat: 35.8714, lng: 128.7814 }, // 대구 위치 더 동쪽으로 조정
+      { name: '인천', lat: 37.4563, lng: 126.4452 }, // 인천 위치 더 서쪽으로 조정
+      { name: '광주', lat: 35.0295, lng: 126.7326 }, // 광주 위치 더 남쪽으로 조정
+      { name: '대전', lat: 36.4604, lng: 127.3845 }, // 대전 위치 더 북쪽으로 조정
+      { name: '울산', lat: 35.5384, lng: 129.4614 }, // 울산 위치 더 동쪽으로 조정
+      { name: '세종', lat: 36.4800, lng: 127.0390 }, // 세종 위치 더 서쪽으로 조정
+      { name: '제주', lat: 34.1496, lng: 126.8312 }, // 제주 위치 조정
+      { name: '강릉', lat: 37.4519, lng: 128.8760 }, // 강릉 위치 조정
+      { name: '전주', lat: 35.8242, lng: 126.9380 }, // 전주 위치 더 서쪽으로 조정
+      { name: '청주', lat: 36.6424, lng: 127.7390 }  // 청주 위치 더 동쪽으로 조정
+    ];
+    
+    // 날씨 이모지 매핑
+    function getWeatherEmoji(iconCode) {
+      const iconMap = {
+        '01d': '☀️', // 맑음 (낮)
+        '01n': '🌙', // 맑음 (밤)
+        '02d': '⛅', // 구름 조금 (낮)
+        '02n': '☁️', // 구름 조금 (밤)
+        '03d': '☁️', // 구름 많음
+        '03n': '☁️', // 구름 많음
+        '04d': '☁️', // 흐림
+        '04n': '☁️', // 흐림
+        '09d': '🌧️', // 소나기
+        '09n': '🌧️', // 소나기
+        '10d': '🌦️', // 비 (낮)
+        '10n': '🌧️', // 비 (밤)
+        '11d': '⛈️', // 뇌우
+        '11n': '⛈️', // 뇌우
+        '13d': '❄️', // 눈
+        '13n': '❄️', // 눈
+        '50d': '🌫️', // 안개
+        '50n': '🌫️'  // 안개
+      };
+      
+      return iconMap[iconCode] || '☁️';
+    }
+    
+    // 지역별 날씨 지도 초기화
+    function initKoreaWeatherMap() {
+      // 지도 컨테이너
+      const mapContainer = document.getElementById('korea-weather-map');
+      if (!mapContainer) return;
+      
+      // 지도 옵션
+      const mapOption = {
+        center: new kakao.maps.LatLng(35.9, 127.8), // 한국 중심점 살짝 조정
+        level: 16 // 줌 레벨 유지
+      };
+      
+      // 지도 생성
+      const map = new kakao.maps.Map(mapContainer, mapOption);
+      
+      // 지도 확대/축소 컨트롤 추가
+      const zoomControl = new kakao.maps.ZoomControl();
+      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+      
+      // 각 지역별 날씨 정보 가져오기 및 마커 표시
+      loadRegionWeatherInfo(map);
+    }
+    
+    // 지역별 날씨 정보 가져오기
+    function loadRegionWeatherInfo(map) {
+      const apiKey = '4d8fb5b93d4af21d66a2948710284366'; // OpenWeatherMap API 키
+      const overlays = []; // 오버레이 배열
+      const popups = []; // 팝업 배열
+      
+      // 팝업 닫기 함수
+      function closeAllPopups() {
+        popups.forEach(popup => {
+          if (popup.parentNode) {
+            popup.parentNode.removeChild(popup);
+          }
+        });
+        popups.length = 0;
+      }
+      
+      // 지도 클릭 시 모든 팝업 닫기
+      kakao.maps.event.addListener(map, 'click', closeAllPopups);
+      
+      // 윈도우 리사이즈 시 팝업 닫기
+      window.addEventListener('resize', closeAllPopups);
+      
+      // 스크롤 시 팝업 닫기 추가
+      //window.addEventListener('scroll', closeAllPopups);
+      
+      // 문서 어디든 클릭했을 때 팝업 닫기 추가
+      document.body.addEventListener('click', closeAllPopups);
+      
+      // 각 지역별로 날씨 정보 가져오기
+      koreaRegions.forEach(region => {
+        const { name, lat, lng } = region;
+        
+        // 날씨 API 호출
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${apiKey}&units=metric&lang=kr`)
+          .then(response => response.json())
+          .then(data => {
+            // 지역별 날씨 정보
+            const temp = Math.round(data.main.temp);
+            const weatherIcon = data.weather[0].icon;
+            const weatherDesc = data.weather[0].description;
+            const humidity = data.main.humidity;
+            const windSpeed = data.wind.speed;
+            const feelsLike = Math.round(data.main.feels_like);
+            
+            // 커스텀 오버레이를 위한 위치 객체
+            const position = new kakao.maps.LatLng(lat, lng);
+            
+            // 커스텀 오버레이 콘텐츠
+            const content = document.createElement('div');
+            content.className = 'region-weather-marker';
+            content.innerHTML = `
+              <div class="region-weather-emoji">${getWeatherEmoji(weatherIcon)}</div>
+              <div class="region-weather-temp">${temp}°C</div>
+              <div class="region-name">${name}</div>
+            `;
+            
+            // 커스텀 오버레이 생성
+            const overlay = new kakao.maps.CustomOverlay({
+              position: position,
+              content: content,
+              xAnchor: 0.5,
+              yAnchor: 0.5,
+              zIndex: 1
+            });
+            
+            // 지도에 커스텀 오버레이 표시
+            overlay.setMap(map);
+            overlays.push(overlay);
+            
+            // 커스텀 오버레이 클릭 시 상세 정보 팝업 표시
+            content.addEventListener('click', function(e) {
+              e.stopPropagation(); // 이벤트 버블링 방지
+              
+              // 기존 팝업 닫기
+              closeAllPopups();
+              
+              // 팝업 생성
+              const popup = document.createElement('div');
+              popup.className = 'region-weather-popup';
+              popup.innerHTML = `
+                <div class="region-weather-popup-close">&times;</div>
+                <div class="region-weather-popup-title">${name} 날씨 정보</div>
+                <div class="region-weather-popup-content">
+                  <p>${getWeatherEmoji(weatherIcon)} ${weatherDesc}</p>
+                  <p>🌡️ 현재 기온: ${temp}°C</p>
+                  <p>🤒 체감 온도: ${feelsLike}°C</p>
+                  <p>💧 습도: ${humidity}%</p>
+                  <p>💨 풍속: ${windSpeed}m/s</p>
+                </div>
+              `;
+              
+              // 마커 위치의 화면 좌표 계산을 위한 지도 컨테이너 참조
+              const mapContainer = document.getElementById('korea-weather-map');
+              const mapRect = mapContainer.getBoundingClientRect();
+              
+              // 팝업을 body에 직접 추가 (지도 외부에 표시되도록)
+              document.body.appendChild(popup);
+              
+              // 팝업 내부 클릭 시 이벤트 전파 중단 (팝업이 닫히지 않도록)
+              popup.addEventListener('click', function(e) {
+                e.stopPropagation();
+              });
+              
+              // 마커 위치의 화면 좌표 계산
+              const markerPosition = map.getProjection().pointFromCoords(position);
+              
+              // 팝업 위치 설정 (지도 밖으로 표시)
+              const popupLeft = mapRect.left + markerPosition.x;
+              const popupTop = mapRect.top + markerPosition.y - 180; // 마커 위에 표시
+              
+              // 화면 경계 확인 및 위치 조정
+              const popupWidth = 220;
+              const popupHeight = 180;
+              const windowWidth = window.innerWidth;
+              const windowHeight = window.innerHeight;
+              
+              // 오른쪽 경계 체크
+              let adjustedLeft = popupLeft;
+              if (popupLeft + popupWidth > windowWidth - 20) {
+                adjustedLeft = Math.max(20, windowWidth - popupWidth - 20);
+              }
+              // 왼쪽 경계 체크
+              if (adjustedLeft < 20) {
+                adjustedLeft = 20;
+              }
+              
+              // 위쪽 경계 체크
+              let adjustedTop = popupTop;
+              if (popupTop < 20) {
+                adjustedTop = mapRect.top + markerPosition.y + 40; // 마커 아래에 표시
+              }
+              // 아래쪽 경계 체크
+              if (adjustedTop + popupHeight > windowHeight - 20) {
+                adjustedTop = windowHeight - popupHeight - 20;
+              }
+              
+              popup.style.left = `${adjustedLeft}px`;
+              popup.style.top = `${adjustedTop}px`;
+              
+              popups.push(popup);
+              
+              // 팝업 닫기 버튼 이벤트
+              popup.querySelector('.region-weather-popup-close').addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (popup.parentNode) {
+                  popup.parentNode.removeChild(popup);
+                }
+                const index = popups.indexOf(popup);
+                if (index > -1) {
+                  popups.splice(index, 1);
+                }
+              });
+              
+              // 드래그 기능 추가
+              const titleBar = popup.querySelector('.region-weather-popup-title');
+              titleBar.style.cursor = 'move'; // 드래그 가능함을 나타내는 커서
+              popup.style.cursor = 'move'; // 팝업 전체에 드래그 가능함을 나타내는 커서
+
+              let isDragging = false;
+              let dragOffsetX = 0;
+              let dragOffsetY = 0;
+
+              // 팝업 전체에 드래그 이벤트 추가 (마우스)
+              popup.addEventListener('mousedown', function(e) {
+                // 닫기 버튼 클릭은 예외 처리
+                if (e.target.classList.contains('region-weather-popup-close')) {
+                  return;
+                }
+                
+                isDragging = true;
+                dragOffsetX = e.clientX - popup.offsetLeft;
+                dragOffsetY = e.clientY - popup.offsetTop;
+                popup.classList.add('dragging'); // 드래그 중임을 표시하는 클래스 추가
+                e.preventDefault();
+              });
+
+              // 드래그 중 (마우스) - 기존 코드 유지
+              document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                  popup.style.left = (e.clientX - dragOffsetX) + 'px';
+                  popup.style.top = (e.clientY - dragOffsetY) + 'px';
+                }
+              });
+
+              // 드래그 종료 (마우스) - 기존 코드 유지
+              document.addEventListener('mouseup', function() {
+                isDragging = false;
+                popup.classList.remove('dragging'); // 드래그 종료 시 클래스 제거
+              });
+              
+              // 팝업 전체에 드래그 이벤트 추가 (터치)
+              popup.addEventListener('touchstart', function(e) {
+                // 닫기 버튼 터치는 예외 처리
+                if (e.target.classList.contains('region-weather-popup-close')) {
+                  return;
+                }
+                
+                isDragging = true;
+                const touch = e.touches[0];
+                dragOffsetX = touch.clientX - popup.offsetLeft;
+                dragOffsetY = touch.clientY - popup.offsetTop;
+                popup.classList.add('dragging'); // 드래그 중임을 표시하는 클래스 추가
+                e.preventDefault(); // 스크롤 방지
+              });
+
+              // 드래그 중 (터치) - 기존 코드 유지
+              document.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                  const touch = e.touches[0];
+                  popup.style.left = (touch.clientX - dragOffsetX) + 'px';
+                  popup.style.top = (touch.clientY - dragOffsetY) + 'px';
+                  e.preventDefault(); // 스크롤 방지
+                }
+              });
+
+              // 드래그 종료 (터치) - 기존 코드 유지
+              document.addEventListener('touchend', function() {
+                isDragging = false;
+                popup.classList.remove('dragging'); // 드래그 종료 시 클래스 제거
+              });
+            });
+          })
+          .catch(error => {
+            console.error(`${name} 지역 날씨 정보를 가져오는데 실패했습니다:`, error);
+          });
+      });
+    }
+    
+    // 현재 위치에서 가장 가까운 koreaRegions 지역 찾기
+    function findClosestRegion(lat, lng) {
+      if (!koreaRegions || koreaRegions.length === 0) return null;
+      
+      // 거리 계산 함수 (하버사인 공식)
+      function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // 지구 반경 (km)
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
+        const a = 
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // 거리 (km)
+      }
+      
+      // 각 지역과의 거리 계산
+      let minDistance = Infinity;
+      let closestRegion = null;
+      
+      koreaRegions.forEach(region => {
+        const distance = calculateDistance(lat, lng, region.lat, region.lng);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestRegion = region;
+        }
+      });
+      
+      return closestRegion;
+    }
+  </script>
 
 </body>
 
