@@ -115,6 +115,7 @@ saveBtn.addEventListener("click", () => {
   guestbook.unshift(entry);
   localStorage.setItem(`${currentHost}_guestbook`, JSON.stringify(guestbook));
   renderGuestbook(currentHost);
+  loadRecentGuestbookToNews();
   message.value = "";
   minicanvas.innerHTML = "";
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -145,6 +146,7 @@ function deleteEntry(entryId) {
   if (!confirm("정말 삭제하시겠습니까?")) return;
   const newGuestbook = guestbook.filter((g) => g.id !== entryId);
   localStorage.setItem("guestbook", JSON.stringify(newGuestbook));
+  loadRecentGuestbookToNews();
   renderGuestbook(currentHost);
 }
 
