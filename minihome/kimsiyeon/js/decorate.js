@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
+   loadRecentGuestbookToNews();
 
+   //localstorage 저장할 때 사용자별로 
    function getMemberNameFromURL() {
     const path = window.location.pathname.split('/');
     for (let i = 0; i < path.length; i++) {
@@ -8,6 +10,38 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
     return 'default';
+  }
+  
+  function loadRecentGuestbookToNews() {
+    const updateNewsBox = document.getElementById('update-news');
+    if (!updateNewsBox) return;
+  
+    const raw = localStorage.getItem('guestbook');
+    if (!raw) return;
+  
+    // 문자열 -> js 객체  배열로 저장
+    const entries = JSON.parse(raw);
+  
+    // 최신순 정렬
+    entries.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  
+    // 상위 3개만 가져오기
+    const recent = entries.slice(0, 3);
+  
+    // 기존 내용 초기화 후 동적 추가
+    updateNewsBox.innerHTML = `
+      <p class="update-label">
+        <span class="update-title">Updated Boards</span>&nbsp;&nbsp;
+        <span class="update-meta">더보기</span>
+      </p>
+    `;
+  
+    recent.forEach(entry => {
+      const p = document.createElement('p');
+      p.className = 'update-line';
+      p.textContent = `· [방명록] ${entry.text.slice(0, 20)}${entry.text.length > 20 ? '...' : ''}`;
+      updateNewsBox.appendChild(p);
+    });
   }
   
   const undoBtn = document.getElementById('undo-btn');
