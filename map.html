@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>Map</title>
@@ -8,170 +9,313 @@
       font-family: sans-serif;
       padding: 20px;
     }
+
     #map {
       width: 100%;
       height: 400px;
       margin-top: 20px;
     }
+
     .marker-circle {
       width: 14px;
       height: 14px;
       border-radius: 50%;
       border: 2px solid white;
-      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
       cursor: pointer;
     }
   </style>
-
-  <!-- ✅ 카카오 지도 API + 장소 검색 라이브러리 포함 -->
-<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=faedc692ee4f1fb94b995cdb777abeb9&libraries=services"></script>
-
+  <script
+    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=faedc692ee4f1fb94b995cdb777abeb9&libraries=services"></script>
 </head>
+
 <body>
 
+  <!-- 사용자 선택 드롭다운 -->
+  <select id="userSelect">
+    <option value="">-- 사용자 선택 --</option>
+  </select>
 
-<!-- ✅ 사용자 선택 드롭다운 -->
-<select id="userSelect">
-  <option value="">-- 사용자 선택 --</option>
-  <option value="김시연">김시연</option>
-  <option value="이재성">이재성</option>
-  <option value="이재원">이재원</option>
-  <option value="황유석">황유석</option>
-</select>
+  <!-- 장소 검색창 -->
+  <input type="text" id="keyword" placeholder="장소를 입력해주세요 (ex. 카페)" />
+  <button onclick="searchPlaces()">검색</button>
 
-<!-- ✅ 초기화 버튼 추가 -->
-<div style="margin-top: 10px; margin-bottom: 10px;">
-  <button id="clearMarkersBtn" style="padding: 6px 12px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
-    모든 마커 초기화
-  </button>
+  <!-- 초기화 버튼 -->
+  <div style="margin-top: 10px; margin-bottom: 10px;">
+    <button id="clearMarkersBtn"
+      style="padding: 6px 12px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      모든 마커 초기화
+    </button>
+  </div>
 
-<!-- ✅ 지도 영역 -->
-<div id="map"></div>
+  <!-- 지도 영역 -->
+  <div id="map"></div>
 
-<script>
-  const userSelect = document.getElementById('userSelect');
+  <script>
+    const mapContainer = document.getElementById('map');
+    const userSelect = document.getElementById("userSelect");
 
-  const map = new kakao.maps.Map(document.getElementById('map'), {
-    center: new kakao.maps.LatLng(37.58377, 126.999943),
-    level: 3
-  });
+    const currentUser = JSON.parse(localStorage.getItem("user"));
+    const allUsers = JSON.parse(localStorage.getItem("users")) || [];
 
-  const userColors = {
-    김시연: '#e74c3c',
-    이재성: '#3498db',
-    이재원: '#f1c40f',
-    황유석: '#2ecc71'
-  };
+    let currentInfoWindow = null;
+    let userColors = JSON.parse(localStorage.getItem("userColors")) || {};
+    let justAdded = false;
 
-  const overlays = [];
+    const distinctColors = [
+      '#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231',
+      '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe',
+      '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000',
+      '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080'
+    ];
+    let usedColorMap = JSON.parse(localStorage.getItem("usedColorMap")) || {};
 
-  // ✅ 저장된 마커 로드
-  const savedMarkers = JSON.parse(localStorage.getItem('markers')) || [];
-
-  savedMarkers.forEach(markerData => {
-    addMarker(markerData.user, markerData.lat, markerData.lng, false);
-  });
-
-  // ✅ 지도 클릭 시 마커 생성
-  kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-    const selectedUser = userSelect.value;
-
-    if (!selectedUser) {
-      alert("사용자를 먼저 선택해주세요!");
-      return;
+    if (!currentUser) {
+      userSelect.addEventListener('mousedown', function (e) {
+        e.preventDefault(); // 드롭다운 자체를 막음
+        alert("로그인이 필요한 기능입니다. 로그인 페이지로 이동합니다.");
+        window.top.location.href = "login.html";
+      });
     }
 
-    const lat = mouseEvent.latLng.getLat();
-    const lng = mouseEvent.latLng.getLng();
+    // 사용자 드롭다운 채우기
+    if (userSelect) {
+      userSelect.innerHTML = '<option value="">-- 사용자 선택 --</option>';
+      allUsers.forEach(user => {
+        const option = document.createElement("option");
+        option.value = user.name;
+        option.textContent = user.name;
+        userSelect.appendChild(option);
+      });
 
-    // 마커 생성 및 저장
-    addMarker(selectedUser, lat, lng, true);
-  });
+      if (currentUser) {
+        userSelect.value = currentUser.name;
+      }
+    }
 
-  // ✅ 마커 생성 함수
-  function addMarker(user, lat, lng, shouldSave) {
-    const position = new kakao.maps.LatLng(lat, lng);
-    const color = userColors[user];
-
-    const markerEl = document.createElement('div');
-    markerEl.className = 'marker-circle';
-    markerEl.style.backgroundColor = color;
-    markerEl.title = user;
-
-    const overlay = new kakao.maps.CustomOverlay({
-      content: markerEl,
-      position: position,
-      yAnchor: 1,
-      clickable: true
+    userSelect.addEventListener('change', function () {
+      if (currentUser && userSelect.value !== currentUser.name) {
+        alert("다른 사용자의 이름은 선택할 수 없습니다.");
+        userSelect.value = currentUser.name; // 다시 본인 이름으로 되돌림
+      }
     });
 
-    overlay.setMap(map);
-    overlays.push(overlay);
 
-    // 마커 저장
-    if (shouldSave) {
-      savedMarkers.push({ user, lat, lng });
-      localStorage.setItem('markers', JSON.stringify(savedMarkers));
-    }
+    const centerLatLng = new kakao.maps.LatLng(37.583746, 126.999949);
 
-    // 삭제 기능
-    markerEl.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const currentUser = userSelect.value;
-      if (currentUser !== user) {
-        alert("이 마커는 생성자만 삭제할 수 있습니다.");
+    const map = new kakao.maps.Map(mapContainer, {
+      center: centerLatLng,
+      level: 3
+    });
+
+
+
+    const overlays = [];
+    const placeMarkers = [];
+    const savedMarkers = JSON.parse(localStorage.getItem('markers')) || [];
+
+    savedMarkers.forEach(markerData => {
+      addMarker(markerData.user, markerData.lat, markerData.lng, false);
+    });
+
+    // 지도 클릭 시 마커 추가
+    kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+      if (!currentUser) {
+        alert("로그인이 필요한 기능입니다. 로그인 페이지로 이동합니다.");
+        window.top.location.href = "login.html";
         return;
       }
 
-      if (confirm(`${user}님의 마커를 삭제하시겠습니까?`)) {
-        overlay.setMap(null);
-      
-        // localStorage에서도 제거
-        const updated = savedMarkers.filter(m => !(m.user === user && m.lat === lat && m.lng === lng));
-        localStorage.setItem('markers', JSON.stringify(updated));
-      
-        // 🧠 전역 배열도 업데이트! (이게 중요!!)
-        savedMarkers.length = 0; // 기존 배열 비우고
-        updated.forEach(m => savedMarkers.push(m)); // 업데이트된 값 다시 넣기
+      const selectedUser = userSelect.value;
+      if (!selectedUser) {
+        alert("사용자를 선택해주세요!");
+        return;
       }
-      
+
+      if (selectedUser !== currentUser.name) {
+        alert("다른 사용자의 이름으로는 마커를 추가할 수 없습니다.");
+        return;
+      }
+
+      const lat = mouseEvent.latLng.getLat();
+      const lng = mouseEvent.latLng.getLng();
+
+      justAdded = true; // ✅ 클릭 직후 flag 켜기
+      setTimeout(() => justAdded = false, 300); // ✅ 300ms 후 flag 해제
+
+      addMarker(selectedUser, lat, lng, true);
     });
-  }
 
-  // ✅ map이 완전히 로드되고 화면에 보이면 다시 중심 좌표 재설정!
-  function resetMapCenter() {
-    map.relayout();
-    map.setCenter(new kakao.maps.LatLng(37.58377, 126.999943));
-  }
 
-  window.addEventListener("load", () => {
-    setTimeout(resetMapCenter, 300);
-  });
-
-  document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(resetMapCenter, 500); // 조금 더 확실하게
-  });
-
-  // ✅ 모든 마커 초기화 버튼
-  document.getElementById('clearMarkersBtn').addEventListener('click', function () {
-    if (confirm("정말 모든 마커를 삭제하시겠습니까?")) {
-      overlays.forEach(overlay => overlay.setMap(null));
-      overlays.length = 0;
-
-      localStorage.removeItem('markers');
-      savedMarkers.length = 0;
-
-      alert("✅ 모든 마커가 삭제되었습니다.");
+    function generateRandomColor() {
+      const hue = Math.floor(Math.random() * 360);             // 색상: 0~359
+      const saturation = 60 + Math.floor(Math.random() * 30);  // 채도: 60~89%
+      const lightness = 45 + Math.floor(Math.random() * 15);   // 명도: 45~59%
+      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
     }
-  });
+
+
+    function getUserColor(userName) {
+      if (!userColors[userName]) {
+        // 아직 사용되지 않은 색상 중에서 선택
+        const usedColors = Object.values(userColors);
+        const availableColors = distinctColors.filter(color => !usedColors.includes(color));
+
+        // 남은 색이 없으면 랜덤 선택
+        const assignedColor = availableColors.length > 0
+          ? availableColors[Math.floor(Math.random() * availableColors.length)]
+          : '#' + Math.floor(Math.random() * 16777215).toString(16); // fallback
+
+        userColors[userName] = assignedColor;
+        localStorage.setItem("userColors", JSON.stringify(userColors));
+      }
+      return userColors[userName];
+    }
+
+
+    function addMarker(user, lat, lng, shouldSave) {
+      const position = new kakao.maps.LatLng(lat, lng);
+      const color = getUserColor(user); // 사용자 고유 색상
+
+      const markerEl = document.createElement('div');
+      markerEl.className = 'marker-circle';
+      markerEl.style.backgroundColor = color;
+      markerEl.title = user;
+
+      const overlay = new kakao.maps.CustomOverlay({
+        content: markerEl,
+        position: position,
+        yAnchor: 1,
+        clickable: true
+      });
+
+      overlay.setMap(map);
+      overlays.push(overlay);
+
+      if (shouldSave) {
+        savedMarkers.push({ user, lat, lng });
+        localStorage.setItem('markers', JSON.stringify(savedMarkers));
+      }
+
+      setTimeout(() => {
+        markerEl.addEventListener('click', function (e) {
+          e.stopPropagation();
+
+          if (justAdded) return; // ✅ 방금 만든 마커는 무시
+
+          if (!currentUser || currentUser.name !== user) {
+            alert("이 마커는 생성자만 삭제할 수 있습니다.");
+            return;
+          }
+
+          if (confirm(`${user}님의 마커를 삭제하시겠습니까?`)) {
+            overlay.setMap(null);
+            const updated = savedMarkers.filter(m => !(m.user === user && m.lat === lat && m.lng === lng));
+            localStorage.setItem('markers', JSON.stringify(updated));
+            savedMarkers.length = 0;
+            updated.forEach(m => savedMarkers.push(m));
+          }
+        });
+      }, 300); // ✅ 클릭 이벤트 자체도 딜레이
 
 
 
-
- 
-</script>
+    }
 
 
+
+    function searchPlaces() {
+      const keyword = document.getElementById('keyword').value.trim();
+      if (!keyword) {
+        alert("검색어를 입력해주세요!");
+        return;
+      }
+
+      const ps = new kakao.maps.services.Places();
+      placeMarkers.forEach(m => m.setMap(null));
+      placeMarkers.length = 0;
+
+      ps.keywordSearch(keyword, function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          result.forEach(place => {
+            const position = new kakao.maps.LatLng(place.y, place.x);
+
+            const marker = new kakao.maps.Marker({
+              map: map,
+              position: position
+            });
+            placeMarkers.push(marker);
+
+            const infowindow = new kakao.maps.InfoWindow({
+              content: `
+                <div style="padding:5px;">
+                  <strong>${place.place_name}</strong><br>
+                  ${place.road_address_name || place.address_name}<br>
+                  ☎ ${place.phone}<br>
+                  <a href="${place.place_url}" target="_blank">상세보기</a>
+                </div>`
+            });
+
+            kakao.maps.event.addListener(marker, 'click', function () {
+              if (currentInfoWindow) {
+                currentInfoWindow.close();
+                if (currentInfoWindow.getContent() === infowindow.getContent()) {
+                  currentInfoWindow = null;
+                  return;
+                }
+              }
+              infowindow.open(map, marker);
+              currentInfoWindow = infowindow;
+            });
+          });
+
+          map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
+        } else {
+          alert("검색 결과가 없습니다.");
+        }
+      }, {
+        location: map.getCenter(),
+        radius: 3000
+      });
+    }
+
+    function resetMapCenter() {
+      map.relayout();
+      map.setCenter(centerLatLng);
+    }
+    window.resetMapCenter = resetMapCenter;
+    window.addEventListener("load", resetMapCenter);
+
+    document.getElementById('clearMarkersBtn').addEventListener('click', function () {
+      if (!currentUser) {
+        alert("로그인한 사용자만 마커를 삭제할 수 있습니다.");
+        return;
+      }
+
+      if (confirm("정말 본인의 마커만 삭제하시겠습니까?")) {
+        // 본인 마커만 삭제
+        const userName = currentUser.name;
+
+        // 지도에서 본인 마커만 제거
+        overlays.forEach((overlay, index) => {
+          const markerData = savedMarkers[index];
+          if (markerData && markerData.user === userName) {
+            overlay.setMap(null);
+          }
+        });
+
+        // savedMarkers에서 본인 마커만 제거
+        const updated = savedMarkers.filter(m => m.user !== userName);
+        localStorage.setItem('markers', JSON.stringify(updated));
+        savedMarkers.length = 0;
+        updated.forEach(m => savedMarkers.push(m));
+
+        alert(`${userName}님의 마커가 모두 삭제되었습니다.`);
+      }
+    });
+
+  </script>
 
 </body>
+
 </html>
