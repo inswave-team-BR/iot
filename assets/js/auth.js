@@ -19,7 +19,6 @@ if (signupForm) {
     // 새 사용자 추가
     users.push({ name, id, password });
     localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem(`${id}_guestbook`, JSON.stringify([])); // 사용자별 방명록 초기화
     alert("회원가입 완료! 로그인 해주세요.");
     window.location.href = "login.html";
   });
