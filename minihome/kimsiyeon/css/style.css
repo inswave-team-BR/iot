@@ -293,21 +293,28 @@ body {
 /* 방명록 영역 */
 .guestbook-area {
     margin-bottom: 20px;
-}
+    height: 250px;
+    overflow-y: scroll;
+  }
 
 .guestbook-entry {
-    border: 1px solid #e0e0e0;
-    margin-bottom: 10px;
-    border-radius: 3px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background: #fff;
+  overflow: hidden;
+  font-size: 12px;
 }
 
 .entry-header {
-    background-color: #f8f8f8;
-    padding: 5px;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: #f5f5f5;
+    padding: 6px 10px;
     display: flex;
     justify-content: space-between;
-}
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+    font-size: 11px;
+  }
 
 .entry-number, .entry-author {
     font-size: 11px;
@@ -326,21 +333,38 @@ body {
 
 .entry-content {
     display: flex;
+    justify-content: space-between;
     padding: 10px;
-}
+  }
 
 .entry-text {
     flex: 1;
+    padding-right: 10px;
+    line-height: 1.5;
+    word-break: break-word;
+    font-size: 12px;
+    margin-left: 10px;
+    font-weight: bold;
+    overflow-y: auto;
+    max-height: 65px;
 }
 
 .entry-image {
     margin-left: 10px;
 }
 
-.entry-image img {
-    width: 80px;
-    height: 80px;
+.entry-date {
+    color: #999;
+    font-size: 11px;
+    margin-top: 5px;
 }
+  
+
+.entry-image img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
 
 /* 미니룸 영역 */
 .miniroom-area {
@@ -389,28 +413,6 @@ body {
     cursor: pointer;
 }
 
-/* 다이어리 영역 */
-.diary-area {
-    border: 1px solid #e0e0e0;
-    border-radius: 3px;
-}
-
-.diary-header {
-    background-color: #f8f8f8;
-    padding: 5px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.diary-title {
-    font-weight: bold;
-    color: #3D5AFE;
-}
-
-.diary-form {
-    padding: 15px;
-    text-align: center;
-}
-
 .cyworld-logo {
     margin-bottom: 15px;
 }
@@ -424,28 +426,6 @@ body {
     margin-top: 5px;
     font-size: 11px;
     color: #666;
-}
-
-.diary-input {
-    display: flex;
-}
-
-.diary-input input {
-    flex: 1;
-    padding: 3px;
-    border: 1px solid #d9d9d9;
-    border-radius: 3px;
-    font-size: 11px;
-}
-
-.diary-input button {
-    margin-left: 5px;
-    padding: 2px 8px;
-    background-color: #a6d3f7;
-    border: 1px solid #8bb3d9;
-    border-radius: 3px;
-    font-size: 11px;
-    cursor: pointer;
 }
 
 /* 오른쪽 탭 메뉴 */
@@ -507,3 +487,73 @@ body {
         margin-right: 0;
     }
 } 
+
+#com-image {
+
+    border: 1px solid #ccc;
+    padding: 2px;
+  
+  }
+  
+  
+  
+#cnt-num {
+  
+    font-size: 10px;
+    color: #222;
+  
+}
+  
+#time-stamp {
+  
+    font-size: 11px;
+    color: #666;
+  
+}
+  
+  #input-box {
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+}
+  
+#mini-canvas {
+  
+    width: 70px;
+    height: 70px;
+    border: 1px solid #ccc;
+  
+}
+  
+#saveBtn {
+  
+    width: 40px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 1px solid #d9d9d9;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    cursor: pointer;
+  
+}
+  
+.page-btn.active {
+  
+    background-color: #4c88ff;
+    color: white;
+    border: 1px solid #4c88ff;
+    border-radius: 5px;
+  
+}
+  
+.page-btn {
+  
+    background-color: #88acff;
+    color: white;
+    border: 1px solid #88acff;
+    border-radius: 5px;
+  
+}
+  

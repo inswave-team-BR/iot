@@ -134,3 +134,22 @@
   font-family: 'Malgun Gothic', sans-serif;
 }
 
+.speech-bubble {
+  position: absolute;
+  min-width: 80px;
+  max-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  background: white;
+  font-size: 12px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  white-space: pre-wrap;
+  word-break: break-word;
+  z-index: 10;
+}
+
+.speech-bubble:focus {
+  outline: none;
+  border-color: #3D5AFE;
+}
