@@ -10,7 +10,7 @@ if (signupForm) {
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
     // 이미 존재하는 아이디인지 체크
-    const existingUser = users.find(user => user.id === id);
+    const existingUser = users.find((user) => user.id === id);
     if (existingUser) {
       alert("이미 존재하는 아이디입니다.");
       return;
@@ -33,7 +33,9 @@ if (loginForm) {
     const password = document.getElementById("login-password").value;
 
     const users = JSON.parse(localStorage.getItem("users")) || [];
-    const matchedUser = users.find(user => user.id === id && user.password === password);
+    const matchedUser = users.find(
+      (user) => user.id === id && user.password === password
+    );
 
     if (matchedUser) {
       localStorage.setItem("user", JSON.stringify(matchedUser)); // 로그인 상태 저장

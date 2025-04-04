@@ -16,12 +16,19 @@
     <link rel="stylesheet" href="css/decorate.css" />
   </head>
   <body>
+
+    <div id="guestbookList"></div>
     <!-- 배경 그리드 -->
     <div class="background-grid">
       <!-- 미니홈피 프레임 -->
       <div class="cyworld-frame">
         <!-- 미니홈피 내부 콘텐츠 -->
         <div class="cyworld-content">
+          <!-- 로딩 스피너 -->
+          <div id="loadingSpinner">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            </div>
+          </div>
           <!-- 헤더 영역 -->
           <div class="cy-header">
             <!-- 방문자 카운터 -->
@@ -47,11 +54,7 @@
 
               <!-- 프로필 이미지 -->
               <div class="profile-image-container">
-                <img
-                  src="https://via.placeholder.com/140x140.png?text=Profile"
-                  alt="프로필 이미지"
-                  class="profile-image"
-                />
+                <img src="" alt="프로필 이미지" class="profile-image" />
               </div>
 
               <!-- 상태 메시지 -->
@@ -140,6 +143,7 @@
 
               <!-- 콘텐츠 영역 -->
               <div class="content-area">
+
                 <!-- 업데이트 뉴스 영역 -->
                 <div id="update-news" style="margin-bottom: 15px">
                   <p class="update-label">
@@ -148,7 +152,7 @@
                 </div>
 
                 <!-- 꾸미기 영역 시작 -->
-                <div>
+                <div id="decorate">
                   <!-- 편집 중에 보이는 버튼들 -->
                   <div
                     id="edit-buttons"
@@ -233,42 +237,34 @@
                 </div>
 
                 <!-- 편집 버튼 -->
-                <div
-                  id="edit-area"
-                  style="margin-top: 20px; margin-bottom: 10px"
-                >
+                <div  id="edit-area" style="margin-top: 20px; margin-bottom: 10px">
                   <button id="edit-btn" class="cy-btn">✏️ 편집</button>
                 </div>
 
                 <!-- 방명록 영역 -->
-                <div
-                  class="guestbook-area"
-                  id="guestbook"
-                  style="display: none"
-                ></div>
-                <!-- /방명록 영역 -->
+                <div class="guestbook-area" id="guestbook"></div>
+
 
                 <!-- 미니룸 영역 -->
-                <div class="miniroom-area">
-                  <div id="miniroom">
-                    <!-- 미니룸 헤더 -->
-                    <div class="miniroom-header">
-                      미니룸
-                      <div><button id="saveBtn">등록</button></div>
-                    </div>
+                <div class="miniroom-area" id="miniroom">
+                  <!-- 미니룸 헤더 -->
+                  <div class="miniroom-header">
+                    미니룸
+                    <div><button id="saveBtn">등록</button></div>
+                  </div>
 
-                    <!-- 미니룸 이미지 -->
-                    <div id="input-box">
-                      <!-- 방명록 그리기 전 작은 canvas 박스 -->
-                      <div id="mini-canvas"></div>
-                      <div>
-                        <!-- 미니룸 입력 영역 -->
-                        <textarea
-                          id="message"
-                          placeholder="미니룸에 남길 메시지를 입력하세요..."
-                          rows="3"
-                          cols="55"
-                        ></textarea>
+                  <!-- 미니룸 이미지 -->
+                  <div id="input-box">
+                    <!--방명록 그리기전 작은 canvas 박스-->
+                    <div id="mini-canvas"></div>
+                    <div>
+                      <!-- 미니룸 입력 영역 -->
+                      <textarea
+                        id="message"
+                        placeholder="미니룸에 남길 메시지를 입력하세요..."
+                        rows="3"
+                        cols="55"
+                      ></textarea>
                       </div>
                     </div>
                   </div>
@@ -295,146 +291,142 @@
 
     <!-- 그림 모달창 -->
     <div
-      id="drawing-modal"
+  id="drawing-modal"
+  style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  "
+>
+  <div
+    style="
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 400px;
+      max-width: 90%;
+
+    "
+  >
+    <!-- 도구 패널 -->
+    <div
+      class="controls"
       style="
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
+        display: flex;
+        justify-content: space-between;
         align-items: center;
-        z-index: 9999;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin:15px 20px;
+        font-size: 14px;
+        width: 300px;
       "
     >
-      <div
+      <label style="display: flex; align-items: center; gap: 6px">
+        선 색상:
+        <input type="color" id="colorPicker" value="#000000" style="cursor: pointer" />
+      </label>
+      <label style="display: flex; align-items: center; gap: 6px">
+        선 두께:
+        <input
+          type="range"
+          id="lineWidth"
+          min="1"
+          max="20"
+          value="3"
+          style="cursor: pointer"
+        />
+      </label>
+      <button
+        id="eraserBtn"
         style="
-          background: #fff;
-          padding: 20px 30px;
-          border-radius: 12px;
-          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-          text-align: center;
-          width: 400px;
-          max-width: 90%;
+          padding: 6px 12px;
+          font-size: 14px;
+          border: 1px solid #aaa;
+          background: #f9f9f9;
+          border-radius: 6px;
+          cursor: pointer;
         "
       >
-        <!-- 도구 패널 -->
-        <div
-          class="controls"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 20px;
-            font-size: 14px;
-            width: 300px;
-          "
-        >
-          <label style="display: flex; align-items: center; gap: 6px">
-            선 색상:
-            <input
-              type="color"
-              id="colorPicker"
-              value="#000000"
-              style="cursor: pointer"
-            />
-          </label>
-          <label style="display: flex; align-items: center; gap: 6px">
-            선 두께:
-            <input
-              type="range"
-              id="lineWidth"
-              min="1"
-              max="20"
-              value="3"
-              style="cursor: pointer"
-            />
-          </label>
-          <button
-            id="eraserBtn"
-            style="
-              padding: 6px 12px;
-              font-size: 14px;
-              border: 1px solid #aaa;
-              background: #f9f9f9;
-              border-radius: 6px;
-              cursor: pointer;
-            "
-          >
-            지우개
-          </button>
-          <button
-            id="clearBtn"
-            style="
-              padding: 6px 12px;
-              font-size: 14px;
-              border: 1px solid #aaa;
-              background: #f9f9f9;
-              border-radius: 6px;
-              cursor: pointer;
-            "
-          >
-            전체 지우기
-          </button>
-        </div>
-
-        <!-- 캔버스 -->
-        <div>
-          <canvas
-            id="drawingCanvas"
-            width="300"
-            height="300"
-            style="
-              border: 1px solid #ccc;
-              border-radius: 6px;
-              background-color: #fff;
-            "
-          ></canvas>
-        </div>
-
-        <!-- 확인/취소 버튼 -->
-        <div
-          style="
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-          "
-        >
-          <button
-            id="drawingSaveBtn"
-            style="
-              padding: 6px 12px;
-              font-size: 14px;
-              border: 1px solid #aaa;
-              background: #f0f0f0;
-              border-radius: 6px;
-              cursor: pointer;
-            "
-          >
-            확인
-          </button>
-          <button
-            onclick="closeDrawingModal()"
-            style="
-              padding: 6px 12px;
-              font-size: 14px;
-              border: 1px solid #aaa;
-              background: #f0f0f0;
-              border-radius: 6px;
-              cursor: pointer;
-            "
-          >
-            취소
-          </button>
-        </div>
-      </div>
+        지우개
+      </button>
+      <button
+        id="clearBtn"
+        style="
+          padding: 6px 12px;
+          font-size: 14px;
+          border: 1px solid #aaa;
+          background: #f9f9f9;
+          border-radius: 6px;
+          cursor: pointer;
+        "
+      >
+        전체 지우기
+      </button>
     </div>
-  </body>
 
+    <!-- 캔버스 -->
+    <div>
+      <canvas
+        id="drawingCanvas"
+        width="300"
+        height="300"
+        style="border: 1px solid #ccc; border-radius: 6px; background-color: #fff"
+      ></canvas>
+    </div>
+
+    <!-- 확인/취소 버튼 -->
+    <div style="margin-top: 15px; display: flex; justify-content: center; gap: 10px">
+      <button
+        id="drawingSaveBtn"
+        style="
+          padding: 6px 12px;
+          font-size: 14px;
+          border: 1px solid #aaa;
+          background: #f0f0f0;
+          border-radius: 6px;
+          cursor: pointer;
+        "
+      >
+        확인
+      </button>
+      <button
+        onclick="closeDrawingModal()"
+        style="
+          padding: 6px 12px;
+          font-size: 14px;
+          border: 1px solid #aaa;
+          background: #f0f0f0;
+          border-radius: 6px;
+          cursor: pointer;
+        "
+      >
+        취소
+      </button>
+    </div>
+  </div>
+</div>
+  </body>
+  <script>
+  setTimeout(function () {
+    const spinner = document.getElementById('loadingSpinner');
+    const header = document.querySelector('.cy-header');
+    const main = document.querySelector('.cy-main');
+    if (spinner) {
+      spinner.style.display = 'none';
+    }
+    if (header)header.style.opacity = '1';
+    if (main) main.style.opacity = '1';
+  }, 500); // 0.5 초 후에 로딩바 숨기기
+  </script>
   <script src="../../guestBook.js"></script>
 </html>
