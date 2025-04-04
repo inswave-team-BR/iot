@@ -27,6 +27,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 음악 플레이어 초기화
     initMusicPlayer();
+
+    const homeTab = document.querySelector('.tab-item[data-tab="home"]');
+    homeTab.classList.add('active');
+
+    const activeTab = document.querySelector('.tab-item.active');
+    const activeTabName = activeTab ? activeTab.dataset.tab : 'home';
+    const miniroom = document.getElementById('miniroom');
+    
+    if (activeTabName === 'guestbook') {
+        miniroom.style.display = 'block';
+    } else {
+        miniroom.style.display = 'none';
+    }
+
+    // 홈 탭 관련 영역 중 아이템바, 배경 선택은 숨기고 background-stage만 보이게 설정
+    document.getElementById('guestbook').style.display = 'none';
+    document.getElementById('miniroom').style.display = 'none';
+    document.getElementById('diary').style.display = 'none';
+
+    const decorateElements = document.querySelectorAll('.background-selector, .item-bar');
+    decorateElements.forEach(el => el.style.display = 'none');
+
 });
 
 /**
@@ -133,6 +155,9 @@ function updateVisitorCount() {
  */
 function initTabMenu() {
     const tabItems = document.querySelectorAll('.tab-item');
+     const decorateElements = document.querySelectorAll('.background-selector, .item-bar, #decorate-area');
+     const guestbookArea = document.getElementById('guestbook');
+     const miniroomArea = document.getElementById('miniroom');     
     
     tabItems.forEach(tab => {
         tab.addEventListener('click', function() {
@@ -145,24 +170,26 @@ function initTabMenu() {
             // 탭에 따라 콘텐츠 표시
             const tabName = this.getAttribute('data-tab');
             
-            // 모든 콘텐츠 영역 숨기기
-            document.getElementById('guestbook').style.display = 'none';
-            document.getElementById('miniroom').style.display = 'none';
-            document.getElementById('diary').style.display = 'none';
-            
-            // 선택한 탭에 따라 콘텐츠 표시
+            // 모든 영역 먼저 숨김
+            guestbookArea.style.display = 'none';
+            miniroomArea.style.display = 'none';
+
             if (tabName === 'home') {
-                document.getElementById('guestbook').style.display = 'block';
-                document.getElementById('miniroom').style.display = 'block';
-            } else if (tabName === 'diary') {
-                document.getElementById('diary').style.display = 'block';
-            } else if (tabName === 'guestbook') {
-                document.getElementById('guestbook').style.display = 'block';
+                decorateElements.forEach(el => el.style.display = 'block');
+            } else {
+                decorateElements.forEach(el => el.style.display = 'none');
             }
+
+            if (tabName === 'guestbook') {
+                guestbookArea.style.display = 'block';
+            } 
+
+            if (tabName === 'miniroom') {
+                miniroomArea.style.display = 'block';
+            } 
         });
     });
 }
-
 // ==========================================
 // 방명록 기능
 // ==========================================
@@ -221,36 +248,6 @@ function initMiniroomComments() {
     });
 }
 
-// ==========================================
-// 다이어리 관련 기능
-// ==========================================
-
-/**
- * 다이어리 기능 초기화 함수
- * 사용자가 작성한 다이어리 내용을 처리하는 이벤트 리스너를 설정합니다.
- * 내용 검증 후 등록 메시지를 표시하고 입력 필드를 초기화합니다.
- */
-function initDiaryActions() {
-    const diaryInput = document.querySelector('.diary-input input');
-    const diaryButton = document.querySelector('.diary-input button');
-    
-    diaryButton.addEventListener('click', function() {
-        const diaryText = diaryInput.value.trim();
-        
-        if (diaryText) {
-            // 다이어리 등록 성공 메시지
-            alert('다이어리가 등록되었습니다!');
-            
-            // 입력 필드 초기화
-            diaryInput.value = '';
-            
-            // 추가적으로 서버에 다이어리 저장 요청을 보내는 코드가 필요할 수 있음
-        } else {
-            // 입력 내용이 없을 경우
-            alert('다이어리 내용을 입력해주세요!');
-        }
-    });
-}
 
 // ==========================================
 // 음악 플레이어 관련 변수

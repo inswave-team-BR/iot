@@ -6,7 +6,14 @@
  * DOM이 완전히 로드된 후 실행되는 함수
  * 미니홈피의 각 기능별 초기화 작업을 순차적으로 진행합니다.
  */
+let personalData = null; // 개인 데이터 객체
 document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  currentHost = urlParams.get("id");
+
+  // 개인 데이터 초기화
+  initPersonalData();
+
   // 프로필 데이터 적용
   applyProfileData();
 
@@ -22,6 +29,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // 음악 플레이어 초기화
   initMusicPlayer();
 });
+function initPersonalData() {
+  console.log("currentHost", currentHost);
+  if (currentHost === "siyeon") personalData = siyeon_personalData;
+  else if (currentHost === "jaeseong") personalData = jaeseong_personalData;
+  else if (currentHost === "jaewon") personalData = jaewon_personalData;
+  else if (currentHost === "yooseok") personalData = yooseok_personalData;
+}
 
 /**
  * 프로필 데이터를 HTML에 적용하는 함수
@@ -150,9 +164,15 @@ function initTabMenu() {
       // 모든 콘텐츠 영역 숨기기
       document.getElementById("guestbook").style.display = "none";
       document.getElementById("miniroom").style.display = "none";
+      document.getElementById("decorate").style.display = "none";
+      document.getElementById("edit-area").style.display = "none";
+      document.getElementById("update-news").style.display = "none";
 
       // 선택한 탭에 따라 콘텐츠 표시
       if (tabName === "home") {
+        document.getElementById("decorate").style.display = "block";
+        document.getElementById("edit-area").style.display = "block";
+        document.getElementById("update-news").style.display = "block";
       } else if (tabName === "guestbook") {
         document.getElementById("miniroom").style.display = "block";
         document.getElementById("guestbook").style.display = "block";

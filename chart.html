@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>비트코인 시세</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  
+  <canvas id="btcChart" width="400" height="200"></canvas>
+
+  <script>
+    const url = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=krw&days=90';
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const labels = [];
+        const prices = [];
+
+        data.prices.forEach(point => {
+          const date = new Date(point[0]);
+          const formatted = `${date.getMonth()+1}/${date.getDate()}`;
+
+          // 하루에 여러 데이터가 있어서 날짜당 하나만 저장
+          if (!labels.includes(formatted)) {
+            labels.push(formatted);
+            prices.push(point[1]);
+          }
+        });
+
+        drawChart(labels, prices);
+      })
+      .catch(err => console.error("에러 발생:", err));
+
+    function drawChart(labels, values) {
+      const ctx = document.getElementById('btcChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'BTC 가격 (KRW)',
+            data: values,
+            borderColor: 'green',
+            borderWidth: 2,
+            tension: 0.2
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: false
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
