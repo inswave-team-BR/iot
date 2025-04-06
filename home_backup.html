@@ -604,62 +604,6 @@
     .region-weather-popup-close:hover {
       color: #333;
     }
-
-    /* 헤더에 있는 다크모드 토글 버튼 스타일 */
-    .theme-toggle-header {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      padding: 0;
-    }
-
-    .theme-toggle-header:hover {
-      transform: scale(1.1);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .theme-toggle-header .icon {
-      width: 18px;
-      height: 18px;
-      transition: all 0.3s ease;
-    }
-
-    .theme-toggle-header .sun-icon,
-    .theme-toggle-header .moon-icon {
-      position: absolute;
-      transition: opacity 0.3s ease, transform 0.5s ease;
-      color: var(--default-color);
-    }
-
-    .theme-toggle-header .sun-icon {
-      opacity: 0;
-      transform: scale(0.5) rotate(45deg);
-    }
-
-    .theme-toggle-header .moon-icon {
-      opacity: 1;
-      transform: scale(1) rotate(0);
-    }
-
-    [data-theme="dark"] .theme-toggle-header .sun-icon {
-      opacity: 1;
-      transform: scale(1) rotate(0);
-    }
-
-    [data-theme="dark"] .theme-toggle-header .moon-icon {
-      opacity: 0;
-      transform: scale(0.5) rotate(-45deg);
-    }
   </style>
 
 
@@ -1468,7 +1412,7 @@
 
       // 다크모드 토글 버튼 HTML
       const themeToggleHTML = `
-        <button class="theme-toggle-header ms-2" id="theme-toggle" aria-label="다크 모드 토글">
+        <button class="theme-toggle ms-2" id="theme-toggle" aria-label="다크 모드 토글">
           <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -1493,6 +1437,7 @@
         <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</button>
         ${themeToggleHTML}
 `;
+
       } else {
         // 로그인하지 않은 경우
         userInfoDiv.innerHTML = `
@@ -1500,6 +1445,9 @@
           ${themeToggleHTML}
         `;
       }
+      
+      // 테마 토글 함수 초기화 (버튼이 DOM에 추가된 후 호출)
+      setTimeout(handleThemeToggle, 100);
     });
 
     function logout() {
@@ -2939,6 +2887,24 @@
 
 <script src="moveTominihome.js"></script>
 
+  <!-- 테마 토글 버튼 추가 -->
+  <button class="theme-toggle" id="theme-toggle" aria-label="다크 모드 토글">
+    <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+  
   <!-- 다크모드 스크립트 -->
   <script>
     // 테마 관리 함수
@@ -2961,19 +2927,17 @@
       }
       
       // 테마 토글 기능
-      if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-          let theme;
-          if (document.documentElement.getAttribute('data-theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'light');
-            theme = 'light';
-          } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            theme = 'dark';
-          }
-          localStorage.setItem('theme', theme);
-        });
-      }
+      themeToggle.addEventListener('click', () => {
+        let theme;
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          theme = 'light';
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          theme = 'dark';
+        }
+        localStorage.setItem('theme', theme);
+      });
       
       // 시스템 테마 변경 감지 및 반영 (자동 모드일 때만)
       prefersDarkScheme.addEventListener('change', (e) => {

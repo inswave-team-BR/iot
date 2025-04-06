@@ -452,7 +452,7 @@ h6 {
 }
 
 /* Navmenu - Mobile */
-@media (max-width: 1199px) {
+@media (max-width: 991px) {
   .mobile-nav-toggle {
     color: var(--nav-color);
     font-size: 28px;
@@ -575,6 +575,113 @@ h6 {
 
   .mobile-nav-active .navmenu>ul {
     display: block;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .navmenu {
+    padding: 0;
+  }
+
+  .navmenu ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .navmenu li {
+    position: relative;
+  }
+
+  .navmenu a,
+  .navmenu a:focus {
+    color: var(--nav-color);
+    padding: 18px 12px;
+    font-size: 15px;
+    font-family: var(--nav-font);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    transition: 0.3s;
+  }
+
+  .navmenu a i,
+  .navmenu a:focus i {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+    transition: 0.3s;
+  }
+
+  .navmenu li:last-child a {
+    padding-right: 0;
+  }
+
+  .navmenu li:hover>a,
+  .navmenu .active,
+  .navmenu .active:focus {
+    color: var(--nav-hover-color);
+  }
+
+  .navmenu .dropdown ul {
+    margin: 0;
+    padding: 10px 0;
+    background: var(--nav-dropdown-background-color);
+    display: block;
+    position: absolute;
+    visibility: hidden;
+    left: 14px;
+    top: 130%;
+    opacity: 0;
+    transition: 0.3s;
+    border-radius: 4px;
+    z-index: 99;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .navmenu .dropdown ul li {
+    min-width: 180px;
+  }
+
+  .navmenu .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 14px;
+    text-transform: none;
+    color: var(--nav-dropdown-color);
+  }
+
+  .navmenu .dropdown ul a i {
+    font-size: 12px;
+  }
+
+  .navmenu .dropdown ul a:hover,
+  .navmenu .dropdown ul .active:hover,
+  .navmenu .dropdown ul li:hover>a {
+    color: var(--nav-dropdown-hover-color);
+  }
+
+  .navmenu .dropdown:hover>ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+  }
+
+  .navmenu .dropdown .dropdown ul {
+    top: 0;
+    left: -90%;
+    visibility: hidden;
+  }
+
+  .navmenu .dropdown .dropdown:hover>ul {
+    opacity: 1;
+    top: 0;
+    left: -100%;
+    visibility: visible;
   }
 }
 
@@ -1626,4 +1733,88 @@ section,
 --------------------------------------------------------------*/
 .starter-section {
   /* Add your styles here */
+}
+
+/*--------------------------------------------------------------
+# Smooth Container Size Transition - 여백 변화 최소화
+--------------------------------------------------------------*/
+/* 화면 크기를 살짝 줄였을 때 갑자기 여백이 변하는 것을 방지 */
+/* 컨테이너 전체에 부드러운 전환 효과 추가 */
+.container, 
+.container-xl,
+.container-fluid.container-xl {
+  transition: width 0.3s ease, max-width 0.3s ease, padding 0.3s ease;
+}
+
+@media (min-width: 1140px) and (max-width: 1399px) {
+  .container, 
+  .container-xl,
+  .container-fluid.container-xl {
+    max-width: 1140px !important;
+    width: 1140px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1139px) {
+  .container, 
+  .container-xl,
+  .container-fluid.container-xl {
+    max-width: 960px !important;
+    width: 960px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* 헤더 영역 패딩 안정화 */
+@media (min-width: 992px) and (max-width: 1399px) {
+  .header {
+    padding: 15px 0;
+  }
+  
+  .header .logo {
+    margin-right: 30px;
+  }
+}
+
+/* 영웅 섹션 및 컨텐츠 섹션의 안정적인 여백 유지 */
+@media (min-width: 992px) and (max-width: 1399px) {
+  .hero .container,
+  .section .container,
+  .section .container-xl,
+  .hero .container-xl {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+  }
+  
+  /* 섹션 타이틀 여백 안정화 */
+  .section-title {
+    padding-bottom: 30px;
+  }
+  
+  /* 행과 열 여백 안정화 */
+  .row {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  
+  /* 날씨 위젯 컨테이너 안정화 */
+  #weather-widget {
+    transition: all 0.3s ease;
+  }
+
+  /* 하위 섹션의 여백 안정화 */
+  section > div.container {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+  }
+}
+
+/* 네비게이션 메뉴 안정화 */
+@media (min-width: 992px) and (max-width: 1399px) {
+  .navmenu ul {
+    transition: none;
+  }
 }
