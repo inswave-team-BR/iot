@@ -105,6 +105,25 @@
       font-size: 0.9rem;
       color: #777;
     }
+    
+    /* 다크모드 스타일 */
+    [data-theme="dark"] .team-card {
+      background: var(--surface-color);
+      color: var(--default-color);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    [data-theme="dark"] .team-card:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="dark"] .team-card .role {
+      color: var(--weather-text-secondary);
+    }
+
+    [data-theme="dark"] .team-card .desc {
+      color: var(--weather-text-tertiary);
+    }
 
 
     /* 커스터마이징 된 팀 카드 hover 효과 */
@@ -147,6 +166,18 @@
     .icon-box.team-card:hover .title {
       color: white;
     }
+    
+    /* 다크모드 스타일 */
+    [data-theme="dark"] .icon-box.team-card {
+      background: var(--surface-color);
+      border-color: rgba(60, 63, 68, 0.3);
+    }
+
+    [data-theme="dark"] .icon-box.team-card .title {
+      color: var(--default-color);
+    }
+
+    /* hover 효과는 그대로 유지 */
 
     .btn-watch-video {
       background: linear-gradient(135deg, #58d68d, #20c997);
@@ -173,6 +204,17 @@
     .footer .social-links a:hover i.bi-youtube {
       color: #000 !important;
     }
+    
+    /* 다크모드에서는 소셜 아이콘 색상 변경 */
+    [data-theme="dark"] .footer .social-links a i.bi-facebook,
+    [data-theme="dark"] .footer .social-links a i.bi-youtube {
+      color: #e0e0e0 !important;
+    }
+
+    [data-theme="dark"] .footer .social-links a:hover i.bi-facebook,
+    [data-theme="dark"] .footer .social-links a:hover i.bi-youtube {
+      color: #e0e0e0 !important;
+    }
 
     #weatherWidget {
       max-width: 100%;
@@ -183,16 +225,16 @@
     }
     
     .weather-container {
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: var(--weather-container-bg);
       backdrop-filter: blur(8px);
       border-radius: 15px;
       padding: 15px;
       padding-top: 0; /* 상단 패딩 제거 */
       margin: 10px 0;
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 
+      box-shadow: 0 8px 15px var(--weather-container-shadow), 
                   0 2px 5px rgba(0, 0, 0, 0.08), 
-                  inset 0 1px 1px rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.6);
+                  inset 0 1px 1px var(--weather-info-shadow);
+      border: 1px solid var(--weather-container-border);
     }
     
     .chart-container {
@@ -203,7 +245,7 @@
     
     .chart-note {
       font-size: 11px;
-      color: #7A8694;
+      color: var(--weather-text-tertiary);
       text-align: center;
       margin-top: 8px;
       padding: 0 5px;
@@ -213,7 +255,7 @@
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 5px;
-      color: #2A6EB5;
+      color: var(--weather-text-primary);
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       cursor: pointer;
       text-decoration: underline dotted;
@@ -227,7 +269,7 @@
     .location-hint {
       font-size: 11px;
       font-weight: normal;
-      color: #666;
+      color: var(--weather-text-tertiary);
       margin-top: 3px;
       margin-bottom: 8px;
       display: flex;
@@ -238,12 +280,12 @@
     
     .location-hint i {
       font-size: 12px;
-      color: #4A90E2;
+      color: var(--weather-text-primary);
     }
     
     .location-coords {
       font-size: 10px;
-      color: #999;
+      color: var(--weather-text-muted);
       margin-bottom: 10px;
     }
     
@@ -257,14 +299,14 @@
       font-size: 42px;
       font-weight: 700;
       margin: 5px 0;
-      color: #2A6EB5;
+      color: var(--weather-text-primary);
       text-shadow: 0 2px 3px rgba(0, 0, 0, 0.12);
     }
     
     .weather-desc {
       font-size: 14px;
       margin: 5px 0;
-      color: #4A4A4A;
+      color: var(--weather-text-secondary);
       font-weight: 500;
     }
     
@@ -273,7 +315,7 @@
       flex-wrap: wrap;
       justify-content: center;
       margin-top: 10px;
-      background: rgba(255, 255, 255, 0.5);
+      background: var(--weather-metrics-bg);
       border-radius: 12px;
       padding: 8px;
       box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -288,20 +330,20 @@
     .metric-value {
       font-size: 16px;
       font-weight: 600;
-      color: #4A90E2;
+      color: var(--weather-text-primary);
       margin-top: 3px;
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
     }
     
     .metric-label {
       font-size: 12px;
-      color: #7A8694;
+      color: var(--weather-text-tertiary);
       margin-top: 2px;
     }
     
     .last-updated {
       font-size: 10px;
-      color: #999;
+      color: var(--weather-text-muted);
       text-align: center;
       margin-top: 15px;
       margin-bottom: 3px;
@@ -317,13 +359,13 @@
       padding: 15px;
       padding-top: 0; /* 상단 패딩 제거 */
       border-radius: 12px;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(240, 245, 250, 0.9));
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8),
+      background: var(--weather-info-bg);
+      box-shadow: inset 0 1px 1px var(--weather-info-shadow),
                   0 3px 6px rgba(0, 0, 0, 0.08);
     }
     
     .weekly-chart-title {
-      color: #2A6EB5;
+      color: var(--weather-text-primary);
       font-size: 0.95rem;
       font-weight: 600;
       margin-top: 0;
@@ -335,7 +377,7 @@
     
     .city-name {
       font-weight: 600;
-      color: #4A90E2;
+      color: var(--weather-text-primary);
     }
     
     /* 날씨 위젯 상단 정렬을 위한 스타일 */
@@ -369,7 +411,7 @@
 
     .air-quality-container {
       margin-top: 15px;
-      background: rgba(255, 255, 255, 0.6);
+      background: var(--air-quality-bg);
       border-radius: 12px;
       padding: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -377,7 +419,7 @@
     
     .air-quality-title {
       font-size: 12px;
-      color: #555;
+      color: var(--weather-text-secondary);
       margin-bottom: 5px;
       font-weight: 500;
       text-align: center;
@@ -410,7 +452,7 @@
     
     .air-metric-label {
       font-size: 10px;
-      color: #777;
+      color: var(--weather-text-tertiary);
     }
 
     .air-metric-status {
@@ -422,7 +464,7 @@
       color: white;
     }
     
-    /* 미세먼지 상태별 색상 */
+    /* 미세먼지 상태별 색상은 유지 (상태별로 다른 색상 사용) */
     .air-good {
       color: #3498db;
     }
@@ -487,11 +529,11 @@
     }
     
     .region-weather-temp {
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: var(--region-weather-temp-bg);
       border-radius: 10px;
       padding: 1px 4px;
       font-weight: bold;
-      color: #2A6EB5;
+      color: var(--region-weather-temp-color);
       font-size: 11px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
@@ -499,9 +541,9 @@
     .region-name {
       font-size: 9px;
       font-weight: bold;
-      color: #333;
+      color: var(--region-name-color);
       text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
-      background-color: rgba(255,255,255,0.7);
+      background-color: var(--region-name-bg);
       border-radius: 8px;
       padding: 1px 3px;
       margin-top: 1px;
@@ -509,7 +551,7 @@
     
     /* 지역별 날씨 팝업 스타일 */
     .region-weather-popup {
-      background-color: white;
+      background-color: var(--region-popup-bg);
       border-radius: 10px;
       padding: 15px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.2);
@@ -529,8 +571,8 @@
       font-weight: bold;
       font-size: 16px;
       margin-bottom: 10px;
-      color: #2A6EB5;
-      border-bottom: 1px solid #eee;
+      color: var(--region-popup-title-color);
+      border-bottom: 1px solid var(--region-popup-border);
       padding-bottom: 5px;
       cursor: move; /* 드래그 가능함을 시각적으로 표시 */
       position: relative;
@@ -2819,6 +2861,74 @@
   </script>
 
 <script src="moveTominihome.js"></script>
+
+  <!-- 테마 토글 버튼 추가 -->
+  <button class="theme-toggle" id="theme-toggle" aria-label="다크 모드 토글">
+    <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+  
+  <!-- 다크모드 스크립트 -->
+  <script>
+    // 테마 관리 함수
+    function handleThemeToggle() {
+      const themeToggle = document.getElementById('theme-toggle');
+      
+      // 시스템 다크모드 감지
+      const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+      
+      // 로컬 스토리지에서 사용자 설정 불러오기
+      const currentTheme = localStorage.getItem('theme');
+      
+      // 초기 테마 설정
+      if (currentTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else if (currentTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (prefersDarkScheme.matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+      
+      // 테마 토글 기능
+      themeToggle.addEventListener('click', () => {
+        let theme;
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          theme = 'light';
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          theme = 'dark';
+        }
+        localStorage.setItem('theme', theme);
+      });
+      
+      // 시스템 테마 변경 감지 및 반영 (자동 모드일 때만)
+      prefersDarkScheme.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          if (e.matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        }
+      });
+    }
+    
+    // 페이지 로드 시 테마 관리 함수 실행
+    document.addEventListener('DOMContentLoaded', handleThemeToggle);
+  </script>
 </body>
 
 </html>
