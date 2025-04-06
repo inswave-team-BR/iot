@@ -1750,8 +1750,8 @@ section,
   .container, 
   .container-xl,
   .container-fluid.container-xl {
-    max-width: 1140px !important;
-    width: 1140px !important;
+    max-width: 1080px !important;
+    width: 1080px !important;
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -1761,8 +1761,8 @@ section,
   .container, 
   .container-xl,
   .container-fluid.container-xl {
-    max-width: 960px !important;
-    width: 960px !important;
+    max-width: 1080px !important;
+    width: 1080px !important;
     padding-left: 15px;
     padding-right: 15px;
   }
