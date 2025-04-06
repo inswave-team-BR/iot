@@ -607,8 +607,8 @@
 
     /* 헤더에 있는 다크모드 토글 버튼 스타일 */
     .theme-toggle-header {
-      width: 32px;
-      height: 32px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background-color: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(5px);
@@ -621,6 +621,10 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
       padding: 0;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
     }
 
     .theme-toggle-header:hover {
@@ -629,8 +633,8 @@
     }
 
     .theme-toggle-header .icon {
-      width: 18px;
-      height: 18px;
+      width: 24px;
+      height: 24px;
       transition: all 0.3s ease;
     }
 
@@ -1524,7 +1528,7 @@
 
       // 다크모드 토글 버튼 HTML
       const themeToggleHTML = `
-        <button class="theme-toggle-header ms-2" id="theme-toggle" aria-label="다크 모드 토글">
+        <button class="theme-toggle-header" id="theme-toggle" aria-label="다크 모드 토글">
           <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -1547,15 +1551,16 @@
         <span class="me-3">👋 ${userInfo.name}님 환영합니다!</span>
         <button class="btn btn-sm btn-outline-danger me-2" onclick="logout()">로그아웃</button>
         <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</button>
-        ${themeToggleHTML}
 `;
       } else {
         // 로그인하지 않은 경우
         userInfoDiv.innerHTML = `
           <a href="login.html" class="btn btn-sm btn-outline-primary me-2">로그인</a>
-          ${themeToggleHTML}
         `;
       }
+
+      // 다크모드 버튼을 body에 직접 추가
+      document.body.insertAdjacentHTML('beforeend', themeToggleHTML);
     });
 
     function logout() {
