@@ -618,18 +618,16 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: none;
       transition: all 0.3s ease;
       padding: 0;
-      position: fixed;
-      top: 20px;
-      right: 20px;
+      margin-left: 8px;
       z-index: 1000;
     }
 
     .theme-toggle-header:hover {
       transform: scale(1.1);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: none;
     }
 
     .theme-toggle-header .icon {
@@ -685,6 +683,85 @@
       .mobile-nav-active .navmenu > ul {
         display: block;
       }
+      
+      /* 모바일에서 user-info 영역 숨기기는 Bootstrap 클래스로 처리 */
+      /* d-md-flex d-none 클래스를 user-info에 추가 */
+      
+      /* 모바일 메뉴 내 사용자 정보 스타일 */
+      .mobile-user-info {
+        padding: 15px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .mobile-user-info .welcome-text {
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: var(--nav-color);
+        display: block;
+        padding: 5px 0;
+      }
+      
+      .mobile-user-info .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+      }
+      
+      .mobile-user-info .button-group .btn,
+      .mobile-user-info .button-group a {
+        text-align: left;
+        font-size: 14px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+        border-radius: 4px;
+        margin: 0;
+      }
+      
+      .mobile-user-info .button-group .btn-outline-danger:hover {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+      }
+      
+      .mobile-user-info .button-group .btn-outline-secondary:hover {
+        background-color: rgba(108, 117, 125, 0.1);
+        color: var(--nav-hover-color);
+      }
+      
+      .mobile-user-info .theme-toggle-header {
+        align-self: flex-start;
+        margin-top: 15px;
+        background-color: transparent;
+        border: 1px solid rgba(108, 117, 125, 0.3);
+      }
+      
+      .mobile-user-info .theme-toggle-header:hover {
+        background-color: rgba(108, 117, 125, 0.1);
+      }
+      
+      [data-theme="dark"] .mobile-user-info {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      [data-theme="dark"] .mobile-user-info .button-group .btn-outline-danger:hover {
+        background-color: rgba(220, 53, 69, 0.15);
+      }
+      
+      [data-theme="dark"] .mobile-user-info .button-group .btn-outline-secondary:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      
+      [data-theme="dark"] .mobile-user-info .theme-toggle-header {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      [data-theme="dark"] .mobile-user-info .theme-toggle-header:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
     }
     
     /* 768px ~ 991px 범위에서 네비게이션 메뉴 표시 */
@@ -703,15 +780,36 @@
       
       .navmenu li {
         position: relative;
+        margin: 0 5px; /* 태블릿에서는 간격 약간만 증가 */
       }
       
       .navmenu a,
       .navmenu a:focus {
         color: var(--nav-color);
-        padding: 18px 10px;
+        padding: 15px 12px; /* 패딩 조정 */
         font-size: 14px;
-        font-weight: 400;
+        font-weight: 500; /* 폰트 굵기 증가 */
         white-space: nowrap;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+      
+      /* 태블릿에서도 밑줄 효과 적용 */
+      .navmenu a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: var(--nav-hover-color);
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: width 0.3s ease;
+      }
+      
+      .navmenu li:hover > a::after,
+      .navmenu .active::after {
+        width: 60%;
       }
       
       .navmenu li:hover > a,
@@ -720,9 +818,82 @@
         color: var(--nav-hover-color);
       }
     }
+
+    /* 모바일 환경에서의 헤더 사용자 정보 영역 처리 */
+    @media (max-width: 767.98px) {
+      /* 모바일에서는 헤더의 로그인/다크모드 버튼 숨기기 */
+      .header-auth-section {
+        display: none !important;
+      }
+      
+      /* 모바일 메뉴 내 사용자 정보 영역 */
+      .mobile-auth-section {
+        padding: 15px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .mobile-auth-section .welcome-text {
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: var(--nav-color);
+        display: block;
+        padding: 5px 0;
+      }
+      
+      .mobile-auth-section .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+      }
+      
+      .mobile-auth-section .button-group .btn,
+      .mobile-auth-section .button-group a {
+        text-align: left;
+        font-size: 14px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+        border-radius: 4px;
+        margin: 0;
+      }
+      
+      .mobile-auth-section .theme-toggle-header {
+        align-self: flex-start;
+        margin-top: 15px;
+        background-color: transparent;
+        border: 1px solid rgba(108, 117, 125, 0.3);
+      }
+      
+      [data-theme="dark"] .mobile-auth-section {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+    
+    /* 중간 크기 이상의 화면에서는 모바일 메뉴 내 사용자 정보 영역 숨기기 */
+    @media (min-width: 768px) {
+      .mobile-auth-section {
+        display: none !important;
+      }
+    }
   </style>
 
-
+  <!-- 로그인 버튼 hover 스타일 -->
+  <style>
+    .btn-outline-secondary {
+      color: var(--nav-color) !important;
+      border-color: var(--nav-color) !important;
+    }
+    
+    .btn-outline-secondary:hover {
+      color: var(--nav-hover-color) !important;
+      border-color: var(--nav-hover-color) !important;
+      background-color: transparent !important;
+    }
+  </style>
 
   <!-- =======================================================
   * Template Name: eStartup
@@ -746,7 +917,7 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero" class="active">Home</a></li>
+          <li><a href="#hero">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
           <!--<li><a href="#team">Team</a></li>-->
@@ -767,23 +938,19 @@
               <li><a href="#">Dropdown 4</a></li>
             </ul>
           </li>-->
-
+          
+          <!-- 모바일 메뉴에 사용자 정보 영역 추가 (자바스크립트로 내용 채워짐) -->
+          <div class="mobile-auth-section" id="mobile-user-info">
+            <!-- 동적으로 채워질 영역 -->
+          </div>
         </ul>
         <i class="mobile-nav-toggle d-md-none bi bi-list"></i>
       </nav>
 
-      <!--<div id="user-info" class="d-flex align-items-center justify-content-end gap-2 flex-wrap">
-        <span class="welcome-text">👋 ${userInfo.name}님 환영합니다!</span>
-        <div class="button-group d-flex gap-2">
-          <button class="btn btn-sm btn-outline-danger logout-btn" onclick="logout()">로그아웃</button>
-          <button class="btn btn-sm btn-outline-secondary delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</button>
-        </div>
-      </div>-->
-
-      <div id="user-info" class="d-flex align-items-center justify-content-end gap-2 flex-wrap">
+      <!-- 헤더의 사용자 정보 영역 - 태블릿/데스크탑에만 표시 -->
+      <div id="user-info" class="header-auth-section d-flex align-items-center justify-content-end gap-2 flex-wrap">
         <!-- 로그인 여부에 따라 동적으로 채워짐 -->
       </div>
-
 
   </header>
 
@@ -1525,6 +1692,7 @@
     document.addEventListener("DOMContentLoaded", function () {
       const userInfo = JSON.parse(localStorage.getItem("user"));
       const userInfoDiv = document.getElementById("user-info");
+      const mobileUserInfoDiv = document.getElementById("mobile-user-info");
 
       // 다크모드 토글 버튼 HTML
       const themeToggleHTML = `
@@ -1546,21 +1714,68 @@
         </button>
       `;
 
+      // 모바일 다크모드 토글 버튼 HTML (ID 변경)
+      const mobileThemeToggleHTML = `
+        <button class="theme-toggle-header" id="mobile-theme-toggle" aria-label="다크 모드 토글">
+          <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      `;
+
       if (userInfo && userInfo.name) {
+        // 로그인한 경우
         userInfoDiv.innerHTML = `
         <span class="me-3">👋 ${userInfo.name}님 환영합니다!</span>
         <button class="btn btn-sm btn-outline-danger me-2" onclick="logout()">로그아웃</button>
         <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</button>
-`;
+        ${themeToggleHTML}
+        `;
+        
+        // 모바일 메뉴에도 표시
+        mobileUserInfoDiv.innerHTML = `
+        <span class="welcome-text">👋 ${userInfo.name}님 환영합니다!</span>
+        <div class="button-group">
+          <button class="btn btn-sm btn-outline-danger w-100" onclick="logout()">
+            <i class="bi bi-box-arrow-right me-2"></i>로그아웃
+          </button>
+          <button class="btn btn-sm btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            <i class="bi bi-person-x me-2"></i>회원탈퇴
+          </button>
+        </div>
+        ${mobileThemeToggleHTML}
+        `;
       } else {
         // 로그인하지 않은 경우
         userInfoDiv.innerHTML = `
-          <a href="login.html" class="btn btn-sm btn-outline-primary me-2">로그인</a>
+          <a href="login.html" class="btn btn-sm btn-outline-secondary me-2">로그인</a>
+          ${themeToggleHTML}
+        `;
+        
+        // 모바일 메뉴에도 표시
+        mobileUserInfoDiv.innerHTML = `
+          <div class="button-group">
+            <a href="login.html" class="btn btn-sm btn-outline-secondary w-100 d-flex align-items-center ps-2" style="justify-content: flex-start; gap: 4px;">
+              <i class="bi bi-box-arrow-in-right"></i>로그인
+            </a>
+          </div>
+          ${mobileThemeToggleHTML}
         `;
       }
 
-      // 다크모드 버튼을 body에 직접 추가
-      document.body.insertAdjacentHTML('beforeend', themeToggleHTML);
+      // 다크모드 버튼을 body에 직접 추가하는 코드 제거
+      // document.body.insertAdjacentHTML('beforeend', themeToggleHTML);
     });
 
     function logout() {
@@ -2016,16 +2231,6 @@
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
       return `${hours}:${minutes}:${seconds}`;
-    }
-    
-    // 날짜 포맷팅 함수
-    function formatDate(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-      const dayName = dayNames[date.getDay()];
-      return `${year}-${month}-${day} (${dayName})`;
     }
     
     // 날씨 데이터 표시
@@ -3005,6 +3210,7 @@
     // 테마 관리 함수
     function handleThemeToggle() {
       const themeToggle = document.getElementById('theme-toggle');
+      const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
       
       // 시스템 다크모드 감지
       const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -3021,19 +3227,27 @@
         document.documentElement.setAttribute('data-theme', 'dark');
       }
       
-      // 테마 토글 기능
+      // 테마 토글 기능 (헤더)
       if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-          let theme;
-          if (document.documentElement.getAttribute('data-theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'light');
-            theme = 'light';
-          } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            theme = 'dark';
-          }
-          localStorage.setItem('theme', theme);
-        });
+        themeToggle.addEventListener('click', toggleTheme);
+      }
+      
+      // 테마 토글 기능 (모바일)
+      if (mobileThemeToggle) {
+        mobileThemeToggle.addEventListener('click', toggleTheme);
+      }
+      
+      // 테마 토글 함수
+      function toggleTheme() {
+        let theme;
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          theme = 'light';
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          theme = 'dark';
+        }
+        localStorage.setItem('theme', theme);
       }
       
       // 시스템 테마 변경 감지 및 반영 (자동 모드일 때만)

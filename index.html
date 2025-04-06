@@ -13,6 +13,29 @@
             right: 20px;
             z-index: 1000;
         }
+        
+        /* 배경 문제 해결을 위한 스타일 */
+        html {
+            height: 100%;
+            background-attachment: fixed !important;
+        }
+        
+        body {
+            position: relative;
+            min-height: 100%;
+            background: transparent !important;
+        }
+        
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background-gradient);
+            z-index: -2;
+        }
     </style>
 </head>
 <body>

@@ -15,6 +15,20 @@
     --hint-text: #fff;
     --container-glow: rgba(255,255,255,0.2);
     --key-slot-color: #333;
+    --counter-bg: rgba(255, 255, 255, 0.8);
+    --counter-text: #555;
+    --keys-hint-bg: rgba(255, 255, 255, 0.7);
+    --keys-hint-text: #555;
+    --door-message-text: #555;
+    --door-message-shadow: rgba(255, 255, 255, 0.7);
+    --key-board-bg: rgba(255, 255, 255, 0.6);
+    --key-board-border: rgba(255, 255, 255, 0.8);
+    --key-board-shadow: rgba(255, 255, 255, 0.8);
+    --key-board-gradient: rgba(255, 255, 255, 0.2);
+    --key-board-gradient-end: rgba(255, 255, 255, 0);
+    --key-label-bg: rgba(255, 255, 255, 0.9);
+    --key-label-color: #444;
+    --key-label-border: rgba(255, 255, 255, 0.9);
 }
 
 /* 다크 모드 변수 - 시스템 설정 기반 */
@@ -31,10 +45,24 @@
         --door-border: rgba(60, 63, 68, 0.8);
         --door-shadow: rgba(0, 0, 0, 0.3);
         --frame-background: linear-gradient(to bottom, #3a3a3a, #2a2a2a);
-        --hint-color: rgba(255, 255, 255, 0.2);
+        --hint-color: rgba(30, 30, 30, 0.85);
         --hint-text: #e0e0e0;
         --container-glow: rgba(30, 35, 45, 0.2);
         --key-slot-color: #e0e0e0;
+        --counter-bg: rgba(30, 30, 30, 0.85);
+        --counter-text: #e0e0e0;
+        --keys-hint-bg: rgba(30, 30, 30, 0.85);
+        --keys-hint-text: #e0e0e0;
+        --door-message-text: #e0e0e0;
+        --door-message-shadow: rgba(0, 0, 0, 0.3);
+        --key-board-bg: rgba(30, 30, 30, 0.6);
+        --key-board-border: rgba(50, 50, 50, 0.8);
+        --key-board-shadow: rgba(0, 0, 0, 0.3);
+        --key-board-gradient: rgba(50, 50, 50, 0.3);
+        --key-board-gradient-end: rgba(20, 20, 20, 0);
+        --key-label-bg: rgba(40, 40, 45, 0.9);
+        --key-label-color: #444;
+        --key-label-border: rgba(50, 50, 55, 0.9);
     }
 }
 
@@ -51,10 +79,24 @@
     --door-border: rgba(60, 63, 68, 0.8);
     --door-shadow: rgba(0, 0, 0, 0.3);
     --frame-background: linear-gradient(to bottom, #3a3a3a, #2a2a2a);
-    --hint-color: rgba(255, 255, 255, 0.2);
+    --hint-color: rgba(30, 30, 30, 0.85);
     --hint-text: #e0e0e0;
     --container-glow: rgba(30, 35, 45, 0.2);
     --key-slot-color: #e0e0e0;
+    --counter-bg: rgba(30, 30, 30, 0.85);
+    --counter-text: #e0e0e0;
+    --keys-hint-bg: rgba(30, 30, 30, 0.85);
+    --keys-hint-text: #e0e0e0;
+    --door-message-text: #e0e0e0;
+    --door-message-shadow: rgba(0, 0, 0, 0.3);
+    --key-board-bg: rgba(30, 30, 30, 0.6);
+    --key-board-border: rgba(50, 50, 50, 0.8);
+    --key-board-shadow: rgba(0, 0, 0, 0.3);
+    --key-board-gradient: rgba(50, 50, 50, 0.3);
+    --key-board-gradient-end: rgba(20, 20, 20, 0);
+    --key-label-bg: rgba(40, 40, 45, 0.9);
+    --key-label-color: #444;
+    --key-label-border: rgba(50, 50, 55, 0.9);
 }
 
 * {
@@ -63,17 +105,26 @@
     box-sizing: border-box;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    height: 100%;
+}
+
+html {
+    background: var(--background-gradient) fixed;
+    background-color: var(--background-color);
+}
+
 body {
     font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
-    background: var(--background-gradient);
-    background-color: var(--background-color);
+    background: transparent;
     color: var(--text-color);
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow-x: hidden;
-    overflow-y: auto;
     padding: 20px 0;
 }
 
@@ -106,7 +157,9 @@ body {
 /* 배경 패턴 추가 */
 body::before {
     content: "";
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-image: 
@@ -398,6 +451,7 @@ body::before {
     z-index: 5;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .door:hover + .click-hint, .door:focus + .click-hint {
@@ -412,8 +466,8 @@ body::before {
     left: 50%;
     transform: translateX(-50%);
     font-size: 0.9em;
-    color: #555;
-    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--counter-text);
+    background-color: var(--counter-bg);
     padding: 8px 16px;
     border-radius: 30px;
     z-index: 5;
@@ -438,8 +492,8 @@ body::before {
 .door-message {
     margin-top: 20px;
     font-size: 16px;
-    color: #555;
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.7);
+    color: var(--door-message-text);
+    text-shadow: 1px 1px 1px var(--door-message-shadow);
     line-height: 1.6;
     letter-spacing: 0.5px;
 }
@@ -500,8 +554,8 @@ body::before {
 
 /* 키 보관함 스타일 */
 .key-board {
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: var(--key-board-bg);
+    border: 1px solid var(--key-board-border);
     border-radius: 15px;
     padding: 20px;
     width: 200px;
@@ -509,10 +563,10 @@ body::before {
     flex-direction: column;
     gap: 15px;
     box-shadow: 
-        0 10px 20px rgba(0, 0, 0, 0.08),
+        0 10px 20px var(--key-board-shadow),
         0 6px 10px rgba(0, 0, 0, 0.06),
         0 0 0 1px rgba(200, 200, 200, 0.4),
-        inset 0 0 15px rgba(255, 255, 255, 0.8);
+        inset 0 0 15px var(--key-board-gradient);
     position: relative;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -526,7 +580,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    background: linear-gradient(135deg, var(--key-board-gradient), var(--key-board-gradient-end));
     opacity: 0.7;
     pointer-events: none;
     border-radius: 15px;
@@ -552,8 +606,8 @@ body::before {
     position: absolute;
     font-size: 11px;
     font-weight: 600;
-    color: #444;
-    background: rgba(255, 255, 255, 0.9);
+    color: var(--key-label-color);
+    background: var(--key-label-bg);
     padding: 3px 8px;
     border-radius: 4px;
     box-shadow: 
@@ -565,7 +619,7 @@ body::before {
     z-index: 1;
     letter-spacing: 0.5px;
     backdrop-filter: blur(3px);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--key-label-border);
     transition: all 0.3s ease;
     white-space: nowrap;
 }
@@ -720,11 +774,11 @@ body::before {
 .keys-hint {
     margin-top: 15px;
     font-size: 13px;
-    color: #555;
+    color: var(--keys-hint-text);
     width: 100%;
     white-space: nowrap;
     text-align: center;
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--keys-hint-bg);
     padding: 10px;
     border-radius: 12px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
@@ -1055,13 +1109,13 @@ body::before {
     align-items: center;
     cursor: pointer;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
     transition: all 0.3s ease;
 }
 
 .theme-toggle:hover {
     transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
 }
 
 .theme-toggle .icon {
@@ -1101,11 +1155,11 @@ body::before {
 [data-theme="dark"] .theme-toggle {
     background-color: rgba(40, 44, 52, 0.4);
     border-color: rgba(60, 63, 68, 0.3);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
 }
 
 [data-theme="dark"] .theme-toggle:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: none;
 }
 
 @media (max-width: 768px) {
