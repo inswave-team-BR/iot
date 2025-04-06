@@ -4,7 +4,7 @@
 
 ## 기능 개요
 
-사용자의 현재 위치 또는 검색한 지역의 실시간 날씨 데이터를 표시하고, 대한민국 주요 지역의 날씨를 한눈에 볼 수 있는 지도 기능을 제공합니다. 사용자 경험 향상을 위한 드래그 가능한 팝업 및 위치 동기화 기능을 포함합니다.
+사용자의 현재 위치 또는 검색한 지역의 실시간 날씨 데이터를 표시하고, 대한민국 주요 지역의 날씨를 한눈에 볼 수 있는 지도 기능을 제공합니다. 사용자 경험 향상을 위한 드래그 가능한 팝업 및 위치 동기화 기능을 포함합니다. 라이트/다크 모드 테마 시스템이 적용되어 시스템 설정에 따라 자동으로 또는 사용자 선택에 따라 테마가 변경됩니다.
 
 ## 기술 스택 및 API
 
@@ -13,6 +13,8 @@
 - Kakao Maps API: 지도 표시 및 위치 기반 서비스
 - HTML5 Geolocation API: 사용자 현재 위치 확인
 - Chart.js: 주간 날씨 예보 차트 시각화
+- CSS 변수: 테마 전환 시스템 구현
+- Web Storage API: 사용자 테마 선호도 저장
 
 ## 주요 기능
 
@@ -38,6 +40,12 @@
 5. **위치 좌표 동기화**
    - 현재 날씨와 지도 날씨 간 데이터 일관성 확보
    - 현재 위치에서 가장 가까운 지역 자동 매핑
+
+6. **다크모드 지원**
+   - 시스템 테마 설정에 따른 자동 테마 적용
+   - 수동 테마 전환 가능한 토글 버튼 제공
+   - 날씨 카드, 지도, 차트 등 모든 요소에 테마 적용
+   - 테마별 최적화된 가독성과 편안한 사용자 경험
 
 ## 설치 및 설정
 
@@ -165,6 +173,79 @@ popup.addEventListener('touchstart', function(e) {
 });
 ```
 
+### 다크모드 구현
+
+CSS 변수를 활용하여 테마별 색상을 정의하고 관리합니다:
+
+```css
+:root {
+  /* 라이트 모드 변수 */
+  --weather-card-bg: #ffffff;
+  --weather-text-color: #333333;
+  --weather-temp-color: #e74c3c;
+  --chart-grid-color: rgba(0, 0, 0, 0.1);
+  /* 기타 변수들... */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* 다크 모드 변수 */
+    --weather-card-bg: #1e1e1e;
+    --weather-text-color: #e0e0e0;
+    --weather-temp-color: #ff6b6b;
+    --chart-grid-color: rgba(255, 255, 255, 0.1);
+    /* 기타 변수들... */
+  }
+}
+
+[data-theme="dark"] {
+  /* 수동 다크 모드용 변수 */
+  --weather-card-bg: #1e1e1e;
+  --weather-text-color: #e0e0e0;
+  /* 기타 변수들... */
+}
+```
+
+JavaScript로 테마 전환 및 저장 기능을 구현합니다:
+
+```javascript
+function handleThemeToggle() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+  const currentTheme = localStorage.getItem('theme');
+  
+  // 테마 초기 설정
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    updateMapTheme('dark');
+    updateChartTheme('dark');
+  } else if (currentTheme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    updateMapTheme('light');
+    updateChartTheme('light');
+  } else if (prefersDarkScheme.matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    updateMapTheme('dark');
+    updateChartTheme('dark');
+  }
+  
+  // 테마 토글 이벤트 처리
+  themeToggle.addEventListener('click', () => {
+    let theme;
+    if (document.documentElement.getAttribute('data-theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      theme = 'light';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      theme = 'dark';
+    }
+    localStorage.setItem('theme', theme);
+    updateMapTheme(theme);
+    updateChartTheme(theme);
+  });
+}
+```
+
 ## 사용 방법
 
 ### 현재 위치 날씨 확인
@@ -179,6 +260,11 @@ popup.addEventListener('touchstart', function(e) {
 - 지도에 표시된 지역 마커 클릭 시 해당 지역의 상세 날씨 정보 팝업 표시
 - 팝업은 드래그하여 자유롭게 위치 이동 가능
 - 팝업 닫기는 'X' 버튼 또는 외부 영역 클릭
+
+### 테마 변경
+- 페이지 우측 상단의 테마 토글 버튼(☀️/🌙)을 클릭하여 라이트/다크 모드 전환
+- 시스템 테마 설정에 따라 자동으로 테마 적용 (수동 선택하지 않은 경우)
+- 테마 변경 시 날씨 카드, 지도, 차트 등 모든 UI 요소가 일관되게 변경됨
 
 ## 문제 해결
 
@@ -195,13 +281,18 @@ popup.addEventListener('touchstart', function(e) {
 - OpenWeatherMap 무료 계정의 API 호출 한도에 주의
 - 과도한 API 호출이 발생하지 않도록 적절한 갱신 주기 설정
 
+### 테마 전환이 작동하지 않을 때
+- 브라우저가 최신 버전인지 확인 (CSS 변수 및 미디어 쿼리 지원 필요)
+- 개발자 도구에서 로컬 스토리지 확인 및 필요시 'theme' 항목 삭제하여 초기화
+
 ## 향후 개선 사항
 
 - 온도 단위 변환 기능 (섭씨/화씨)
-- 다크 모드 지원
-- 미세먼지/대기질 정보 상세화
-- 날씨 알림 기능
-- 사용자 위치 자동 추적 기능 개선
+- 테마별 날씨 아이콘 세트 제공
+- 강수량 예측 및 강수 확률 표시
+- 날씨에 따른 자동 배경 변화 (눈/비/맑음 등)
+- 일출/일몰 시간 시각적 표현
+- 다크모드 전환 시 부드러운 애니메이션 효과 추가
 
 ## 라이선스
 
