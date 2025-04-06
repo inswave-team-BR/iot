@@ -79,21 +79,12 @@ function updateVisitorCount() {
   // 오늘 날짜 가져오기
   const today = new Date().toDateString();
 
-  // 현재 페이지 경로에서 팀원 이름 추출
-  const pathSegments = window.location.pathname.split("/");
-  let memberName = "";
+  // URL 매개변수에서 팀원 이름(id) 가져오기
+  let memberName = currentHost;
 
-  // 경로에서 minihome 폴더 다음에 오는 세그먼트가 팀원 이름
-  for (let i = 0; i < pathSegments.length; i++) {
-    if (pathSegments[i] === "minihome" && i + 1 < pathSegments.length) {
-      memberName = pathSegments[i + 1];
-      break;
-    }
-  }
-
-  // 팀원 이름이 추출되지 않은 경우 기본값 설정
+  // 팀원 이름이 없는 경우 기본값 설정
   if (!memberName) {
-    memberName = "leejaewon";
+    memberName = "default";
   }
 
   // localStorage 키 생성 (팀원별로 고유한 키 사용)
