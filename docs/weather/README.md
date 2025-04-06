@@ -292,10 +292,4 @@ function handleThemeToggle() {
 - 강수량 예측 및 강수 확률 표시
 - 날씨에 따른 자동 배경 변화 (눈/비/맑음 등)
 - 일출/일몰 시간 시각적 표현
-- 다크모드 전환 시 부드러운 애니메이션 효과 추가
-
-## 라이선스
-
-본 기능에서 사용된 날씨 데이터는 OpenWeatherMap에서 제공됩니다. API 사용 시 [OpenWeatherMap 이용 약관](https://openweathermap.org/terms)을 준수해야 합니다.
-
-Kakao Maps API 사용 시 [Kakao Maps API 이용 약관](https://developers.kakao.com/terms)을 준수해야 합니다.
+- 다크모드 전환 시 부드러운 애니메이션 효과 추가 
