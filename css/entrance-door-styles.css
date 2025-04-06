@@ -501,14 +501,15 @@ body::before {
     box-shadow: 
         0 2px 5px rgba(0, 0, 0, 0.15),
         0 0 0 1px rgba(200, 200, 200, 0.5);
-    top: 9px;
-    left: 5px; /* 왼쪽으로 더 이동하여 키와 겹치지 않게 함 */
-    z-index: 1; /* 키보다 낮은 z-index 값 설정 */
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
     letter-spacing: 0.5px;
     backdrop-filter: blur(3px);
     border: 1px solid rgba(255, 255, 255, 0.9);
-    transform: rotate(-5deg);
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 /* 각 키별 라벨 색상 강화 */
@@ -535,7 +536,6 @@ body::before {
 /* 키가 드래그될 때 라벨 효과 */
 .key.dragging + .key-label {
     opacity: 0.5;
-    transform: rotate(0);
 }
 
 /* 키 걸이 스타일 */
@@ -582,12 +582,12 @@ body::before {
 
 /* 열쇠 기본 스타일 */
 .key {
-    width: 80px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     position: absolute;
     top: 12px;
     left: 50%;
-    transform: translateX(-50%) rotate(-8deg);
+    transform: translateX(-50%);
     transform-origin: top center;
     cursor: grab;
     transition: transform 0.3s, box-shadow 0.3s;
@@ -596,14 +596,13 @@ body::before {
     z-index: 2;
 }
 
-/* 키카드 스타일로 변경 */
+/* 키카드 스타일로 변경 - 원형 카드 */
 .key::before {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: 8px;
-    background: linear-gradient(45deg, rgba(255, 255, 255, 0.8), rgba(245, 245, 245, 0.7));
+    border-radius: 50%;
     top: 0;
     left: 0;
     box-shadow: 
@@ -615,7 +614,7 @@ body::before {
     z-index: 0;
 }
 
-/* 키카드 상단의 구멍 부분 */
+/* 키카드 상단의 구멍 부분 - 복원 */
 .key::after {
     content: "";
     position: absolute;
@@ -637,7 +636,7 @@ body::before {
 /* 드래그 중인 열쇠 스타일 */
 .key.dragging {
     opacity: 0.9;
-    transform: translateX(-50%) rotate(0) scale(1.05);
+    transform: translateX(-50%) scale(1.05);
     cursor: grabbing;
     z-index: 100;
     box-shadow: 
@@ -749,31 +748,29 @@ body::before {
     }
     
     .key {
-        width: 70px;
-        height: 32px;
+        width: 38px;
+        height: 38px;
     }
     
     .key::before {
-        border-radius: 6px;
-    }
-    
-    .key::after {
-        width: 12px;
-        height: 12px;
+        border-radius: 50%;
     }
     
     .key .key-shaft {
-        width: 12px;
-        height: 8px;
-        right: 12px;
-        top: 12px;
+        width: 16px;
+        height: 10px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 2px;
     }
     
     .key-label {
         font-size: 10px;
         padding: 2px 6px;
-        top: 8px;
-        left: 4px;
+        top: -14px;
+        left: 50%;
+        transform: translateX(-50%);
     }
     
     .keys-hint {
@@ -794,6 +791,11 @@ body::before {
         font-size: 0.8em;
         padding: 6px 12px;
         bottom: -30px;
+    }
+    
+    .key::after {
+        width: 12px;
+        height: 12px;
     }
 }
 
@@ -846,9 +848,8 @@ body::before {
     }
     
     .key {
-        width: 65px;
-        height: 30px;
-        top: 10px;
+        width: 35px;
+        height: 35px;
     }
     
     .key-hook {
@@ -859,8 +860,9 @@ body::before {
     .key-label {
         font-size: 9px;
         padding: 2px 5px;
-        top: 6px;
-        left: 3px;
+        top: -13px;
+        left: 50%;
+        transform: translateX(-50%);
     }
     
     .door-message {
@@ -878,6 +880,16 @@ body::before {
         font-size: 0.75em;
         padding: 5px 10px;
         bottom: -25px;
+    }
+    
+    .key .key-shaft {
+        width: 14px;
+        height: 9px;
+    }
+    
+    .key::after {
+        width: 10px;
+        height: 10px;
     }
 }
 
@@ -903,58 +915,67 @@ body::before {
     }
     
     .key {
-        width: 60px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
     }
     
     .key-slot {
         height: 45px;
     }
+    
+    .key .key-shaft {
+        width: 12px;
+        height: 8px;
+    }
+    
+    .key::after {
+        width: 9px;
+        height: 9px;
+    }
+    
+    .key-label {
+        font-size: 8px;
+        top: -12px;
+    }
 }
 
-/* 키카드의 칩 부분 */
+/* 키카드의 칩 부분 - 중앙에 은색 칩 */
 .key .key-shaft {
     position: absolute;
-    width: 15px;
-    height: 10px;
-    background: linear-gradient(45deg, rgba(210, 210, 210, 0.8), rgba(230, 230, 230, 0.8));
-    right: 15px;
-    top: 13px;
+    width: 18px;
+    height: 12px;
+    background: linear-gradient(45deg, #c0c0c0, #e0e0e0, #c0c0c0);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     z-index: 1;
     border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-/* 키카드의 마그네틱 스트립 부분 */
+/* 키카드의 마그네틱 스트립 부분 - 제거 */
 .key .key-teeth {
-    position: absolute;
-    width: 70%;
-    height: 5px;
-    right: 15%;
-    bottom: 8px;
-    z-index: 1;
-    background: rgba(50, 50, 50, 0.2);
-    border-radius: 2px;
+    display: none;
 }
 
 /* 각 열쇠별 색상 */
 #key-kimsiyeon::before {
-    background: linear-gradient(45deg, rgba(255, 153, 102, 0.6), rgba(255, 94, 98, 0.4));
-    border: 1px solid rgba(255, 153, 102, 0.3);
+    background: linear-gradient(45deg, rgba(255, 180, 180, 0.85), rgba(255, 150, 150, 0.75));
+    border: 1px solid rgba(255, 150, 150, 0.5);
 }
 
 #key-leejaeseong::before {
-    background: linear-gradient(135deg, rgba(180, 220, 255, 0.9), rgba(100, 150, 255, 0.9));
-    box-shadow: 0 3px 8px rgba(50, 100, 170, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    background: linear-gradient(135deg, rgba(160, 210, 255, 0.85), rgba(140, 190, 250, 0.75));
+    border: 1px solid rgba(140, 180, 240, 0.5);
 }
 
 #key-leejaewon::before {
-    background: linear-gradient(45deg, rgba(168, 255, 120, 0.6), rgba(120, 255, 214, 0.4));
-    border: 1px solid rgba(168, 255, 120, 0.3);
+    background: linear-gradient(45deg, rgba(180, 240, 180, 0.85), rgba(160, 220, 160, 0.75));
+    border: 1px solid rgba(150, 210, 150, 0.5);
 }
 
 #key-hwangyooseok::before {
-    background: linear-gradient(45deg, rgba(183, 33, 255, 0.6), rgba(138, 43, 226, 0.4));
-    border: 1px solid rgba(183, 33, 255, 0.3);
+    background: linear-gradient(45deg, rgba(210, 180, 250, 0.85), rgba(190, 160, 240, 0.75));
+    border: 1px solid rgba(180, 150, 230, 0.5);
 } 
