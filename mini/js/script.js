@@ -169,6 +169,7 @@ function initTabMenu() {
       document.getElementById("decorate").style.display = "none";
       document.getElementById("edit-area").style.display = "none";
       document.getElementById("update-news").style.display = "none";
+      document.getElementById("intro-frame").style.display = "none";
 
       // 선택한 탭에 따라 콘텐츠 표시
       if (tabName === "home") {
@@ -178,6 +179,12 @@ function initTabMenu() {
       } else if (tabName === "guestbook") {
         document.getElementById("miniroom").style.display = "block";
         document.getElementById("guestbook").style.display = "block";
+      } else if (tabName === "introduce") {
+        document.getElementById("intro-frame").style.display = "block";
+        document.getElementById(
+          "intro-frame"
+        ).src = `../${currentHost}_intro.html`;
+        document.getElementById("intro-frame").style.maxHeight = "500px";
       }
     });
   });
