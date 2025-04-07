@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initMusicPlayer();
 });
 function initPersonalData() {
-  console.log("currentHost", currentHost);
   if (currentHost === "siyeon") personalData = siyeon_personalData;
   else if (currentHost === "jaeseong") personalData = jaeseong_personalData;
   else if (currentHost === "jaewon") personalData = jaewon_personalData;

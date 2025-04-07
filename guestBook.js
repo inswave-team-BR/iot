@@ -158,7 +158,6 @@ function deleteEntry(entryId) {
 }
 
 function renderGuestbook(id, page = currentPage) {
-  console.log("renderGuestbook", id, page);
   const guestbook = JSON.parse(localStorage.getItem(`${id}_guestbook`) || "[]");
   const user = getCurrentUser();
   const totalItems = guestbook.length;
