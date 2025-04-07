@@ -168,7 +168,12 @@ function renderGuestbook(id, page = currentPage) {
   const start = (page - 1) * ITEMS_PER_PAGE;
   const end = start + ITEMS_PER_PAGE;
   const pageItems = guestbook.slice(start, end);
-
+  if (pageItems.length === 0) {
+    guestbookList.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%; text-align: center;">
+    등록된 글이 없습니다.
+  </div>`;
+    return;
+  }
   guestbookList.innerHTML = pageItems
     .map(
       (entry, idx) => `
