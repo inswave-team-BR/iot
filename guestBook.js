@@ -139,14 +139,21 @@ function formatDate(date) {
 }
 function deleteEntry(entryId) {
   const user = getCurrentUser();
-  const guestbook = JSON.parse(localStorage.getItem("guestbook") || "[]");
+  const guestbook = JSON.parse(
+    localStorage.getItem(`${currentHost}_guestbook`) || "[]"
+  );
   const target = guestbook.find((g) => g.id === entryId);
   if (!target || target.userId !== user?.id)
     return alert("본인 글만 삭제할 수 있습니다.");
   if (!confirm("정말 삭제하시겠습니까?")) return;
   const newGuestbook = guestbook.filter((g) => g.id !== entryId);
-  localStorage.setItem("guestbook", JSON.stringify(newGuestbook));
+
+  localStorage.setItem(
+    `${currentHost}_guestbook`,
+    JSON.stringify(newGuestbook)
+  );
   loadRecentGuestbookToNews();
+
   renderGuestbook(currentHost);
 }
 
