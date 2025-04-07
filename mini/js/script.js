@@ -63,6 +63,9 @@ function applyProfileData() {
   document.querySelector(
     ".email-info"
   ).textContent = `이메일: ${personalData.profile.profileInfo.email}`;
+  const img = (document.querySelector(
+    ".profile-image"
+  ).src = `${personalData.profile.profileInfo.image}`);
 }
 
 // ==========================================
