@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initMusicPlayer();
 });
 function initPersonalData() {
-  console.log("currentHost", currentHost);
   if (currentHost === "siyeon") personalData = siyeon_personalData;
   else if (currentHost === "jaeseong") personalData = jaeseong_personalData;
   else if (currentHost === "jaewon") personalData = jaewon_personalData;
@@ -64,6 +63,9 @@ function applyProfileData() {
   document.querySelector(
     ".email-info"
   ).textContent = `이메일: ${personalData.profile.profileInfo.email}`;
+  const img = (document.querySelector(
+    ".profile-image"
+  ).src = `${personalData.profile.profileInfo.image}`);
 }
 
 // ==========================================

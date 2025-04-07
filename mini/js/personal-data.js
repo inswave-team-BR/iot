@@ -7,8 +7,10 @@ const jaewon_personalData = {
     statusMessage: "난 기쁨의 눈물을 흘린다...",
     profileInfo: {
       name: "이재원",
-      birthday: "03월 01일",
-      email: "leejaewon@example.com",
+      birthday: "07월 20일",
+      email: "tpqms775@google.com",
+      image:
+        "https://upload.wikimedia.org/wikipedia/ko/thumb/4/4a/%EC%8B%A0%EC%A7%B1%EA%B5%AC.png/230px-%EC%8B%A0%EC%A7%B1%EA%B5%AC.png",
     },
   },
 
@@ -42,6 +44,7 @@ const yooseok_personalData = {
       name: "황유석",
       birthday: "1993년 8월 28일",
       email: "youjason@example.com",
+      image: "",
     },
   },
 
@@ -75,6 +78,7 @@ const siyeon_personalData = {
       name: "김시연",
       birthday: "1997년 1월 1일",
       email: "siyeon.kim@example.com",
+      image: "",
     },
   },
 
@@ -108,6 +112,7 @@ const jaeseong_personalData = {
       name: "이재성",
       birthday: "04월 15일",
       email: "leejaeseong@example.com",
+      image: "",
     },
   },
 
