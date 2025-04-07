@@ -73,7 +73,7 @@ const siyeon_personalData = {
     statusMessage: "행복한 하루 되세요!",
     profileInfo: {
       name: "김시연",
-      birthday: "1997년 8월 6일",
+      birthday: "1997년 1월 1일",
       email: "siyeon.kim@example.com",
     },
   },
