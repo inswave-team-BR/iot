@@ -25,6 +25,26 @@
   --accent-color: #71c55d; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+  
+  /* 날씨 위젯 변수 - 라이트 모드 */
+  --weather-container-bg: rgba(255, 255, 255, 0.85);
+  --weather-container-border: rgba(255, 255, 255, 0.6);
+  --weather-container-shadow: rgba(0, 0, 0, 0.1);
+  --weather-info-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(240, 245, 250, 0.9));
+  --weather-info-shadow: rgba(255, 255, 255, 0.8);
+  --weather-metrics-bg: rgba(255, 255, 255, 0.5);
+  --weather-text-primary: #2A6EB5;
+  --weather-text-secondary: #4A4A4A;
+  --weather-text-tertiary: #7A8694;
+  --weather-text-muted: #999;
+  --air-quality-bg: rgba(255, 255, 255, 0.6);
+  --region-popup-bg: white;
+  --region-popup-title-color: #2A6EB5;
+  --region-popup-border: #eee;
+  --region-weather-temp-bg: rgba(255, 255, 255, 0.85);
+  --region-weather-temp-color: #2A6EB5;
+  --region-name-color: #333;
+  --region-name-bg: rgba(255, 255, 255, 0.7);
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
@@ -35,6 +55,42 @@
   --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
   --nav-dropdown-color: #212529; /* Used for navigation links of the dropdown items in the navigation menu. */
   --nav-dropdown-hover-color: #71c55d; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+}
+
+/* 시스템 다크모드 감지 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #121212;
+    --default-color: #e0e0e0;
+    --heading-color: #ffffff;
+    --surface-color: #1e1e1e;
+    --contrast-color: #ffffff;
+    
+    --nav-color: #e0e0e0;
+    --nav-mobile-background-color: #1e1e1e;
+    --nav-dropdown-background-color: #1e1e1e;
+    --nav-dropdown-color: #e0e0e0;
+    
+    /* 날씨 위젯 변수 - 다크 모드 */
+    --weather-container-bg: rgba(40, 44, 52, 0.85);
+    --weather-container-border: rgba(60, 63, 68, 0.6);
+    --weather-container-shadow: rgba(0, 0, 0, 0.3);
+    --weather-info-bg: linear-gradient(145deg, rgba(40, 44, 52, 0.95), rgba(35, 39, 47, 0.9));
+    --weather-info-shadow: rgba(30, 35, 40, 0.8);
+    --weather-metrics-bg: rgba(40, 44, 52, 0.5);
+    --weather-text-primary: #81b6ff;
+    --weather-text-secondary: #e0e0e0;
+    --weather-text-tertiary: #a0a0a0;
+    --weather-text-muted: #777;
+    --air-quality-bg: rgba(40, 44, 52, 0.6);
+    --region-popup-bg: #1e1e1e;
+    --region-popup-title-color: #81b6ff;
+    --region-popup-border: #333;
+    --region-weather-temp-bg: rgba(40, 44, 52, 0.85);
+    --region-weather-temp-color: #81b6ff;
+    --region-name-color: #e0e0e0;
+    --region-name-bg: rgba(40, 44, 52, 0.7);
+  }
 }
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
@@ -50,6 +106,117 @@
   --heading-color: #ffffff;
   --surface-color: #252525;
   --contrast-color: #ffffff;
+}
+
+/* 다크모드일 때 light-background 클래스 스타일 변경 */
+[data-theme="dark"] .light-background {
+  --background-color: #1a1f25;
+  --surface-color: #252525;
+  --default-color: #e0e0e0;
+  --heading-color: #ffffff;
+}
+
+/* 시스템 다크모드 감지 시 light-background 클래스 스타일 변경 */
+@media (prefers-color-scheme: dark) {
+  .light-background {
+    --background-color: #1a1f25;
+    --surface-color: #252525;
+    --default-color: #e0e0e0;
+    --heading-color: #ffffff;
+  }
+}
+
+/* 다크모드 클래스 */
+[data-theme="dark"] {
+  --background-color: #121212;
+  --default-color: #e0e0e0;
+  --heading-color: #ffffff;
+  --surface-color: #1e1e1e;
+  --contrast-color: #ffffff;
+  
+  --nav-color: #e0e0e0;
+  --nav-mobile-background-color: #1e1e1e;
+  --nav-dropdown-background-color: #1e1e1e;
+  --nav-dropdown-color: #e0e0e0;
+  
+  /* 날씨 위젯 변수 - 다크 모드 */
+  --weather-container-bg: rgba(40, 44, 52, 0.85);
+  --weather-container-border: rgba(60, 63, 68, 0.6);
+  --weather-container-shadow: rgba(0, 0, 0, 0.3);
+  --weather-info-bg: linear-gradient(145deg, rgba(40, 44, 52, 0.95), rgba(35, 39, 47, 0.9));
+  --weather-info-shadow: rgba(30, 35, 40, 0.8);
+  --weather-metrics-bg: rgba(40, 44, 52, 0.5);
+  --weather-text-primary: #81b6ff;
+  --weather-text-secondary: #e0e0e0;
+  --weather-text-tertiary: #a0a0a0;
+  --weather-text-muted: #777;
+  --air-quality-bg: rgba(40, 44, 52, 0.6);
+  --region-popup-bg: #1e1e1e;
+  --region-popup-title-color: #81b6ff;
+  --region-popup-border: #333;
+  --region-weather-temp-bg: rgba(40, 44, 52, 0.85);
+  --region-weather-temp-color: #81b6ff;
+  --region-name-color: #e0e0e0;
+  --region-name-bg: rgba(40, 44, 52, 0.7);
+}
+
+/* 테마 토글 스타일 */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle .icon {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle .sun-icon,
+.theme-toggle .moon-icon {
+  position: absolute;
+  transition: opacity 0.3s ease, transform 0.5s ease;
+  color: var(--default-color);
+}
+
+.theme-toggle .sun-icon {
+  opacity: 0;
+  transform: scale(0.5) rotate(45deg);
+}
+
+.theme-toggle .moon-icon {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+  opacity: 0;
+  transform: scale(0.5) rotate(-45deg);
 }
 
 /* Smooth scroll */
@@ -285,7 +452,7 @@ h6 {
 }
 
 /* Navmenu - Mobile */
-@media (max-width: 1199px) {
+@media (max-width: 991px) {
   .mobile-nav-toggle {
     color: var(--nav-color);
     font-size: 28px;
@@ -408,6 +575,113 @@ h6 {
 
   .mobile-nav-active .navmenu>ul {
     display: block;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .navmenu {
+    padding: 0;
+  }
+
+  .navmenu ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .navmenu li {
+    position: relative;
+  }
+
+  .navmenu a,
+  .navmenu a:focus {
+    color: var(--nav-color);
+    padding: 18px 12px;
+    font-size: 15px;
+    font-family: var(--nav-font);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    transition: 0.3s;
+  }
+
+  .navmenu a i,
+  .navmenu a:focus i {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+    transition: 0.3s;
+  }
+
+  .navmenu li:last-child a {
+    padding-right: 0;
+  }
+
+  .navmenu li:hover>a,
+  .navmenu .active,
+  .navmenu .active:focus {
+    color: var(--nav-hover-color);
+  }
+
+  .navmenu .dropdown ul {
+    margin: 0;
+    padding: 10px 0;
+    background: var(--nav-dropdown-background-color);
+    display: block;
+    position: absolute;
+    visibility: hidden;
+    left: 14px;
+    top: 130%;
+    opacity: 0;
+    transition: 0.3s;
+    border-radius: 4px;
+    z-index: 99;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .navmenu .dropdown ul li {
+    min-width: 180px;
+  }
+
+  .navmenu .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 14px;
+    text-transform: none;
+    color: var(--nav-dropdown-color);
+  }
+
+  .navmenu .dropdown ul a i {
+    font-size: 12px;
+  }
+
+  .navmenu .dropdown ul a:hover,
+  .navmenu .dropdown ul .active:hover,
+  .navmenu .dropdown ul li:hover>a {
+    color: var(--nav-dropdown-hover-color);
+  }
+
+  .navmenu .dropdown:hover>ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+  }
+
+  .navmenu .dropdown .dropdown ul {
+    top: 0;
+    left: -90%;
+    visibility: hidden;
+  }
+
+  .navmenu .dropdown .dropdown:hover>ul {
+    opacity: 1;
+    top: 0;
+    left: -100%;
+    visibility: visible;
   }
 }
 
@@ -1459,4 +1733,88 @@ section,
 --------------------------------------------------------------*/
 .starter-section {
   /* Add your styles here */
+}
+
+/*--------------------------------------------------------------
+# Smooth Container Size Transition - 여백 변화 최소화
+--------------------------------------------------------------*/
+/* 화면 크기를 살짝 줄였을 때 갑자기 여백이 변하는 것을 방지 */
+/* 컨테이너 전체에 부드러운 전환 효과 추가 */
+.container, 
+.container-xl,
+.container-fluid.container-xl {
+  transition: width 0.3s ease, max-width 0.3s ease, padding 0.3s ease;
+}
+
+@media (min-width: 1140px) and (max-width: 1399px) {
+  .container, 
+  .container-xl,
+  .container-fluid.container-xl {
+    max-width: 1080px !important;
+    width: 1080px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1139px) {
+  .container, 
+  .container-xl,
+  .container-fluid.container-xl {
+    max-width: 1080px !important;
+    width: 1080px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* 헤더 영역 패딩 안정화 */
+@media (min-width: 992px) and (max-width: 1399px) {
+  .header {
+    padding: 15px 0;
+  }
+  
+  .header .logo {
+    margin-right: 30px;
+  }
+}
+
+/* 영웅 섹션 및 컨텐츠 섹션의 안정적인 여백 유지 */
+@media (min-width: 992px) and (max-width: 1399px) {
+  .hero .container,
+  .section .container,
+  .section .container-xl,
+  .hero .container-xl {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+  }
+  
+  /* 섹션 타이틀 여백 안정화 */
+  .section-title {
+    padding-bottom: 30px;
+  }
+  
+  /* 행과 열 여백 안정화 */
+  .row {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  
+  /* 날씨 위젯 컨테이너 안정화 */
+  #weather-widget {
+    transition: all 0.3s ease;
+  }
+
+  /* 하위 섹션의 여백 안정화 */
+  section > div.container {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+  }
+}
+
+/* 네비게이션 메뉴 안정화 */
+@media (min-width: 992px) and (max-width: 1399px) {
+  .navmenu ul {
+    transition: none;
+  }
 }
