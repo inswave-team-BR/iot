@@ -110,9 +110,9 @@ const yooseok_personalData = {
     statusMessage: "오늘도 코딩 중...",
     profileInfo: {
       name: "황유석",
-      birthday: "1993년 8월 28일",
-      email: "youjason@example.com",
-      image: "",
+      birthday: "2월27일",
+      email: "yooseok21@naver.com",
+      image: "https://i.namu.wiki/i/hMJf_7NjCd_WuR8HLI3iXKkdaQ_T6zQAMSlVdCVxHniQ_JXWsn8dia7sS0WL_qcIBkzFFVSRyGT50cb2opXrPHEfRoJhP-YPGELq0NjdBTjw5QPUQF4VKbSonGPs9VZxwhs3GiNcFeo3_Aoukv7MYQ.webp",
     },
   },
 
