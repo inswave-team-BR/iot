@@ -81,21 +81,12 @@ function updateVisitorCount() {
   // 오늘 날짜 가져오기
   const today = new Date().toDateString();
 
-  // 현재 페이지 경로에서 팀원 이름 추출
-  const pathSegments = window.location.pathname.split("/");
-  let memberName = "";
+  // URL 매개변수에서 팀원 이름(id) 가져오기
+  let memberName = currentHost;
 
-  // 경로에서 minihome 폴더 다음에 오는 세그먼트가 팀원 이름
-  for (let i = 0; i < pathSegments.length; i++) {
-    if (pathSegments[i] === "minihome" && i + 1 < pathSegments.length) {
-      memberName = pathSegments[i + 1];
-      break;
-    }
-  }
-
-  // 팀원 이름이 추출되지 않은 경우 기본값 설정
+  // 팀원 이름이 없는 경우 기본값 설정
   if (!memberName) {
-    memberName = "leejaewon";
+    memberName = "default";
   }
 
   // localStorage 키 생성 (팀원별로 고유한 키 사용)
@@ -169,6 +160,7 @@ function initTabMenu() {
       document.getElementById("decorate").style.display = "none";
       document.getElementById("edit-area").style.display = "none";
       document.getElementById("update-news").style.display = "none";
+      document.getElementById("intro-frame").style.display = "none";
 
       // 선택한 탭에 따라 콘텐츠 표시
       if (tabName === "home") {
@@ -178,6 +170,12 @@ function initTabMenu() {
       } else if (tabName === "guestbook") {
         document.getElementById("miniroom").style.display = "block";
         document.getElementById("guestbook").style.display = "block";
+      } else if (tabName === "introduce") {
+        document.getElementById("intro-frame").style.display = "block";
+        document.getElementById(
+          "intro-frame"
+        ).src = `../${currentHost}_intro.html`;
+        document.getElementById("intro-frame").style.maxHeight = "500px";
       }
     });
   });

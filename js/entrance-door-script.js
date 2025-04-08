@@ -417,8 +417,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
           requestAnimationFrame(portalAnimation);
         } else {
-          // 애니메이션 완료 후 리다이렉션
-          window.location.href = `mini/mini.html?id=${targetPath}`;
+          if (targetPath === "home.html") {
+            window.location.href = targetPath;
+          } else {
+            // 애니메이션 완료 후 리다이렉션
+            window.location.href = `mini/mini.html?id=${targetPath}`;
+          }
         }
       });
     }
