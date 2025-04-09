@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   loadRecentGuestbookToNews();
-  
+
   const urlParams = new URLSearchParams(window.location.search);
   const currentHost = urlParams.get("id");
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-
   //localstorage 저장할 때 사용자별로
   function getMemberNameFromURL() {
     const path = window.location.pathname.split("/");
@@ -25,58 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return "default";
   }
 
-  function loadRecentGuestbookToNews() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentHost = urlParams.get("id");
-    
-
-    const updateNewsBox = document.getElementById("update-news");
-    if (!updateNewsBox) return;
-
-    const raw = localStorage.getItem(`${currentHost}_guestbook`) || "[]";
-    if (!raw) return;
-
-    // 문자열 -> js 객체  배열로 저장
-    const entries = JSON.parse(raw);
-
-    // 최신순 정렬
-    entries.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-    // 상위 3개만 가져오기
-    const recent = entries.slice(0, 3);
-
-    // 기존 내용 초기화 후 동적 추가
-    updateNewsBox.innerHTML = `
-    <p class="update-label">
-      <span class="update-title">Updated Boards</span>&nbsp;&nbsp;
-      <span class="update-meta" id="seeMoreBtn" style="cursor: pointer;">더보기</span>
-    </p>
-    `;
-
-    //더보기 버튼
-    const seeMoreBtn = document.getElementById("seeMoreBtn");
-    if (seeMoreBtn) {
-      seeMoreBtn.addEventListener("click", function () {
-        // 탭을 guestbook으로 전환
-        document.querySelectorAll(".tab-item").forEach((tab) => {
-          const tabName = tab.getAttribute("data-tab");
-          if (tabName === "guestbook") {
-            tab.click(); // 탭 전환 기능 실행
-          }
-        });
-      });
-    }
-
-    recent.forEach((entry) => {
-      const p = document.createElement("p");
-      p.className = "update-line";
-      p.textContent = `· [방명록] ${entry.text.slice(0, 20)}${
-        entry.text.length > 20 ? "..." : ""
-      }`;
-      updateNewsBox.appendChild(p);
-    });
-  }
-
   const undoBtn = document.getElementById("undo-btn");
   const resetBtn = document.getElementById("reset-btn");
   const editBtn = document.getElementById("edit-btn");
@@ -84,8 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const editButtons = document.getElementById("edit-buttons");
   const updateNewsBox = document.getElementById("update-news");
   const addBubbleBtn = document.getElementById("add-bubble-btn");
-
-
 
   addBubbleBtn.addEventListener("click", () => {
     const bubble = document.createElement("div");
@@ -96,19 +41,18 @@ document.addEventListener("DOMContentLoaded", function () {
     bubble.style.position = "absolute";
     bubble.style.left = "20px";
     bubble.style.top = "20px";
-  
+
     bubble.addEventListener("focus", function () {
       if (bubble.textContent === "말풍선을 입력하세요") {
         bubble.textContent = "";
       }
     });
-  
+
     makeDraggable(bubble);
     setupDeleteOnDoubleClick(bubble);
     decorateArea.appendChild(bubble);
     placedItems.push(bubble);
   });
-  
 
   let isEditing = false;
 
@@ -126,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
   backgroundStage.style.minHeight = "200px";
   backgroundStage.style.maxHeight = "200px";
   backgroundStage.style.overflow = "hidden";
-  
+
   // 편집 UI 초기 숨김
   editUIElements.forEach((el) => (el.style.display = "none"));
   //editBtn.style.display = "inline-block";
@@ -202,7 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const saveKey = `miniroom_data_${currentHost}`;
     localStorage.setItem(saveKey, JSON.stringify(saveData));
-    
 
     // ✅ 저장 후 업데이트 뉴스 다시 보여주기
     if (updateNewsBox) {
@@ -322,8 +265,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const currentUser = JSON.parse(localStorage.getItem("user"));
       const isOwner = currentUser && currentUser.id === currentHost;
 
-      editBtn.style.display = isHome && isNotEditing && isOwner ? "inline-block" : "none";
-
+      editBtn.style.display =
+        isHome && isNotEditing && isOwner ? "inline-block" : "none";
 
       // 뉴스: 홈 탭이고 편집 중 아닐 때만 보이기
       if (updateNewsBox) {
@@ -407,3 +350,54 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+function loadRecentGuestbookToNews() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentHost = urlParams.get("id");
+
+  const updateNewsBox = document.getElementById("update-news");
+  if (!updateNewsBox) return;
+
+  const raw = localStorage.getItem(`${currentHost}_guestbook`) || "[]";
+  if (!raw) return;
+
+  // 문자열 -> js 객체  배열로 저장
+  const entries = JSON.parse(raw);
+
+  // 최신순 정렬
+  entries.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  // 상위 3개만 가져오기
+  const recent = entries.slice(0, 3);
+
+  // 기존 내용 초기화 후 동적 추가
+  updateNewsBox.innerHTML = `
+  <p class="update-label">
+    <span class="update-title">Updated Boards</span>&nbsp;&nbsp;
+    <span class="update-meta" id="seeMoreBtn" style="cursor: pointer;">더보기</span>
+  </p>
+  `;
+
+  //더보기 버튼
+  const seeMoreBtn = document.getElementById("seeMoreBtn");
+  if (seeMoreBtn) {
+    seeMoreBtn.addEventListener("click", function () {
+      // 탭을 guestbook으로 전환
+      document.querySelectorAll(".tab-item").forEach((tab) => {
+        const tabName = tab.getAttribute("data-tab");
+        if (tabName === "guestbook") {
+          tab.click(); // 탭 전환 기능 실행
+        }
+      });
+    });
+  }
+
+  recent.forEach((entry) => {
+    const p = document.createElement("p");
+    p.className = "update-line";
+    p.textContent = `· [방명록] ${entry.text.slice(0, 20)}${
+      entry.text.length > 20 ? "..." : ""
+    }`;
+    updateNewsBox.appendChild(p);
+  });
+}
