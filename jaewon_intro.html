@@ -10,14 +10,10 @@
         let posterVisible = false;
         $("#name-detail-hover").hover(
           function () {
-            $("#hide-table").slideDown(300, function () {
-              $("#hide-table").css("display", "block");
-            });
+            $("#hide-table").slideDown(300).css("display", "block");
           },
           function () {
-            $("#hide-table").slideUp(300, function () {
-              $("#hide-table").css("display", "none");
-            });
+            $("#hide-table").slideUp(300).css("display", "none");
           }
         );
         $("#post-hover").click(function () {
@@ -39,6 +35,14 @@
         margin: 40px;
         background-color: #f9f9f9;
         color: #333;
+      }
+
+    .skills-section {
+      background-color: #fefefe;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      width: 99%;
       }
 
       h2 {
@@ -99,7 +103,6 @@
       a:hover {
         text-decoration: underline;
       }
-      /*--  table style --*/
 
       table {
         border: 1px #a39485 solid;
@@ -186,8 +189,8 @@
       }
 
       .github-link:hover {
-        background-color: #f0f0f0; /* 밝은 회색 배경 */
-        color: #000; /* 텍스트 색 */
+        background-color: #f0f0f0;
+        color: #000;
         cursor: pointer;
       }
 
@@ -223,7 +226,6 @@
         cursor: pointer;
       }
 
-      /* 포스터만 다른 색으로 강조하고 싶다면 아래처럼 따로 스타일링 가능 */
       .link-buttons #post-hover {
         background-color: #007acc;
       }
@@ -231,14 +233,27 @@
       .link-buttons #post-hover:hover {
         background-color: #d63031;
       }
+
+      .intro-section,
+      .github-section,
+      .skills-section,
+      .strength-section,
+      .project-section,
+      .activity-section {
+        margin-bottom: 40px;
+      }
     </style>
   </head>
   <body>
+    <div class="intro-section">
     <h2><span id="name-detail-hover">이재원</span> | Backend 개발자</h2>
     <p>
       안녕하세요. 기록하는 습관이 있고 배움에 즐거움을 느끼며 협업과 소통에 강한
       신입 개발자 이재원입니다.
     </p>
+  </div>
+
+  <div class="github-section">
     <a href="https://github.com/won0845" target="_blank" style="text-decoration: none;">
       <p class="github-link">
         <img
@@ -269,9 +284,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <div class="section">
-      <h4>Skills</h4>
+
+  <div class="skills-section section">
+      <span><b>Skills</b></span>
       <div class="skills-container">
         <div class="skill-tag">Java</div>
         <div class="skill-tag">JavaScript</div>
@@ -286,7 +303,7 @@
       </div>
     </div>
 
-    <div class="section">
+    <div class="strength-section section">
       <h4>핵심 역량 / Strength</h4>
       <ul>
         <li>
@@ -299,7 +316,7 @@
       </ul>
     </div>
 
-    <div class="section">
+    <div class="project-section section">
       <h2>[Project]</h2>
       <h4>
         1. [모두기상]<br />
@@ -360,7 +377,7 @@
       </ul>
     </div>
 
-    <div class="section">
+    <div class="activity-section section">
       <h3>[활동내역]</h3>
       <h4>KOICA 청년중기봉사단 (디지털) 1기 [2024.07 ~ 2024.12]</h4>
       <ul>
