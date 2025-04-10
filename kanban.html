@@ -7,6 +7,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
       rel="stylesheet"
     />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
       * {
         box-sizing: border-box;
@@ -412,10 +413,23 @@
         const deleteBtn = card.querySelector(".delete-btn");
         deleteBtn.addEventListener("click", (e) => {
           e.stopPropagation();
-          if (confirm("카드를 삭제합니다.")) {
-            card.remove();
-            saveBoardToStorage(); // 삭제 후 저장
-          }
+          swal({
+            title: "카드를 삭제 하시겠습니까??",
+            text: "카드를 삭제하시는 경우 데이터 복구가 불가능합니다.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          }).then((willDelete) => {
+            if (willDelete) {
+              card.remove();
+              saveBoardToStorage(); // 삭제 후 저장
+              swal("성공적으로 카드가 삭제되었습니다.", {
+                icon: "success",
+              });
+            } else {
+              swal("카드 삭제가 취소되었습니다.");
+            }
+          });
         });
       }
 
