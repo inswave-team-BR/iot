@@ -3,13 +3,13 @@ const siyeon_personalData = {
   // 프로필 정보
   profile: {
     homepageTitle: "김시연님의 미니홈피 입니다.",
-    todayFeeling: "행복😊",
-    statusMessage: "행복한 하루 되세요!",
+    todayFeeling: "싱숭생숭",
+    statusMessage: "고양이랑 코딩이 젤 좋아 ₍˄·͈༝·͈˄*₎◞ ̑̑ ෆ",
     profileInfo: {
       name: "김시연",
       birthday: "8월 6일",
       email: "dustlrka86@gmail.com",
-      image: "",
+      image: "./image/cat.jpg",
     },
   },
 
@@ -17,18 +17,18 @@ const siyeon_personalData = {
   songs: [
     {
       id: "song1",
-      title: "IU - 밤편지",
-      src: "audio/IU - Through the Night (밤편지).mp3",
+      title: "백예린 - 산책",
+      src: "audio/siyeon/백예린_산책.mp3",
     },
     {
       id: "song2",
-      title: "태연 - 그대라는 시",
-      src: "audio/TAEYEON - All About You (그대라는 시).mp3",
+      title: "김현중 - 그랬나봐",
+      src: "audio/siyeon/김형중_그랬나봐.mp3",
     },
     {
       id: "song3",
-      title: "아이유 - 가을 아침",
-      src: "audio/IU - Autumn morning (가을 아침).mp3",
+      title: "태연 - 만약에",
+      src: "audio/siyeon/태연_만약에.mp3",
     },
   ],
 };
@@ -52,17 +52,17 @@ const jaeseong_personalData = {
     {
       id: "song1",
       title: "잔나비 - 봉춤을 추네",
-      src: "audio/잔나비 - 봉춤을 추네.mp3",
+      src: "audio/jaeseong/잔나비 - 봉춤을 추네.mp3",
     },
     {
       id: "song2",
       title: "SIMPLE (Feat. JUNNY, 창모)",
-      src: "audio/SIMPLE (Feat. JUNNY, 창모).mp3",
+      src: "audio/jaeseong/SIMPLE (Feat. JUNNY, 창모).mp3",
     },
     {
       id: "song3",
       title: "거북이 - 비행기",
-      src: "audio/거북이 - 비행기.mp3",
+      src: "audio/jaeseong/거북이 - 비행기.mp3",
     },
   ],
 };
@@ -86,18 +86,18 @@ const jaewon_personalData = {
   songs: [
     {
       id: "song1",
-      title: "잔나비 - 봉춤을 추네",
-      src: "audio/Pole Dance (봉춤을 추네)_잔나비.mp3",
+      title: "에픽하이(feat. 윤하) - 우산",
+      src: "audio/jaewon/Epik High - 우산 {Umbrella} ft. Younha.mp3",
     },
     {
       id: "song2",
-      title: "SIMPLE (Feat. JUNNY, 창모)",
-      src: "audio/DAUL, Noair, plan8, CHANNEL 201 - SIMPLE (Feat. JUNNY, 창모 (CHANGMO)).mp3",
+      title: "SG 워너비 - Timeless",
+      src: "audio/jaewon/SG 워너비 - Timeless.mp3",
     },
     {
       id: "song3",
-      title: "거북이 - 비행기",
-      src: "audio/Turtles(거북이) - Airplane(비행기).mp3",
+      title: "리쌍 - 발레리노",
+      src: "audio/jaewon/리쌍(LeeSSang) Feat. ALi - 발레리노 (Ballerino) Official MV.mp3",
     },
   ],
 };
@@ -121,17 +121,17 @@ const yooseok_personalData = {
     {
       id: "song1",
       title: "기리보이 - 호랑이소굴",
-      src: "audio/Giriboy - Tiger Den (호랑이소굴) (Feat. Jvcki Wai).mp3",
+      src: "audio/yooseok/Giriboy - Tiger Den (호랑이소굴) (Feat. Jvcki Wai).mp3",
     },
     {
       id: "song2",
       title: "고등래퍼 - 바라봐",
-      src: "audio/Chaboom, Webster B - Look At Me (바라봐).mp3",
+      src: "audio/yooseok/Chaboom, Webster B - Look At Me (바라봐).mp3",
     },
     {
       id: "song3",
       title: "식케이 - 랄라",
-      src: "audio/Sik-K - RING RING (Feat. Gaeko, pH-1).mp3",
+      src: "audio/yooseok/Sik-K - RING RING (Feat. Gaeko, pH-1).mp3",
     },
   ],
 };
