@@ -1,91 +1,199 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>김시연 | Backend Developer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f0f2f5;
-      margin: 0;
-      padding: 20px;
-      color: #333;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>김시연 | Backend Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=SUIT:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+ body {
+  font-family: 'SUIT', sans-serif;
+  background-color: #e6f9f8;
+  background-image: url('/mini/image/background2.jpg');
+  background-size: 150px 150px;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
 
-    .container {
-      max-width: 700px;
-      margin: 0 auto;
-    }
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.08);
+  border: 3px dashed #9ed9d3;
+}
 
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+.profile {
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px dashed #9ed9d3;
+}
 
-    .header h1 {
-      font-size: 36px;
-      margin-bottom: 5px;
-    }
+.profile::before {
+  content: "오늘도 개발중 🐾";
+  display: block;
+  font-size: 14px;
+  color: #56a6a0;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
 
-    .header p {
-      font-size: 18px;
-      color: #666;
-    }
+.profile-img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 6px dotted #9ed9d3;
+  padding: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
 
-    .card {
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      padding: 24px;
-      margin-bottom: 30px;
-    }
+.header h1 {
+  font-size: 40px;
+  color: #444;
+  margin-top: 10px;
+}
 
-    .card h2 {
-      font-size: 22px;
-      margin-bottom: 16px;
-      border-bottom: 2px solid #e3e3e3;
-      padding-bottom: 8px;
-    }
+.header p {
+  font-size: 17px;
+  color: #56a6a0;
+  display: inline-block;
+  background-color: #ffffff;
+  border: 2px solid #9ed9d3;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(158, 217, 211, 0.3);
+}
 
-    .info-item {
-      margin: 6px 0;
-    }
+.card {
+  background-color: #ffffff;
+  border: 1px solid #c2e5e3;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 25px;
+  position: relative;
+}
 
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+.card h3 {
+  font-size: 19px;
+  color: #56a6a0;
+  border-bottom: 1px dashed #c2e5e3;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
 
-    .skill-tag {
-      background-color: #e0f0ff;
-      color: #003366;
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 14px;
-    }
+.info-item {
+  margin: 4px 0;
+  font-size: 15px;
+}
 
-    ul {
-      padding-left: 20px;
-    }
+ul li {
+  font-size: 15px;
+  margin-bottom: 8px;
+  line-height: 1.7;
+  padding: 5px 8px;
+  border-radius: 12px;
+  background-color: rgba(230, 249, 248, 0.7);
+  display: inline-block;
+}
 
-    a {
-      color: #005bbb;
-      text-decoration: none;
-    }
+ul li:hover {
+  background-color: rgba(158, 217, 211, 0.5);
+}
 
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
+a {
+  color: #56a6a0;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #3c827b;
+}
+
+.highlight {
+  display: inline-block;
+  background-color: #d9f5f3;
+  border: 2px solid #9ed9d3;
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-weight: bold;
+  color: #56a6a0;
+}
+
+.speech-bubble {
+  position: relative;
+  background: rgba(230, 249, 248, 0.6);
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 30px;
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: rgba(230, 249, 248, 0.6) transparent;
+}
+
+.sticker {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 60px;
+  opacity: 0.8;
+}
+
+.profile-circle-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.circle-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  margin-left: -150px;
+  margin-top: -150px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 300px;
+  font-size: 14px;
+  color: #56a6a0;
+  white-space: nowrap;
+  transform: rotate(0deg);
+}
+
+    </style>
+  </head>
+  
 <body>
   <div class="container">
+    <div class="profile">
+      <img src="/mini/image/caby.jpg" alt="고양이 프로필" class="profile-img">
+    </div>
+
     <div class="header">
       <h1>김시연</h1>
-      <p>끊임없이 새로 배우려 하며 활발하게 소통하는 백엔드 개발자</p>
+      <p><b>끊임없이 새로 배우려 하며 활발하게 소통하는 백엔드 개발자</b></p>
     </div>
 
     <div class="card">
@@ -103,27 +211,13 @@
 
     <div class="card">
       <h3>기술 스택</h3>
-      <div class="skills">
-        <div class="skill-tag">Java</div>
-        <div class="skill-tag">Spring Boot</div>
-        <div class="skill-tag">Spring Framework</div>
-        <div class="skill-tag">JSP</div>
-        <div class="skill-tag">Mybatis</div>
-        <div class="skill-tag">JavaScript</div>
-        <div class="skill-tag">Ajax</div>
-        <div class="skill-tag">jQuery</div>
-        <div class="skill-tag">HTML5</div>
-        <div class="skill-tag">CSS</div>
-        <div class="skill-tag">MySQL</div>
-        <div class="skill-tag">Oracle</div>
-        <div class="skill-tag">Apache HTTP Server</div>
-        <div class="skill-tag">Tomcat</div>
-        <div class="skill-tag">AWS</div>
-        <div class="skill-tag">Docker</div>
-        <div class="skill-tag">Jenkins</div>
-        <div class="skill-tag">Git</div>
-        <div class="skill-tag">Notion</div>
-      </div>
+      <ul>
+        <li>♥ <strong>Back-End :</strong> Java, Spring Boot, JSP, JPA, Spring Framework, Mybatis, Maven</li>
+        <li>♥ <strong>Front-End :</strong> JavaScript, Ajax, jQuery, HTML5, CSS</li>
+        <li>♥ <strong>DataBase :</strong> Apache HTTP Server, Tomcat, MySQL, Oracle</li>
+        <li>♥ <strong>Cloud & CI/CD :</strong> AWS (EC2, S3, RDS), Docker, Jenkins</li>
+        <li>♥ <strong>Collaboration & Tools :</strong> Git, Notion</li>
+      </ul>
     </div>
 
     <div class="card">
@@ -137,8 +231,19 @@
     </div>
 
     <div class="card">
-      <h3>수료 과정</h3>
+      <h3>프로젝트</h3>
+      <div class="speech-bubble">
+        <p><strong>잇-다 : 콘텐츠 공유 및 규도 서비스 플랫폼 구현과 MVC 패턴 적용</strong></p>
+        <p>기 간 : 2023.07 ~ 2023.11</p>
+        <p><a href="https://github.com/htakimsean/2023ITDA" target="_blank">https://github.com/htakimsean/2023ITDA</a></p>
+        <ul>
+          <li><strong>목적</strong></li>
+          <li>콘텐츠 제작자와 규도자를 연결하는 콘텐츠 공유 및 규도 플랫폼</li>
+          <li>판매 회원은 채널 개설 및 콘텐츠 업로드, 일반 회원은 콘텐츠 규도 및 여러만 가능</li>
+        </ul>
+      </div>
     </div>
+    
   </div>
 </body>
 </html>
