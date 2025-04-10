@@ -470,10 +470,23 @@
       function setupDeleteColumn(column) {
         const deleteBtn = column.querySelector(".delete-column");
         deleteBtn.addEventListener("click", () => {
-          if (window.confirm("컬럼를 삭제합니다.")) {
-            column.remove();
-            saveBoardToStorage(); // ✅ 삭제 후 저장!
-          }
+          swal({
+            title: "컬럼을 삭제 하시겠습니까??",
+            text: "컬럼을 삭제하시는 경우 데이터 복구가 불가능합니다.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          }).then((willDelete) => {
+            if (willDelete) {
+              column.remove();
+              saveBoardToStorage(); // ✅ 삭제 후 저장!
+              swal("성공적으로 컬럼이 삭제되었습니다.", {
+                icon: "success",
+              });
+            } else {
+              swal("컬럼 삭제가 취소되었습니다.");
+            }
+          });
         });
       }
 
@@ -795,15 +808,22 @@
       // 컬럼 추가 버튼 기능
       const addColumnBtn = document.querySelector(".add-column-btn");
       addColumnBtn.addEventListener("click", () => {
-        const newColumn = createColumn(
-          prompt("컬럼 이름을 입력하세요") || "🆕 새 컬럼"
-        );
+        let newColumn = null;
+        swal("컬럼 이름을 입력하세요:", {
+          content: "input",
+        }).then((value) => {
+          newColumn = createColumn(value || "🆕 새 컬럼");
+          // 컬럼 추가 버튼 바로 앞에 삽입
+          const name = value || "🆕 새 컬럼";
+          swal('"' + name + '"' + " 컬럼이 추가되었습니다.", {
+            icon: "success",
+          });
 
-        // 컬럼 추가 버튼 바로 앞에 삽입
-        const board = document.querySelector(".board");
-        board.insertBefore(newColumn, addColumnBtn.parentElement);
+          const board = document.querySelector(".board");
+          board.insertBefore(newColumn, addColumnBtn.parentElement);
 
-        saveBoardToStorage(); // 컬럼 추가 시 호출
+          saveBoardToStorage(); // 컬럼 추가 시 호출
+        });
       });
 
       const board = document.querySelector(".board");
