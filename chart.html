@@ -6,36 +6,63 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  
-  <canvas id="btcChart" width="400" height="200"></canvas>
+
+  <h2>비트코인 시세</h2>
+
+  <label for="period">기간 선택: </label>
+  <select id="period">
+    <option value="1">1일</option>
+    <option value="10">10일</option>
+    <option value="15">15일</option>
+    <option value="30">30일</option>
+    <option value="90" selected>90일</option>
+  </select>
+
+  <canvas id="btcChart" width="400" height="185"></canvas>
 
   <script>
-    const url = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=krw&days=90';
+    const chartElement = document.getElementById('btcChart').getContext('2d');
+    let btcChart; // 전역으로 차트 저장
 
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        const labels = [];
-        const prices = [];
+    // 최초 로딩 시 90일 데이터
+    fetchAndDrawChart(90);
 
-        data.prices.forEach(point => {
-          const date = new Date(point[0]);
-          const formatted = `${date.getMonth()+1}/${date.getDate()}`;
+    // select 변경 시 새로 그리기
+    document.getElementById('period').addEventListener('change', (e) => {
+      const days = e.target.value;
+      fetchAndDrawChart(days);
+    });
 
-          // 하루에 여러 데이터가 있어서 날짜당 하나만 저장
-          if (!labels.includes(formatted)) {
-            labels.push(formatted);
-            prices.push(point[1]);
-          }
-        });
+    function fetchAndDrawChart(days) {
+      const url = `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=krw&days=${days}`;
 
-        drawChart(labels, prices);
-      })
-      .catch(err => console.error("에러 발생:", err));
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const labels = [];
+          const prices = [];
 
-    function drawChart(labels, values) {
-      const ctx = document.getElementById('btcChart').getContext('2d');
-      new Chart(ctx, {
+          data.prices.forEach(point => {
+            const date = new Date(point[0]);
+            const formatted = `${date.getMonth() + 1}/${date.getDate()}`;
+
+            if (!labels.includes(formatted)) {
+              labels.push(formatted);
+              prices.push(point[1]);
+            }
+          });
+
+          updateChart(labels, prices);
+        })
+        .catch(err => console.error("에러 발생:", err));
+    }
+
+    function updateChart(labels, values) {
+      if (btcChart) {
+        btcChart.destroy(); // 기존 차트 제거
+      }
+
+      btcChart = new Chart(chartElement, {
         type: 'line',
         data: {
           labels: labels,
@@ -58,5 +85,6 @@
       });
     }
   </script>
+
 </body>
 </html>

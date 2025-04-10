@@ -3,132 +3,173 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>황유석</title>
+  <title>황유석 | Android & Backend Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=SUIT:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'SUIT', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f3f5f7;
+      background-color: #eef6f5;
       color: #333;
     }
 
     .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 2rem;
-      background-color: #fff;
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     .header {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 2rem;
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 1rem;
+      text-align: center;
+      margin-bottom: 30px;
     }
 
-    .header img {
-      width: 150px;
-      border-radius: 12px;
-      object-fit: cover;
+    .header h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #007a74;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 2rem;
+    .header p {
+      font-size: 16px;
+      color: #666;
     }
 
     .info p {
-      margin: 0.2rem 0;
+      margin: 5px 0;
     }
 
     section {
-      margin-top: 2rem;
+      margin-top: 30px;
     }
 
     h2 {
-      border-left: 5px solid #00a86b;
-      padding-left: 0.5rem;
-      font-size: 1.4rem;
-    }
-
-    ul {
-      padding-left: 1.5rem;
+      font-size: 22px;
+      color: #007a74;
+      border-bottom: 2px dashed #b7e2de;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
     }
 
     .stack span {
-      background: #e1f7ec;
-      color: #009e60;
-      padding: 5px 10px;
-      margin: 3px;
+      background: #d9f5f3;
+      color: #007a74;
+      padding: 8px 14px;
+      margin: 5px;
       display: inline-block;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
     }
 
-    .image-box {
-      margin-top: 1rem;
-      text-align: center;
+    ul {
+      padding-left: 20px;
     }
 
-    .image-box img {
-      max-width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    li {
+      margin-bottom: 8px;
+      line-height: 1.6;
     }
 
     a {
-      color: #007bff;
+      color: #007a74;
       text-decoration: none;
+      font-weight: bold;
     }
 
     a:hover {
       text-decoration: underline;
     }
+
+    .project-box {
+      background-color: #f7fdfd;
+      border: 1px solid #cde7e4;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 15px;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="header">
-    
-    <div class="info">
-      
-      
-      <p><strong>GitHub:</strong> <a href="https://github.com/yooseok222" target="_blank">yooseok222</a></p>
+  <div class="container">
+    <div class="header">
+      <h1>황유석</h1>
+      <p>더 나은 코드를 위해 꾸준히 성장하는 개발자</p>
+      <div class="info">
+        <p><strong>🎂 생년월일:</strong> 1999.02.27</p>
+        <p><strong>📍 거주지:</strong> 서울특별시 성북구</p>
+        <p><strong>📧 이메일:</strong> swh3190@gmail.com</p>
+        <p><strong>🔗 GitHub:</strong> <a href="https://github.com/yooseok222" target="_blank">github.com/yooseok222</a></p>
+      </div>
     </div>
+
+    <section>
+      <h2>기술 스택</h2>
+      <div class="stack">
+        <span>Java</span>
+        <span>C</span>
+        <span>Kotlin</span>
+        <span>Python</span>
+        <span>Oracle</span>
+        <span>MySQL</span>
+        <span>Spring Boot</span>
+        <span>HTML5</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>Ajax</span>
+        <span>jQuery</span>
+        <span>Git</span>
+        <span>Notion</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>프로젝트</h2>
+      <div class="project-box">
+        <p><strong>📌 프로젝트명:</strong> 배틀러닝 (Battle Running)</p>
+        <p><strong>기간:</strong> 2024.09 ~ 2024.12</p>
+        <p><strong>역할:</strong> Android 개발</p>
+        <p><strong>사용 기술:</strong> Kotlin, Spring Boot, Oracle, MySQL</p>
+        <p><strong>주요 내용:</strong> 
+          사용자 위치 기반으로 땅을 점령하는 게임 요소를 결합한 러닝 앱. 
+          '배틀' 시스템과 AI 기반 코스 추천 기능을 통해 경쟁과 재미를 동시에 제공합니다.
+        </p>
+        <p><strong>담당 기능:</strong></p>
+        <ul>
+          <li>소셜 로그인 및 회원가입 기능 구현</li>
+          <li>Google Maps 기반 실시간 위치 표시 및 점령 기능</li>
+          <li>유저 간 실시간 배틀 시스템 구현</li>
+          <li>러닝 시간 측정 및 기록 관리</li>
+          <li>AI 추천 러닝 코스 기능 설계 및 개발</li>
+        </ul>
+      </div>
+
+      <div class="project-box">
+        <p><strong>📌 프로젝트명:</strong> 렛츠가든 (Let's Garden)</p>
+        <p><strong>기간:</strong> 2024.03 ~ 2024.06</p>
+        <p><strong>역할:</strong> 라즈베리파이와 센서를 연결하여 식물 환경 데이터 수집 및 MySQL 저장</p>
+        <p><strong>사용 기술:</strong> Raspberry Pi, MySQL, Python, CNN</p>
+        <p><strong>주요 내용:</strong>
+          식물의 생장환경을 센서를 통해 모니터링하고, 라즈베리파이로 수집한 데이터를 애플리케이션에서 시각화.
+          카메라를 통해 잎의 이미지를 촬영하고, CNN을 활용해 잎의 이상 상태를 분석.
+        </p>
+        <p><strong>담당 기능:</strong></p>
+        <ul>
+          <li>라즈베리파이와 센서를 연결하여 온도, 습도 등 환경 데이터 수집</li>
+          <li>수집한 데이터를 MySQL 데이터베이스에 저장</li>
+          <li>CNN 모델 기반 잎 상태 분석 기능 구현 보조</li>
+        </ul>
+      </div>
+    </section>
   </div>
-
-
-
-  <section>
-    <h2>기술 스택</h2>
-    <div class="stack">
-      <span>Java</span>
-      <span>C</span>
-      <span>Kotlin</span>
-      <span>Python</span>
-    </div>
-  </section>
-
-  
-
-  <section>
-    <h2>캡스톤 프로젝트</h2>
-    <p><strong>프로젝트명:</strong> 배틀러닝 (Battle Running)</p>
-    <p><strong>역할:</strong> Android Studio를 활용한 프론트엔드 개발</p>
-    <p><strong>기술 스택:</strong> Kotlin, Spring Boot, Oracle, MySQL</p>
-    <p><strong>담당 기능:</strong></p>
-    <ul>
-      <li>로그인 및 회원가입</li>
-      <li>실시간 위치 기반 지도</li>
-      <li>배틀 기능</li>
-      <li>러닝 타이머</li>
-    </ul>
-    
-  </section>
-</div>
 
 </body>
 </html>
