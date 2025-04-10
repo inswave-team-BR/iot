@@ -4,6 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>이재원 | Backend 개발자 이력서</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#name-detail-hover").hover(
+          function () {
+            $("#hide-table").slideDown(300, function () {
+              $("#hide-table").css("display", "block");
+            });
+          },
+          function () {
+            $("#hide-table").slideUp(300, function () {
+              $("#hide-table").css("display", "none");
+            });
+          }
+        );
+      });
+    </script>
     <style>
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -70,14 +87,113 @@
       a:hover {
         text-decoration: underline;
       }
+      /*--  table style --*/
+
+      table {
+        border: 1px #a39485 solid;
+        font-size: 0.9em;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+        width: 220px;
+        border-collapse: collapse;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      th {
+        text-align: left;
+      }
+
+      thead {
+        font-weight: bold;
+        color: #fff;
+        background: #73685d;
+      }
+
+      td,
+      th {
+        padding: 1em 0.5em;
+        vertical-align: middle;
+      }
+
+      td {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        background: #fff;
+        width: 100%;
+      }
+
+      a {
+        color: #73685d;
+      }
+
+      @media all and (max-width: 768px) {
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+          display: block;
+        }
+
+        th {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+
+        table {
+          position: relative;
+          padding-bottom: 0;
+          border: none;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        thead {
+          float: left;
+          white-space: nowrap;
+        }
+
+        tr {
+          display: inline-block;
+          vertical-align: top;
+        }
+
+        th {
+          border-bottom: 1px solid #a39485;
+        }
+
+        td {
+          padding-left: 10px;
+          border-bottom: 1px solid #e5e5e5;
+        }
+      }
     </style>
   </head>
   <body>
-    <h2>이재원 | Backend 개발자</h2>
+    <h2><span id="name-detail-hover">이재원</span> | Backend 개발자</h2>
     <p>
       안녕하세요. 기록하는 습관이 있고 배움에 즐거움을 느끼며 협업과 소통에 강한
       신입 개발자 이재원입니다.
     </p>
+    <table id="hide-table" style="display: none">
+      <thead>
+        <tr>
+          <th>👤 이름</th>
+          <th>🎂 나이</th>
+          <th>🚻 성별</th>
+          <th>📍 사는 곳</th>
+          <th>🎯 취미</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>이재원</td>
+          <td>1999년생</td>
+          <td>남 ♂️</td>
+          <td>경기도 수원시 🏙️</td>
+          <td>운동 🏋️</td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="section">
       <h4>Skills</h4>
