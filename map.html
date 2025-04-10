@@ -27,6 +27,8 @@
   </style>
   <script
     src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=faedc692ee4f1fb94b995cdb777abeb9&libraries=services"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -73,8 +75,16 @@
     if (!currentUser) {
       userSelect.addEventListener('mousedown', function (e) {
         e.preventDefault(); // 드롭다운 자체를 막음
-        alert("로그인이 필요한 기능입니다. 로그인 페이지로 이동합니다.");
-        window.top.location.href = "login.html";
+        Swal.fire({
+          icon: 'warning',
+          title: '로그인이 필요합니다',
+          text: '로그인 페이지로 이동합니다.',
+          confirmButtonText: '확인'
+        }).then(() => {
+          window.top.location.href = "login.html";
+        });
+        
+
       });
     }
 
@@ -95,7 +105,13 @@
 
     userSelect.addEventListener('change', function () {
       if (currentUser && userSelect.value !== currentUser.name) {
-        alert("다른 사용자의 이름은 선택할 수 없습니다.");
+        Swal.fire({
+          icon: 'error',
+          title: '사용자 제한',
+          text: '다른 사용자의 이름은 선택할 수 없습니다.',
+          confirmButtonText: '확인'
+        });
+        
         userSelect.value = currentUser.name; // 다시 본인 이름으로 되돌림
       }
     });
@@ -121,19 +137,35 @@
     // 지도 클릭 시 마커 추가
     kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
       if (!currentUser) {
-        alert("로그인이 필요한 기능입니다. 로그인 페이지로 이동합니다.");
-        window.top.location.href = "login.html";
+        Swal.fire({
+          icon: 'warning',
+          title: '로그인이 필요합니다',
+          text: '로그인 페이지로 이동합니다.',
+          confirmButtonText: '확인'
+        }).then(() => {
+          window.top.location.href = "login.html";
+        });
+        
+        
         return;
       }
 
       const selectedUser = userSelect.value;
       if (!selectedUser) {
-        alert("사용자를 선택해주세요!");
+        Swal.fire({
+          icon: 'warning', 
+          text: '사용자를 선택해주세요.',
+          confirmButtonText: '확인'
+        })
         return;
       }
 
       if (selectedUser !== currentUser.name) {
-        alert("다른 사용자의 이름으로는 마커를 추가할 수 없습니다.");
+        Swal.fire({
+          icon: 'warning', 
+          text: '다른 사용자의 이름으로는 마커를 추가할 수 없습니다.',
+          confirmButtonText: '확인'
+        })
         return;
       }
 
@@ -204,11 +236,21 @@
           if (justAdded) return; // ✅ 방금 만든 마커는 무시
 
           if (!currentUser || currentUser.name !== user) {
-            alert("이 마커는 생성자만 삭제할 수 있습니다.");
+            Swal.fire({
+              icon: 'warning', 
+              text: '이 마커는 생성자만 삭제할 수 있습니다.',
+              confirmButtonText: '확인'
+            })
             return;
           }
-
-          if (confirm(`${user}님의 마커를 삭제하시겠습니까?`)) {
+          Swal.fire({
+            icon: 'question',
+            title: `${user}님의 마커를 삭제하시겠습니까?`,
+            showCancelButton: true,
+            confirmButtonText: '삭제',
+            cancelButtonText: '취소'
+          }).then(result => {
+          if (result.isConfirmed) {
             overlay.setMap(null);
             const updated = savedMarkers.filter(m => !(m.user === user && m.lat === lat && m.lng === lng));
             localStorage.setItem('markers', JSON.stringify(updated));
@@ -216,10 +258,8 @@
             updated.forEach(m => savedMarkers.push(m));
           }
         });
+      });
       }, 300); // ✅ 클릭 이벤트 자체도 딜레이
-
-
-
     }
 
 
@@ -227,7 +267,11 @@
     function searchPlaces() {
       const keyword = document.getElementById('keyword').value.trim();
       if (!keyword) {
-        alert("검색어를 입력해주세요!");
+        Swal.fire({
+          icon: 'warning', 
+          text: '검색어를 입력해 주세요',
+          confirmButtonText: '확인'
+        })
         return;
       }
 
@@ -271,7 +315,7 @@
 
           map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
         } else {
-          alert("검색 결과가 없습니다.");
+          Swal.fire({ icon: 'info', title: '검색 결과 없음', text: '검색 결과가 없습니다.' });
         }
       }, {
         location: map.getCenter(),
@@ -288,11 +332,18 @@
 
     document.getElementById('clearMarkersBtn').addEventListener('click', function () {
       if (!currentUser) {
-        alert("로그인한 사용자만 마커를 삭제할 수 있습니다.");
+        Swal.fire({ icon: 'info', title: '삭제 불가', text: '로그인한 사용자만 마커를 삭제할 수 있습니다.' });
         return;
       }
-
-      if (confirm("정말 본인의 마커만 삭제하시겠습니까?")) {
+      Swal.fire({
+        icon: 'warning',
+        title: '모든 마커 삭제',
+        text: '정말 본인의 마커만 삭제하시겠습니까?',
+        showCancelButton: true,
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+      }).then(result => {
+      if (result.isConfirmed) {
         // 본인 마커만 삭제
         const userName = currentUser.name;
 
@@ -310,10 +361,10 @@
         savedMarkers.length = 0;
         updated.forEach(m => savedMarkers.push(m));
 
-        alert(`${userName}님의 마커가 모두 삭제되었습니다.`);
+        Swal.fire({ icon: 'success', title: '삭제 완료', text: `${userName}님의 마커가 모두 삭제되었습니다.` });
       }
     });
-
+  });
   </script>
 
 </body>
