@@ -41,9 +41,9 @@ const jaeseong_personalData = {
     statusMessage: "난 기쁨의 눈물을 흘린다...",
     profileInfo: {
       name: "이재성",
-      birthday: "04월 15일",
-      email: "leejaeseong@example.com",
-      image: "",
+      birthday: "11월 33일",
+      email: "Haibanga@outlook.com",
+      image: "./userpages/images/이재성(지브리).png",
     },
   },
 
@@ -52,17 +52,17 @@ const jaeseong_personalData = {
     {
       id: "song1",
       title: "잔나비 - 봉춤을 추네",
-      src: "audio/Pole Dance (봉춤을 추네)_잔나비.mp3",
+      src: "audio/잔나비 - 봉춤을 추네.mp3",
     },
     {
       id: "song2",
       title: "SIMPLE (Feat. JUNNY, 창모)",
-      src: "audio/DAUL, Noair, plan8, CHANNEL 201 - SIMPLE (Feat. JUNNY, 창모 (CHANGMO)).mp3",
+      src: "audio/SIMPLE (Feat. JUNNY, 창모).mp3",
     },
     {
       id: "song3",
-      title: "Officially Missing You - 긱스",
-      src: "audio/Officially Missing You - 긱스.mp3",
+      title: "거북이 - 비행기",
+      src: "audio/거북이 - 비행기.mp3",
     },
   ],
 };
