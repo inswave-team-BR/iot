@@ -12,15 +12,26 @@ if (signupForm) {
     // 이미 존재하는 아이디인지 체크
     const existingUser = users.find((user) => user.id === id);
     if (existingUser) {
-      alert("이미 존재하는 아이디입니다.");
+      Swal.fire({
+        icon: 'error',
+        title: '중복 아이디',
+        text: '이미 존재하는 아이디입니다.',
+        confirmButtonText: '확인'
+      });
       return;
     }
 
     // 새 사용자 추가
     users.push({ name, id, password });
     localStorage.setItem("users", JSON.stringify(users));
-    alert("회원가입 완료! 로그인 해주세요.");
-    window.location.href = "login.html";
+    Swal.fire({
+      icon: 'success',
+      title: '회원가입 완료',
+      text: '로그인 해주세요!',
+      confirmButtonText: '로그인하러 가기'
+    }).then(() => {
+      window.location.href = "login.html";
+    });
   });
 }
 
@@ -39,10 +50,20 @@ if (loginForm) {
 
     if (matchedUser) {
       localStorage.setItem("user", JSON.stringify(matchedUser)); // 로그인 상태 저장
-      alert("로그인 성공!");
-      window.location.href = "home.html";
+      Swal.fire({
+        icon: 'success',
+        title: '로그인 성공!',
+        confirmButtonText: '확인'
+      }).then(() => {
+        window.location.href = "home.html";
+      });
     } else {
-      alert("아이디 또는 비밀번호가 잘못되었습니다.");
+      Swal.fire({
+        icon: 'error',
+        title: '로그인 실패',
+        text: '아이디 또는 비밀번호가 잘못되었습니다.',
+        confirmButtonText: '확인'
+      });
     }
   });
 }

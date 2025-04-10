@@ -25,6 +25,8 @@
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -921,10 +923,10 @@
       height: 100%;
     }
   
-    .video-wrapper iframe {
+    .video-wrapper video {
       width: 100%;
       height: 100%;
-    }
+    }    
   
     .click-overlay {
       position: absolute;
@@ -1016,13 +1018,13 @@
           -->
           <div class="video-container">
             <div class="video-wrapper">
-              <iframe id="youtubePlayer"
-                src="https://www.youtube.com/embed/YwxAiEAUFKo?enablejsapi=1&rel=0&modestbranding=1"
-                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-              <div id="clickOverlay" class="click-overlay"></div>
+              <video id="mp4Player" controls poster="images/thumbnail.jpg" width="100%">
+                <source src="videos/kosa_intro.mp4" type="video/mp4">
+                브라우저가 video 태그를 지원하지 않습니다.
+              </video>
             </div>
           </div>
+          
           
           
           </div>
@@ -1861,47 +1863,68 @@
 
     function logout() {
       localStorage.removeItem("user");
-      alert("로그아웃 되었습니다.");
-      window.location.href = "home.html";
+      Swal.fire({
+        icon: 'success',
+        title: '로그아웃 완료',
+        text: '로그아웃 되었습니다.',
+        confirmButtonText: '확인'
+      }).then(() => {
+        window.location.href = "home.html";
+      });
     }
 
     function handleDelete() {
       const inputPw = document.getElementById("delete-password").value;
       const user = JSON.parse(localStorage.getItem("user"));
       let users = JSON.parse(localStorage.getItem("users")) || [];
-
-      // ✅ userColors 불러오기
+    
       let userColors = JSON.parse(localStorage.getItem("userColors")) || {};
       let allMarkers = JSON.parse(localStorage.getItem("markers")) || [];
-
+    
       const matched = users.find(u => u.id === user.id && u.password === inputPw);
-
+    
       if (!matched) {
-        alert("❌ 비밀번호가 일치하지 않습니다.");
+        Swal.fire({
+          icon: 'error',
+          title: '비밀번호 불일치',
+          text: '❌ 비밀번호가 일치하지 않습니다.',
+          confirmButtonText: '확인'
+        });
         return;
       }
-
-      const confirmDelete = confirm("정말로 계정을 삭제하시겠습니까?");
-      if (confirmDelete) {
-        // ✅ users에서 제거
-        users = users.filter(u => u.id !== user.id);
-        localStorage.setItem("users", JSON.stringify(users));
-
-        // ✅ userColors에서 색상 제거
-        delete userColors[user.name];
-        localStorage.setItem("userColors", JSON.stringify(userColors));
-
-        // ✅ markers에서 해당 사용자의 마커 삭제
-        allMarkers = allMarkers.filter(m => m.user !== user.name);
-        localStorage.setItem("markers", JSON.stringify(allMarkers));
-
-        // ✅ 현재 로그인 정보 제거
-        localStorage.removeItem("user");
-
-        alert("✅ 회원탈퇴가 완료되었습니다.");
-        window.location.href = "home.html";
-      }
+    
+      Swal.fire({
+        icon: 'warning',
+        title: '정말로 계정을 삭제하시겠습니까?',
+        text: '삭제된 계정은 복구할 수 없습니다.',
+        showCancelButton: true,
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          users = users.filter(u => u.id !== user.id);
+          localStorage.setItem("users", JSON.stringify(users));
+    
+          delete userColors[user.name];
+          localStorage.setItem("userColors", JSON.stringify(userColors));
+    
+          allMarkers = allMarkers.filter(m => m.user !== user.name);
+          localStorage.setItem("markers", JSON.stringify(allMarkers));
+    
+          localStorage.removeItem("user");
+    
+          Swal.fire({
+            icon: 'success',
+            title: '회원탈퇴 완료',
+            text: '✅ 회원탈퇴가 완료되었습니다.',
+            confirmButtonText: '홈으로'
+          }).then(() => {
+            window.location.href = "home.html";
+          });
+        }
+      });
     }
+    
 
 
   </script>
@@ -2059,14 +2082,22 @@
             // 날씨 데이터 가져오기 (주간 예보 포함)
             fetchWeatherData(latitude, longitude);
           } else {
-            alert("입력하신 도시를 찾을 수 없습니다.");
+            Swal.fire({
+              icon: 'error',
+              title: '도시 검색 실패',
+              text: '입력하신 도시를 찾을 수 없습니다.'
+            });
             // 로딩 상태 해제
             document.getElementById('weeklyWeatherChart').style.opacity = '1';
           }
         })
         .catch(error => {
           console.error("도시 검색 중 오류 발생:", error);
-          alert("도시 검색 중 오류가 발생했습니다.");
+          Swal.fire({
+            icon: 'error',
+            title: '도시 검색 오류',
+            text: '도시 검색 중 오류가 발생했습니다.'
+          });
           // 로딩 상태 해제
           document.getElementById('weeklyWeatherChart').style.opacity = '1';
         });
