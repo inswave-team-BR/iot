@@ -27,14 +27,19 @@
     </style>
   </head>
   <body>
-    <h1>🎤 소리로 점프 게임</h1>
     <canvas id="gameCanvas" width="480" height="270"></canvas>
+    <select id="modeSelect">
+      <option value="mic">마이크</option>
+      <option value="keyboard">스페이스바</option>
+    </select>
     <button id="startBtn">게임 시작</button>
     <div id="countdown"></div>
     <p>소리를 질러 점프! 장애물과 구멍을 피해 오래 살아남으세요.</p>
     <p id="scoreDisplay">SCORE: 0</p>
 
     <script>
+      let controlMode = "mic"; // 기본값
+
       const canvas = document.getElementById("gameCanvas");
       const ctx = canvas.getContext("2d");
       const startBtn = document.getElementById("startBtn");
@@ -261,8 +266,23 @@
         const rms = Math.sqrt(sum / bufferLength);
         return 40 * Math.log10(rms) + 100;
       }
+      function setupGame() {
+        gameRunning = true;
+        frameCount = 0;
+        isJumping = false;
+        canJump = true;
 
-      function startMicAndGame() {
+        player = new Player();
+        createGroundAndGaps();
+        createClouds();
+
+        scoreDisplay.textContent = "SCORE: 0";
+        loadingBar.style.display = "none";
+
+        updateGame();
+      }
+
+      function startGame() {
         loadingBar.style.width = "0%";
         loadingBar.style.display = "block";
         requestAnimationFrame(() => {
@@ -270,51 +290,52 @@
         });
 
         setTimeout(() => {
-          navigator.mediaDevices
-            .getUserMedia({ audio: true })
-            .then((stream) => {
-              audioContext = new AudioContext();
-              microphone = audioContext.createMediaStreamSource(stream);
-              analyser = audioContext.createAnalyser();
-              analyser.fftSize = 2048;
-              bufferLength = analyser.frequencyBinCount;
-              dataArray = new Uint8Array(bufferLength);
-              microphone.connect(analyser);
+          if (controlMode === "mic") {
+            navigator.mediaDevices
+              .getUserMedia({ audio: true })
+              .then((stream) => {
+                setupGame();
 
-              //  상태 초기화
-              monitoring = true;
-              gameRunning = true;
-              frameCount = 0;
-              isJumping = false;
-              canJump = true;
+                audioContext = new AudioContext();
+                microphone = audioContext.createMediaStreamSource(stream);
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 2048;
+                bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+                microphone.connect(analyser);
 
-              //  오브젝트 재생성
-              player = new Player();
-              createGroundAndGaps();
-              createClouds();
-
-              //  UI 리셋
-              scoreDisplay.textContent = "SCORE: 0";
-              loadingBar.style.display = "none";
-
-              monitorMic();
-              updateGame();
-            })
-            .catch((err) => {
-              alert("마이크 사용 권한이 필요합니다.");
-              console.error(err);
-              startBtn.style.display = "inline-block";
-              loadingBar.style.display = "none";
-            });
+                monitoring = true;
+                monitorMic();
+              })
+              .catch((err) => {
+                alert("마이크 사용 권한이 필요합니다.");
+                console.error(err);
+                startBtn.style.display = "inline-block";
+                document.getElementById("modeSelect").style.display =
+                  "inline-block";
+                loadingBar.style.display = "none";
+              });
+          } else {
+            setupGame();
+            window.addEventListener("keydown", handleKeyJump);
+          }
         }, 2000);
       }
 
       function endGame() {
         gameRunning = false;
         monitoring = false;
-        if (audioContext) audioContext.close();
+        if (audioContext && audioContext.state !== "closed") {
+          audioContext.close();
+        }
+
+        if (controlMode === "keyboard") {
+          window.removeEventListener("keydown", handleKeyJump);
+        }
+
         alert("게임 오버! SCORE: " + frameCount);
         startBtn.style.display = "inline-block";
+        document.getElementById("modeSelect").style.display = "inline-block";
       }
 
       function startCountdown(callback) {
@@ -334,10 +355,17 @@
           }
         }, 1000);
       }
+      function handleKeyJump(e) {
+        if (e.code === "Space" && !isJumping && gameRunning) {
+          player.jump();
+        }
+      }
 
       startBtn.addEventListener("click", () => {
+        controlMode = document.getElementById("modeSelect").value;
         startBtn.style.display = "none";
-        startCountdown(() => startMicAndGame());
+        document.getElementById("modeSelect").style.display = "none";
+        startCountdown(() => startGame());
       });
     </script>
   </body>
