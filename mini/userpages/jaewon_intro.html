@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이재원 | Backend 개발자 이력서</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        let posterVisible = false;
+        $("#name-detail-hover").hover(
+          function () {
+            $("#hide-table").slideDown(300).css("display", "block");
+          },
+          function () {
+            $("#hide-table").slideUp(300).css("display", "none");
+          }
+        );
+        $("#post-hover").click(function () {
+          if (posterVisible) {
+            $("#poster").fadeOut(300, function () {
+              posterVisible = false;
+            });
+          } else {
+            $("#poster").fadeIn(300, function () {
+              posterVisible = true;
+            });
+          }
+        });
+      });
+    </script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 40px;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+    .skills-section {
+      background-color: #f7f4f0;
+      padding: 15px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      width: 99%;
+      }
+      .project-section {
+    background-color: #f7f4f0;
+    padding: 15px;
+    border: 1px solid #e0d6cc;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .activity-section {
+    background-color: #f7f4f0;
+    padding: 15px;
+    border: 1px solid #e0d6cc;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+      h2 {
+        font-size: 28px;
+        margin-top : 5px;
+        margin-bottom: 5px;
+      }
+
+      h3 {
+        margin-top : 5px;
+        color: #2c3e50;
+      }
+
+      h4 {
+        margin-top : 5px;
+        margin-bottom: 10px;
+        color: #34495e;
+      }
+
+      p,
+      li {
+        line-height: 1.6;
+      }
+
+      ul {
+        list-style-type: disc;
+        padding-left: 20px;
+      }
+
+      .skills-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .skill-tag {
+        background-color: #e0e0e0;
+        border-radius: 20px;
+        padding: 8px 14px;
+        font-size: 14px;
+        transition: background-color 0.3s;
+        cursor: default;
+      }
+
+      .skill-tag:hover {
+        background-color: #a0c4ff;
+      }
+
+      a {
+        color: #2980b9;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      table {
+        border: 1px #a39485 solid;
+        font-size: 0.9em;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+        width: 220px;
+        border-collapse: collapse;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      th {
+        text-align: left;
+      }
+
+      thead {
+        font-weight: bold;
+        color: #fff;
+        background: #73685d;
+      }
+
+      td,
+      th {
+        padding: 1em 0.5em;
+        vertical-align: middle;
+      }
+
+      td {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        background: #fff;
+        width: 100%;
+      }
+
+      a {
+        color: #73685d;
+      }
+
+      @media all and (max-width: 768px) {
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+          display: block;
+        }
+
+        th {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+
+        table {
+          position: relative;
+          padding-bottom: 0;
+          border: none;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        thead {
+          float: left;
+          white-space: nowrap;
+        }
+
+        tr {
+          display: inline-block;
+          vertical-align: top;
+        }
+
+        th {
+          border-bottom: 1px solid #a39485;
+        }
+
+        td {
+          padding-left: 10px;
+          border-bottom: 1px solid #e5e5e5;
+        }
+      }
+
+      .github-link {
+        padding: 8px;
+        border-radius: 8px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .github-link:hover {
+        background-color: #f0f0f0;
+        color: #000;
+        cursor: pointer;
+      }
+
+      .github-link img {
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+
+      .link-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        padding: 5px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      .link-buttons a,
+      .link-buttons span {
+        padding: 8px 8px;
+        background-color: #007acc;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+        font-size: 15px;
+      }
+
+      .link-buttons a:hover,
+      .link-buttons span:hover {
+        background-color: #005fa3;
+        cursor: pointer;
+      }
+
+      .link-buttons #post-hover {
+        background-color: #007acc;
+      }
+
+      .link-buttons #post-hover:hover {
+        background-color: #d63031;
+      }
+
+      .intro-section,
+      .github-section,
+      .skills-section,
+      .strength-section,
+      .project-section,
+      .activity-section {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="intro-section">
+    <h2><span id="name-detail-hover">이재원</span> | Backend 개발자</h2>
+    <p>
+      안녕하세요. 기록하는 습관이 있고 배움에 즐거움을 느끼며 협업과 소통에 강한
+      신입 개발자 이재원입니다.
+    </p>
+  </div>
+
+  <div class="github-section">
+    <a href="https://github.com/won0845" target="_blank" style="text-decoration: none;">
+      <p class="github-link">
+        <img
+          src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg"
+          alt="GitHub"
+          width="20"
+        />
+        GitHub → github.com/won0845
+      </p>
+    </a>
+    <table id="hide-table" style="display: none">
+      <thead>
+        <tr>
+          <th>👤 이름</th>
+          <th>🎂 나이</th>
+          <th>🚻 성별</th>
+          <th>📍 사는 곳</th>
+          <th>🎯 취미</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>이재원</td>
+          <td>1999년생</td>
+          <td>남 ♂️</td>
+          <td>경기도 수원시 🏙️</td>
+          <td>운동 🏋️</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="skills-section section">
+      <span><b>Skills</b></span>
+      <div class="skills-container">
+        <div class="skill-tag">Java</div>
+        <div class="skill-tag">JavaScript</div>
+        <div class="skill-tag">Spring Boot</div>
+        <div class="skill-tag">NestJS</div>
+        <div class="skill-tag">React</div>
+        <div class="skill-tag">PostgreSQL</div>
+        <div class="skill-tag">MySQL</div>
+        <div class="skill-tag">Redis</div>
+        <div class="skill-tag">Git</div>
+        <div class="skill-tag">AWS</div>
+      </div>
+    </div>
+
+    <div class="strength-section section">
+      <h4>핵심 역량 / Strength</h4>
+      <ul>
+        <li>
+          AWS EC2, RDS, Route53, Load Balancer, CloudFront, VPC, Elastic Cache를
+          활용한 서버 배포 경험
+        </li>
+        <li>MySQL, PostgreSQL, ORM, MongoDB, Redis를 활용한 DB 경험</li>
+        <li>NestJS, SpringBoot를 활용한 웹 백엔드 개발 경험</li>
+        <li>Git, GitHub를 활용한 형상 관리 및 협업 경험</li>
+      </ul>
+    </div>
+    <br>
+    <h3>[Project]</h3>
+    <div class="project-section section">
+      <h4>
+        1. [모두기상] | [2023.03 ~ 2023.06]<br />
+        (기상 챌린지 웹어플리케이션, React, NestJS, AWS)
+      </h4>
+      <p>
+        미라클 모닝을 위한 기상 챌린지 서비스 <br />
+        (FE 👥 3, FE & BE 👥 2)<br /><br />
+        <strong>담당 역할:</strong><br />
+        <ul>
+          <li>백엔드 리드 개발자로 서버 구조 설계, DB 설계 및 연동</li>
+          <li>winston 로그 관리, API 서버 구축, OpenVidu 환경 구축</li>
+          <li>JWT, cookie, redis를 활용한 인증 구현</li>
+          <li>비용 이슈 해결: NAT Gateway → NAT Instance 전환</li>
+          <li>팀 유니폼 디자인, 일정 스케줄 관리, 프론트 일부 구현</li>
+        </ul>
+      </p>
+      <div class="link-buttons">
+        <a
+          href="https://github.com/TeamMoHead/ModuGisang"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub</a
+        >
+        <a
+          href="https://app.modugisang.site"
+          target="_blank"
+          rel="noopener noreferrer"
+          >프로젝트 사이트</a
+        >
+        <a
+          href="https://www.youtube.com/watch?v=4uRgb9Yyh_s"
+          target="_blank"
+          rel="noopener noreferrer"
+          >프로젝트 영상</a
+        >
+        <span id="post-hover">포스터</span>
+      </div>
+      <img
+        src="https://private-user-images.githubusercontent.com/154266737/333505105-22c083ed-721b-479f-b23b-a30210079513.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDQyNzE1NjgsIm5iZiI6MTc0NDI3MTI2OCwicGF0aCI6Ii8xNTQyNjY3MzcvMzMzNTA1MTA1LTIyYzA4M2VkLTcyMWItNDc5Zi1iMjNiLWEzMDIxMDA3OTUxMy5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNDEwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDQxMFQwNzQ3NDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1lNGYwOWM5YjUzNGU0OGFjZjA5NWFmNWJkZGQyZTI3MTljOGM0NTVlODUxMDllOTViZWJhNjI3YjQ4NjljYWZiJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.qqgsHCIdO8jOls1uRk-srw0MFUOhV4DL18sC68setCk"
+        style="width: 100%; display: none"
+        id="poster"
+      />
+      </div>
+
+      <div class="project-section section">
+      <h4>
+        2. [PintOS] | [2024.03 ~ 2024.04] <br />
+        (KAIST 교육용 Mini OS)
+      </h4>
+ 
+        PintOS는 KAIST에서 교육용으로 제공하는 미니 운영체제
+
+      <ul>
+        <li>우선순위 기반 스레드 스케줄링</li>
+        <li>Argument passing 및 SystemCall 구현</li>
+        <li>Swap In/Out 페이지 교체 알고리즘 구현</li>
+      </ul>
+    </div>
+    <br>
+    <h3>[활동내역]</h3>
+    <div class="activity-section section">
+      <h4>KOICA 청년중기봉사단 (디지털) 1기 [2024.07 ~ 2024.12]</h4>
+      <ul>
+        <li>5인 팀으로 캄보디아 10학년 대상 IT 교육 프로그램 기획 및 운영</li>
+        <li>프로그래밍 및 디지털 리터러시 교육 자료 제작</li>
+        <li>팀 내 소통 및 역할 분배를 통한 효과적인 교육 진행</li>
+      </ul>
+</div>
+<div class="activity-section section">
+      <h4>크래프톤 정글 [2024.01 ~ 2024.05]</h4>
+      <ul>
+        <li>알고리즘 실력 향상 (백준 12단계 상승)</li>
+        <li>Malloc 구현, 서버 구현, PintOS 운영체제 개발</li>
+        <li>페어 프로그래밍을 통한 협업 능력 및 코드 이해도 향상</li>
+        <li>최종 프로젝트를 통해 실무 지식 적용 및 아키텍처 설계 경험</li>
+      </ul>
+    </div>
+  </body>
+</html>
