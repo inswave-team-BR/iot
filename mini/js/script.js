@@ -174,7 +174,7 @@ function initTabMenu() {
         document.getElementById("intro-frame").style.display = "block";
         document.getElementById(
           "intro-frame"
-        ).src = `../${currentHost}_intro.html`;
+        ).src = `./userpages/${currentHost}_intro.html`;
         document.getElementById("intro-frame").style.maxHeight = "500px";
       }
     });
