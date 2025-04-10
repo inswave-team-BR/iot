@@ -179,13 +179,21 @@
         let x = 0;
         const groundWidth = 40;
         const totalWidth = canvas.width * 6;
-        const safeZoneWidth = canvas.width; // ✅ 초반 한 화면은 안전하게
+        const safeZoneWidth = canvas.width;
+
+        let lastObstacleX = -Infinity; // 가장 마지막으로 생성된 장애물 위치 저장
+        const minGap = 120; // 장애물 사이 최소 간격 (픽셀 단위, 필요에 따라 조절 가능)
 
         while (x < totalWidth) {
           grounds.push(new Ground(x, groundWidth));
 
-          if (x > safeZoneWidth && Math.random() < 0.2) {
+          if (
+            x > safeZoneWidth &&
+            Math.random() < 0.2 &&
+            x - lastObstacleX > minGap
+          ) {
             obstacles.push(new Obstacle(x + groundWidth - 20));
+            lastObstacleX = x;
           }
 
           x += groundWidth;
@@ -273,16 +281,24 @@
               dataArray = new Uint8Array(bufferLength);
               microphone.connect(analyser);
 
+              //  상태 초기화
               monitoring = true;
-              monitorMic();
-
-              player = new Player();
+              gameRunning = true;
               frameCount = 0;
+              isJumping = false;
+              canJump = true;
+
+              //  오브젝트 재생성
+              player = new Player();
               createGroundAndGaps();
               createClouds();
-              gameRunning = true;
-              updateGame();
+
+              //  UI 리셋
+              scoreDisplay.textContent = "SCORE: 0";
               loadingBar.style.display = "none";
+
+              monitorMic();
+              updateGame();
             })
             .catch((err) => {
               alert("마이크 사용 권한이 필요합니다.");
