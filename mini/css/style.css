@@ -233,12 +233,6 @@ body {
   font-weight: bold;
 }
 
-/* 프로필 이미지 */
-.profile-image-container {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
 .profile-img-sy {
   width: 200px;
   height: 140px;
