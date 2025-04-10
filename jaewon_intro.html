@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
       $(document).ready(function () {
+        let posterVisible = false;
         $("#name-detail-hover").hover(
           function () {
             $("#hide-table").slideDown(300, function () {
@@ -19,6 +20,17 @@
             });
           }
         );
+        $("#post-hover").click(function () {
+          if (posterVisible) {
+            $("#poster").fadeOut(300, function () {
+              posterVisible = false;
+            });
+          } else {
+            $("#poster").fadeIn(300, function () {
+              posterVisible = true;
+            });
+          }
+        });
       });
     </script>
     <style>
@@ -166,6 +178,59 @@
           border-bottom: 1px solid #e5e5e5;
         }
       }
+
+      .github-link {
+        padding: 8px;
+        border-radius: 8px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .github-link:hover {
+        background-color: #f0f0f0; /* 밝은 회색 배경 */
+        color: #000; /* 텍스트 색 */
+        cursor: pointer;
+      }
+
+      .github-link img {
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+
+      .link-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        padding: 5px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      .link-buttons a,
+      .link-buttons span {
+        padding: 8px 8px;
+        background-color: #007acc;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+        font-size: 15px;
+      }
+
+      .link-buttons a:hover,
+      .link-buttons span:hover {
+        background-color: #005fa3;
+        cursor: pointer;
+      }
+
+      /* 포스터만 다른 색으로 강조하고 싶다면 아래처럼 따로 스타일링 가능 */
+      .link-buttons #post-hover {
+        background-color: #007acc;
+      }
+
+      .link-buttons #post-hover:hover {
+        background-color: #d63031;
+      }
     </style>
   </head>
   <body>
@@ -174,6 +239,16 @@
       안녕하세요. 기록하는 습관이 있고 배움에 즐거움을 느끼며 협업과 소통에 강한
       신입 개발자 이재원입니다.
     </p>
+    <a href="https://github.com/won0845" target="_blank" style="text-decoration: none;">
+      <p class="github-link">
+        <img
+          src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg"
+          alt="GitHub"
+          width="20"
+        />
+        GitHub → github.com/won0845
+      </p>
+    </a>
     <table id="hide-table" style="display: none">
       <thead>
         <tr>
@@ -225,40 +300,68 @@
     </div>
 
     <div class="section">
-      <h3>Project</h3>
+      <h2>[Project]</h2>
       <h4>
-        1. [2023.03 ~ 2023.06] - 모두기상 (기상 챌린지 웹어플리케이션, React,
-        NestJS, AWS)
+        1. [모두기상]<br />
+        [2023.03 ~ 2023.06]<br />
+        (기상 챌린지 웹어플리케이션, React, NestJS, AWS)
       </h4>
       <p>
-        미라클 모닝을 위한 기상 챌린지 서비스 (프론트엔드 3명, 풀스택 2명)<br />
+        미라클 모닝을 위한 기상 챌린지 서비스 <br />
+        (FE 👥 3, FE & BE 👥 2)<br /><br />
         <strong>담당 역할:</strong><br />
-        - 백엔드 리드 개발자로 서버 구조 설계, DB 설계 및 연동<br />
-        - winston 로그 관리, API 서버 구축, OpenVidu 환경 구축<br />
-        - JWT, cookie, redis를 활용한 인증 구현<br />
-        - 비용 이슈 해결: NAT Gateway → NAT Instance 전환<br />
-        - 팀 유니폼 디자인, 일정 스케줄 관리, 프론트 일부 구현<br />
+        <ul>
+          <li>백엔드 리드 개발자로 서버 구조 설계, DB 설계 및 연동</li>
+          <li>winston 로그 관리, API 서버 구축, OpenVidu 환경 구축</li>
+          <li>JWT, cookie, redis를 활용한 인증 구현</li>
+          <li>비용 이슈 해결: NAT Gateway → NAT Instance 전환</li>
+          <li>팀 유니폼 디자인, 일정 스케줄 관리, 프론트 일부 구현</li>
+        </ul>
       </p>
-      <p>
-        <a href="https://github.com/TeamMoHead/ModuGisang" target="_blank"
+      <div class="link-buttons">
+        <a
+          href="https://github.com/TeamMoHead/ModuGisang"
+          target="_blank"
+          rel="noopener noreferrer"
           >GitHub</a
         >
-        |
-        <a href="https://app.modugisang.site" target="_blank"
+        <a
+          href="https://app.modugisang.site"
+          target="_blank"
+          rel="noopener noreferrer"
           >프로젝트 사이트</a
         >
-      </p>
+        <a
+          href="https://www.youtube.com/watch?v=4uRgb9Yyh_s"
+          target="_blank"
+          rel="noopener noreferrer"
+          >프로젝트 영상</a
+        >
+        <span id="post-hover">포스터</span>
+      </div>
+      <img
+        src="https://private-user-images.githubusercontent.com/154266737/333505105-22c083ed-721b-479f-b23b-a30210079513.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDQyNjg4ODksIm5iZiI6MTc0NDI2ODU4OSwicGF0aCI6Ii8xNTQyNjY3MzcvMzMzNTA1MTA1LTIyYzA4M2VkLTcyMWItNDc5Zi1iMjNiLWEzMDIxMDA3OTUxMy5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNDEwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDQxMFQwNzAzMDlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1jYzU2MTk1MTFhODNmNTk3NjQ3ZDIxNTE0ODRiMTQ4MjQ5YzU2MjliN2Y3ZGMyY2I2ZTBjZWMxNjlhN2M4MWQ3JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.1GjIkIrUYjr2Sg4jRQ-n6ZtgobTbXysGh9BnnqVWUUY"
+        style="width: 100%; display: none"
+        id="poster"
+      />
 
-      <h4>2. [2024.03 ~ 2024.04] - PintOS (KAIST 교육용 Mini OS)</h4>
-      <p>
-        - 우선순위 기반 스레드 스케줄링<br />
-        - Argument passing 및 SystemCall 구현<br />
-        - Swap In/Out 페이지 교체 알고리즘 구현
-      </p>
+      <h4>
+        2. [PintOS]<br />
+        [2024.03 ~ 2024.04] <br />
+        (KAIST 교육용 Mini OS)
+      </h4>
+ 
+        PintOS는 KAIST에서 교육용으로 제공하는 미니 운영체제
+
+      <ul>
+        <li>우선순위 기반 스레드 스케줄링</li>
+        <li>Argument passing 및 SystemCall 구현</li>
+        <li>Swap In/Out 페이지 교체 알고리즘 구현</li>
+      </ul>
     </div>
 
     <div class="section">
-      <h3>활동내역</h3>
+      <h3>[활동내역]</h3>
       <h4>KOICA 청년중기봉사단 (디지털) 1기 [2024.07 ~ 2024.12]</h4>
       <ul>
         <li>5인 팀으로 캄보디아 10학년 대상 IT 교육 프로그램 기획 및 운영</li>
