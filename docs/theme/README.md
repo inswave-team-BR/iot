@@ -31,11 +31,12 @@
 4. **UI 전체 테마 적용**
    - 배경, 텍스트, 카드, 버튼 등 모든 UI 요소 스타일 변경
    - 날씨 위젯, 팀 카드, 소셜 아이콘 등 모든 구성 요소에 테마 적용
+   - 3D 문, 키, 날씨 차트 등 복잡한 요소에도 테마 적용
 
 5. **적용 페이지**
-   - `index.html`: 메인 랜딩 및 입장 페이지
-   - `home.html`: 날씨 대시보드 및 홈 페이지
-   - 3D 문 입장 페이지
+   - `index.html`: 3D 문 입장 페이지
+   - `home.html`: 메인 페이지 및 날씨 대시보드
+   - 각 미니홈피 페이지
 
 ## 설치 및 설정
 
@@ -153,8 +154,8 @@ document.addEventListener('DOMContentLoaded', handleThemeToggle);
 
 ### 페이지별 구현 상세
 
-#### 인덱스 페이지 (index.html)
-입장 페이지에서는 3D 문의 텍스처와 그림자가 테마에 맞게 조정됩니다:
+#### 입장 페이지 (index.html)
+입장 페이지에서는 3D 문의 텍스처와 그림자, 열쇠 색상이 테마에 맞게 조정됩니다:
 ```css
 /* 라이트 모드 */
 .door {
@@ -166,6 +167,15 @@ document.addEventListener('DOMContentLoaded', handleThemeToggle);
 [data-theme="dark"] .door {
   background-color: var(--dark-door-color);
   box-shadow: var(--dark-door-shadow);
+}
+
+/* 열쇠 스타일 */
+.key {
+  background-color: var(--key-color);
+}
+
+[data-theme="dark"] .key {
+  background-color: var(--dark-key-color);
 }
 ```
 

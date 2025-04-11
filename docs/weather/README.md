@@ -15,6 +15,7 @@
 - Chart.js: 주간 날씨 예보 차트 시각화
 - CSS 변수: 테마 전환 시스템 구현
 - Web Storage API: 사용자 테마 선호도 저장
+- Bootstrap: 반응형 레이아웃 및 UI 컴포넌트
 
 ## 주요 기능
 
@@ -22,24 +23,31 @@
    - 현재 기온, 날씨 상태, 습도, 풍속, 체감온도 표시
    - 현재 위치 또는 검색한 지역의 날씨 정보 제공
    - 자동 위치 감지 및 수동 지역 검색 지원
+   - 날씨 조건에 맞는 아이콘 및 배경 시각화
 
 2. **주간 날씨 예보**
-   - 5일간의 날씨 예보 차트로 시각화
-   - 최고/최저 온도 및 날씨 상태 표시
+   - Chart.js를 활용한 5일간의 날씨 예보 시각화
+   - 최고/최저 온도 차트로 표현
+   - 날씨 상태 아이콘 및 설명 제공
+   - 다크모드와 라이트모드에 최적화된 차트 디자인
 
 3. **지역별 날씨 지도**
    - 대한민국 주요 도시 날씨 정보를 지도에 표시
    - 지역별 현재 기온 및 날씨 아이콘 표시
    - 지역 클릭 시 상세 날씨 정보 팝업 제공
+   - Kakao Maps API를 활용한 인터랙티브 지도 구현
 
 4. **드래그 가능한 날씨 팝업**
    - 팝업 전체 영역 드래그로 자유로운 위치 이동
    - 데스크톱 및 모바일 환경 모두 지원
    - 화면 경계 감지로 항상 가시성 유지
+   - 스마트한 충돌 방지 및 포지셔닝 로직
 
 5. **위치 좌표 동기화**
    - 현재 날씨와 지도 날씨 간 데이터 일관성 확보
    - 현재 위치에서 가장 가까운 지역 자동 매핑
+   - 하버사인 공식을 활용한 정확한 거리 계산
+   - 지도에서 선택한 위치와 현재 날씨 표시 동기화
 
 6. **다크모드 지원**
    - 시스템 테마 설정에 따른 자동 테마 적용
@@ -98,6 +106,99 @@ function fetchWeatherData(latitude, longitude) {
     .catch(error => {
       console.error("날씨 데이터를 가져오는데 실패했습니다:", error);
     });
+}
+```
+
+### Chart.js를 활용한 주간 예보 차트 구현
+
+Chart.js 라이브러리를 활용하여 주간 온도 예보를 시각적으로 표현합니다:
+
+```javascript
+function createForecastChart(forecastData) {
+  const ctx = document.getElementById('forecast-chart').getContext('2d');
+  
+  // 이전 차트 파괴 (존재하는 경우)
+  if (forecastChart) {
+    forecastChart.destroy();
+  }
+  
+  // 다크모드 감지
+  const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+  
+  // 차트 색상 설정
+  const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+  const textColor = isDarkMode ? '#e0e0e0' : '#666';
+  
+  // 차트 생성
+  forecastChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: forecastData.dates,
+      datasets: [
+        {
+          label: '최고 기온 (°C)',
+          data: forecastData.maxTemps,
+          borderColor: '#ff6b6b',
+          backgroundColor: 'rgba(255, 107, 107, 0.1)',
+          borderWidth: 2,
+          pointRadius: 4,
+          tension: 0.3,
+          fill: false
+        },
+        {
+          label: '최저 기온 (°C)',
+          data: forecastData.minTemps,
+          borderColor: '#339af0',
+          backgroundColor: 'rgba(51, 154, 240, 0.1)',
+          borderWidth: 2,
+          pointRadius: 4,
+          tension: 0.3,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            color: textColor,
+            font: {
+              size: 12
+            }
+          }
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          backgroundColor: isDarkMode ? '#333' : '#fff',
+          titleColor: isDarkMode ? '#fff' : '#333',
+          bodyColor: isDarkMode ? '#fff' : '#333',
+          borderColor: isDarkMode ? '#555' : '#ddd',
+          borderWidth: 1
+        }
+      },
+      scales: {
+        x: {
+          grid: {
+            color: gridColor
+          },
+          ticks: {
+            color: textColor
+          }
+        },
+        y: {
+          grid: {
+            color: gridColor
+          },
+          ticks: {
+            color: textColor
+          }
+        }
+      }
+    }
+  });
 }
 ```
 
@@ -285,6 +386,11 @@ function handleThemeToggle() {
 - 브라우저가 최신 버전인지 확인 (CSS 변수 및 미디어 쿼리 지원 필요)
 - 개발자 도구에서 로컬 스토리지 확인 및 필요시 'theme' 항목 삭제하여 초기화
 
+### 차트가 표시되지 않는 문제
+- 콘솔에서 Chart.js 관련 오류 확인
+- Chart.js 라이브러리가 올바르게 로드되었는지 확인
+- 캔버스 요소 ID가 올바른지 확인
+
 ## 향후 개선 사항
 
 - 온도 단위 변환 기능 (섭씨/화씨)
@@ -293,3 +399,6 @@ function handleThemeToggle() {
 - 날씨에 따른 자동 배경 변화 (눈/비/맑음 등)
 - 일출/일몰 시간 시각적 표현
 - 다크모드 전환 시 부드러운 애니메이션 효과 추가 
+- 사용자 위치 즐겨찾기 기능
+- 기상 경보 및 알림 기능
+- 대기 질 지수 상세 시각화 
