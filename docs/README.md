@@ -7,6 +7,7 @@
 - [`/docs/entrance/`](./entrance/) - 3D 문 입장 페이지 기능
 - [`/docs/theme/`](./theme/) - 다크모드 및 테마 시스템
 - [`/docs/weather/`](./weather/) - 날씨 대시보드 기능
+- [`/docs/mini/`](./mini/) - 미니홈피 방문자 카운터 기능
 
 ## 기능별 문서
 
@@ -22,6 +23,10 @@
 
 - [날씨 대시보드](./weather/README.md) - 실시간 날씨 정보와 지도 기반 지역별 날씨 시스템
 
+### 미니홈피 기능
+
+- [방문자 카운터](./mini/README.md) - Today와 Total 방문자 수를 기록하고 표시하는 시스템
+
 ## 빠른 참조 가이드
 
 | 기능 | 설명 | 문서 링크 |
@@ -33,6 +38,8 @@
 | 날씨 정보 조회 | 위치 기반 실시간 날씨 데이터 표시 | [바로가기](./weather/README.md#실시간-날씨-정보) |
 | 지역별 날씨 지도 | 대한민국 주요 도시 날씨 지도 구현 | [바로가기](./weather/README.md#지역별-날씨-지도) |
 | 날씨 차트 | Chart.js를 활용한 온도 예보 시각화 | [바로가기](./weather/README.md#주간-날씨-예보) |
+| Today 카운터 | 오늘 방문자 수 표시 시스템 | [바로가기](./mini/README.md#today-카운터) |
+| Total 카운터 | 누적 방문자 수 관리 시스템 | [바로가기](./mini/README.md#total-카운터) |
 
 ## 키워드로 찾기
 
@@ -43,8 +50,9 @@
 - **날씨 API**: [날씨 데이터 가져오기](./weather/README.md#날씨-데이터-가져오기)
 - **드래그 기능**: [드래그 가능한 팝업](./weather/README.md#드래그-가능한-팝업-구현)
 - **3D 효과**: [입체적인 3D 문 효과](./entrance/README.md#입체적인-3d-문-효과)
-- **로컬 스토리지**: [테마 설정 저장](./theme/README.md#테마-설정-저장), [클릭 횟수 관리](./entrance/README.md#클릭-횟수-관리)
+- **로컬 스토리지**: [테마 설정 저장](./theme/README.md#테마-설정-저장), [클릭 횟수 관리](./entrance/README.md#클릭-횟수-관리), [방문자 데이터 저장](./mini/README.md#방문자-데이터-저장-방식)
 - **차트 시각화**: [Chart.js 주간 예보 차트](./weather/README.md#chart-js를-활용한-주간-예보-차트-구현)
+- **방문자 통계**: [Today/Total 카운터](./mini/README.md#주요-기능-설명)
 
 ## 문서 가이드라인
 
