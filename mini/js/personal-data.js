@@ -41,7 +41,7 @@ const jaeseong_personalData = {
     statusMessage: "난 기쁨의 눈물을 흘린다...",
     profileInfo: {
       name: "이재성",
-      birthday: "11월 33일",
+      birthday: "11월 03일",
       email: "Haibanga@outlook.com",
       image: "./userpages/images/이재성(지브리).png",
     },
