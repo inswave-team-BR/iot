@@ -1,4 +1,5 @@
 /* 기본 스타일 */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -231,6 +232,12 @@ body {
 .today-title {
   color: #3d5afe;
   font-weight: bold;
+}
+
+/* 프로필 이미지 */
+.profile-image-container {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .profile-img-sy {

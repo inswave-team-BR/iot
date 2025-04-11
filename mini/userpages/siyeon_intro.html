@@ -5,182 +5,253 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>김시연 | Backend Developer</title>
     <link href="https://fonts.googleapis.com/css2?family=SUIT:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+
+    
     <style>
- body {
-  font-family: 'SUIT', sans-serif;
-  background-color: #e6f9f8;
-  background-image: url('/mini/image/background2.jpg');
-  background-size: 150px 150px;
-  background-repeat: repeat;
-  background-attachment: fixed;
-  margin: 0;
-  padding: 20px;
-  color: #333;
-}
+      * {
+        font-family: 'Poppins', 'Roboto', 'Raleway', sans-serif !important;
+      }
+      
+      body, h1, h2, h3, h4, h5, h6, p, div, span, a, li, ul {
+        font-family: 'Poppins', 'Roboto', 'Raleway', sans-serif !important;
+      }
 
-.container {
-  max-width: 700px;
-  margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.92);
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.08);
-  border: 3px dashed #9ed9d3;
-}
+      body {
+        background-color: #e6f9f8;
+        background-image: url('/mini/image/background2.jpg');
+        background-size: 150px 150px;
+        background-repeat: repeat;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+        font-size: 14px;
+      }
 
-.profile {
-  text-align: center;
-  margin-bottom: 30px;
-  position: relative;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.85);
-  border-radius: 20px;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
-  border: 2px dashed #9ed9d3;
-}
+      .container {
+        max-width: 700px;
+        margin: 0 auto;
+        background-color: rgba(255, 255, 255, 0.92);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.08);
+        border: 3px dashed #9ed9d3;
+      }
 
-.profile::before {
-  content: "오늘도 개발중 🐾";
-  display: block;
-  font-size: 14px;
-  color: #56a6a0;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
+      .profile {
+        text-align: center;
+        margin-bottom: 30px;
+        position: relative;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 20px;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+        border: 2px dashed #9ed9d3;
+      }
 
-.profile-img {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  border: 6px dotted #9ed9d3;
-  padding: 5px;
-  background-color: #fff;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-}
+      .profile::before {
+        content: "오늘도 개발중 🐾";
+        display: block;
+        font-size: 14px;
+        color: #56a6a0;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
 
-.header h1 {
-  font-size: 40px;
-  color: #444;
-  margin-top: 10px;
-}
+      .profile-img {
+        width: 100%;
+        max-width: 220px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 6px dotted #9ed9d3;
+        padding: 5px;
+        background-color: #fff;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+      }
 
-.header p {
-  font-size: 17px;
-  color: #56a6a0;
-  display: inline-block;
-  background-color: #ffffff;
-  border: 2px solid #9ed9d3;
-  border-radius: 12px;
-  padding: 6px 12px;
-  font-weight: bold;
-  box-shadow: 0 0 5px rgba(158, 217, 211, 0.3);
-}
+      .header h1 {
+        font-size: 40px;
+        color: #444;
+        margin-top: 10px;
+      }
 
-.card {
-  background-color: #ffffff;
-  border: 1px solid #c2e5e3;
-  border-radius: 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  padding: 20px;
-  margin-bottom: 25px;
-  position: relative;
-}
+      .header h2 {
+        font-size: 28px; 
+        color: #444;
+        margin-top: 10px;
+      }
 
-.card h3 {
-  font-size: 19px;
-  color: #56a6a0;
-  border-bottom: 1px dashed #c2e5e3;
-  padding-bottom: 6px;
-  margin-bottom: 14px;
-}
+      .header p {
+          font-size: 14px;
+          color: #56a6a0;
+          display: inline-block;
+          background-color: #ffffff;
+          border: 2px solid #9ed9d3;
+          border-radius: 12px;
+          padding: 4px 10px;
+          font-weight: bold;
+          box-shadow: 0 0 5px rgba(158, 217, 211, 0.3);
+      }
 
-.info-item {
-  margin: 4px 0;
-  font-size: 15px;
-}
+      .card {
+        background-color: #ffffff;
+        border: 1px solid #c2e5e3;
+        border-radius: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        margin-bottom: 25px;
+        position: relative;
+      }
 
-ul li {
-  font-size: 15px;
-  margin-bottom: 8px;
-  line-height: 1.7;
-  padding: 5px 8px;
-  border-radius: 12px;
-  background-color: rgba(230, 249, 248, 0.7);
-  display: inline-block;
-}
+      .card h3 {
+        font-size: 19px;
+        color: #56a6a0;
+        border-bottom: 1px dashed #c2e5e3;
+        padding-bottom: 6px;
+        margin-bottom: 14px;
+      }
 
-ul li:hover {
-  background-color: rgba(158, 217, 211, 0.5);
-}
+      .card ul {
+        padding-left: 0; 
+      }
 
-a {
-  color: #56a6a0;
-  text-decoration: none;
-  font-weight: bold;
-}
+      .card ul li {
+        display: block;  ;;;
+        font-size: 13px;
+        margin-bottom: 8px;
+        line-height: 1.7;
+        padding: 5px 8px;
+        border-radius: 12px;
+        background-color: rgba(230, 249, 248, 0.7);
+      }
 
-a:hover {
-  text-decoration: underline;
-  color: #3c827b;
-}
+      .info-item {
+        margin: 4px 0;
+        font-size: 15px;
+      }
 
-.highlight {
-  display: inline-block;
-  background-color: #d9f5f3;
-  border: 2px solid #9ed9d3;
-  border-radius: 12px;
-  padding: 4px 10px;
-  font-weight: bold;
-  color: #56a6a0;
-}
+      ul li {
+        font-size: 15px;
+        margin-bottom: 8px;
+        line-height: 1.7;
+        padding: 5px 8px;
+        border-radius: 12px;
+        background-color: rgba(230, 249, 248, 0.7);
+      }
 
-.speech-bubble {
-  position: relative;
-  background: rgba(230, 249, 248, 0.6);
-  border-radius: 10px;
-  padding: 10px 15px;
-  margin-bottom: 10px;
-}
 
-.speech-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 30px;
-  border-width: 10px 10px 0;
-  border-style: solid;
-  border-color: rgba(230, 249, 248, 0.6) transparent;
-}
+      ul li:hover {
+        background-color: rgba(158, 217, 211, 0.5);
+      }
 
-.sticker {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 60px;
-  opacity: 0.8;
-}
+      a {
+        color: #56a6a0;
+        text-decoration: none;
+        font-weight: bold;
+      }
 
-.profile-circle-wrap {
-  position: relative;
-  display: inline-block;
-}
+      a:hover {
+        text-decoration: underline;
+        color: #3c827b;
+      }
 
-.circle-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300px;
-  height: 300px;
-  margin-left: -150px;
-  margin-top: -150px;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 300px;
-  font-size: 14px;
-  color: #56a6a0;
-  white-space: nowrap;
-  transform: rotate(0deg);
-}
+      .highlight {
+        display: inline-block;
+        background-color: #d9f5f3;
+        border: 2px solid #9ed9d3;
+        border-radius: 12px;
+        padding: 4px 10px;
+        font-weight: bold;
+        color: #56a6a0;
+      }
+
+      .speech-bubble {
+        position: relative;
+        background: rgba(230, 249, 248, 0.6);
+        border-radius: 10px;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+      }
+
+      .speech-bubble::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 30px;
+        border-width: 10px 10px 0;
+        border-style: solid;
+        border-color: rgba(230, 249, 248, 0.6) transparent;
+      }
+
+      .sticker {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 60px;
+        opacity: 0.8;
+      }
+
+      .profile-circle-wrap {
+        position: relative;
+        display: inline-block;
+      }
+
+      .circle-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: 300px;
+        margin-left: -150px;
+        margin-top: -150px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 300px;
+        font-size: 14px;
+        color: #56a6a0;
+        white-space: nowrap;
+        transform: rotate(0deg);
+      }
+
+      
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+
+        .container {
+          padding: 10px;
+        }
+
+        .header h1 {
+          font-size: 30px;
+        }
+
+        .profile::before {
+          font-size: 12px;
+        }
+
+        .info-item, ul li {
+          font-size: 13px;
+        }
+      }
+
+      a {
+        color: #56a6a0;
+        text-decoration: none;
+        font-weight: bold;
+        word-break: break-word; /* 긴 링크 줄바꿈 처리 */
+      }
+
+      a:hover {
+        text-decoration: underline;
+        color: #3c827b;
+      }
 
     </style>
   </head>
@@ -192,7 +263,7 @@ a:hover {
     </div>
 
     <div class="header">
-      <h1>김시연</h1>
+      <h2>김시연</h2>
       <p><b>끊임없이 새로 배우려 하며 활발하게 소통하는 백엔드 개발자</b></p>
     </div>
 
@@ -212,11 +283,11 @@ a:hover {
     <div class="card">
       <h3>기술 스택</h3>
       <ul>
-        <li>♥ <strong>Back-End :</strong> Java, Spring Boot, JSP, JPA, Spring Framework, Mybatis, Maven</li>
-        <li>♥ <strong>Front-End :</strong> JavaScript, Ajax, jQuery, HTML5, CSS</li>
+        <li>♥ <strong>Back-End :</strong> Java, Spring Boot, JSP, Mybatis, Maven</li>
+        <li>♥ <strong>Front-End :</strong> JavaScrip</li>
         <li>♥ <strong>DataBase :</strong> Apache HTTP Server, Tomcat, MySQL, Oracle</li>
-        <li>♥ <strong>Cloud & CI/CD :</strong> AWS (EC2, S3, RDS), Docker, Jenkins</li>
-        <li>♥ <strong>Collaboration & Tools :</strong> Git, Notion</li>
+        <li>♥ <strong>Cloud & CI/CD :</strong> AWS , Docker, Jenkins</li>
+        <li>♥ <strong>Collaboration & Tools :</strong> Git, Notion, jira</li>
       </ul>
     </div>
 
