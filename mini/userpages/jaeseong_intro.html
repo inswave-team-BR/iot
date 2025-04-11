@@ -4,7 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이재성 - 소개</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        // Font Awesome 로딩 확인
+        window.onload = function() {
+            setTimeout(function() {
+                // Font Awesome이 로드되지 않았을 경우 대체 스타일 적용
+                if (!window.FontAwesome) {
+                    var socialLinks = document.querySelectorAll('.social-link');
+                    socialLinks.forEach(function(link) {
+                        link.style.padding = "10px 15px";
+                        link.style.margin = "5px";
+                    });
+                }
+            }, 1000);
+        };
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         
@@ -72,7 +87,10 @@
         
         .profile-photo {
             flex: 1;
-            text-align: right;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .profile-img {
@@ -81,6 +99,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid white;
+            margin-bottom: 15px;
         }
         
         .resume-body {
@@ -255,11 +274,23 @@
             color: #4682B4;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #4682B4;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .social-link:hover {
-            color: #396892;
+            color: white;
+            background-color: #4682B4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .social-link i {
+            font-size: 1.2rem;
         }
         
         .icon {
@@ -330,6 +361,11 @@
             .profile-contact {
                 justify-content: center;
             }
+            
+            .social-links {
+                justify-content: center;
+                margin: 20px 0;
+            }
         }
     </style>
 </head>
@@ -352,9 +388,12 @@
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-calendar-alt"></i>
-                        <span>1998.11.03 (만 26세)</span>
+                        <span>1998.11.03</span>
                     </div>
                 </div>
+            </div>
+            <div class="profile-photo">
+                <img src="./images/이재성(지브리).png" alt="이재성 프로필 이미지" class="profile-img">
                 <div class="social-links">
                     <a href="https://github.com/crLsTofu" target="_blank" class="social-link">
                         <i class="fab fa-github"></i>
@@ -365,9 +404,6 @@
                         <span>블로그</span>
                     </a>
                 </div>
-            </div>
-            <div class="profile-photo">
-                <img src="./images/이재성(지브리).png" alt="이재성 프로필 이미지" class="profile-img">
             </div>
         </div>
         
