@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이재성 - 소개</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         
@@ -19,21 +19,23 @@
             background-color: #f9f9f9;
             color: #333;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         .resume-container {
             max-width: 1100px;
-            margin: 30px auto;
+            margin: 15px auto;
             background-color: #fff;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             overflow: hidden;
+            width: 95%;
         }
         
         .resume-header {
             background-color: #4682B4;
             color: white;
-            padding: 40px;
+            padding: 30px;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
@@ -72,7 +74,10 @@
         
         .profile-photo {
             flex: 1;
-            text-align: right;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .profile-img {
@@ -81,6 +86,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid white;
+            margin-bottom: 15px;
         }
         
         .resume-body {
@@ -246,6 +252,8 @@
             display: flex;
             gap: 15px;
             margin-top: 20px;
+            flex-wrap: nowrap;
+            justify-content: center;
         }
         
         .social-link {
@@ -255,11 +263,23 @@
             color: #4682B4;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #4682B4;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .social-link:hover {
-            color: #396892;
+            color: white;
+            background-color: #4682B4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .social-link i {
+            font-size: 1.2rem;
         }
         
         .icon {
@@ -309,6 +329,7 @@
             
             .resume-left, .resume-right {
                 width: 100%;
+                min-width: auto;
             }
             
             .profile-photo {
@@ -320,18 +341,141 @@
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
+                padding: 20px;
             }
             
             .profile-info {
                 padding-right: 0;
                 padding-bottom: 20px;
+                width: 100%;
+            }
+            
+            .profile-title h1 {
+                font-size: 2.2rem;
+            }
+            
+            .profile-subtitle {
+                font-size: 1.1rem;
             }
             
             .profile-contact {
                 justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .social-links {
+                justify-content: center;
+                margin: 15px 0;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                width: 100%;
+            }
+            
+            .social-link {
+                flex: 0 1 auto;
+                white-space: nowrap;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .resume-section {
+                margin-bottom: 25px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .timeline {
+                margin-left: 10px;
+            }
+            
+            .timeline-item {
+                padding-left: 25px;
+            }
+            
+            .timeline-title {
+                font-size: 1rem;
+            }
+            
+            .skill-tag {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+                margin-bottom: 5px;
+            }
+            
+            .award-item {
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+            }
+            
+            .award-title {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .resume-container {
+                margin: 10px auto;
+                width: 98%;
+            }
+            
+            .resume-left, .resume-right {
+                padding: 20px 15px;
+            }
+            
+            .profile-img {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .profile-title h1 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-subtitle {
+                font-size: 1rem;
+            }
+            
+            .social-links {
+                gap: 10px;
+            }
+            
+            .social-link {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .social-link i {
+                font-size: 1rem;
+            }
+            
+            .timeline-content, .intro-text {
+                font-size: 0.9rem;
+            }
+            
+            .timeline-list li {
+                margin-bottom: 8px;
             }
         }
     </style>
+    <script>
+        // Font Awesome 로딩 확인
+        window.onload = function() {
+            setTimeout(function() {
+                // Font Awesome이 로드되지 않았을 경우 대체 스타일 적용
+                if (!window.FontAwesome) {
+                    var socialLinks = document.querySelectorAll('.social-link');
+                    socialLinks.forEach(function(link) {
+                        link.style.padding = "10px 15px";
+                        link.style.margin = "5px";
+                    });
+                }
+            }, 1000);
+        };
+    </script>
 </head>
 <body>
     <div class="resume-container">
@@ -352,9 +496,12 @@
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-calendar-alt"></i>
-                        <span>1998.11.03 (만 26세)</span>
+                        <span>1998.11.03</span>
                     </div>
                 </div>
+            </div>
+            <div class="profile-photo">
+                <img src="./images/이재성(지브리).png" alt="이재성 프로필 이미지" class="profile-img">
                 <div class="social-links">
                     <a href="https://github.com/crLsTofu" target="_blank" class="social-link">
                         <i class="fab fa-github"></i>
@@ -365,9 +512,6 @@
                         <span>블로그</span>
                     </a>
                 </div>
-            </div>
-            <div class="profile-photo">
-                <img src="./images/이재성(지브리).png" alt="이재성 프로필 이미지" class="profile-img">
             </div>
         </div>
         
@@ -384,7 +528,7 @@
                     <p class="intro-text">
                         <strong>초보운전자에서 레이싱 선수로: 끝없는 성장의 여정</strong><br>
                         사람은 끝도 없이 성장할 수 있는 생명체입니다. 저도 그런 발전의 열정과 열망을 갖고 여러 활동을 하며 성장해 왔습니다.
-                        저의 대학교 교육이념인 실력·신념·봉사의 정신을 몸소 실천한 공로를 인정받아 우석 인재상도 수상하였습니다.
+                        저의 대학교 교육이념인 실력·신념·봉사의 정신을 몸소 실천한 공로를 인정받아 인재상도 수상하였습니다.
                         레이싱 선수도 끊임없이 운전 연습을 하듯이, 저 역시 배움을 멈추지 않으려 합니다. 배움과 발전의 끝은 우주와 같다고 생각합니다.
                     </p>
                     <p class="intro-text">
@@ -643,7 +787,7 @@
                             <li>팀원들과 협력하여 문제를 정의하고, 디자인 씽킹 기법을 활용해 해결책 개발</li>
                             <li>우수한 문제 발굴 및 해결 아이디어로 지역사회 혁신에 기여한 공로 인정</li>
                         </ul>
-                        <div style="display: flex; gap: 10px;">
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                             <a href="https://1drv.ms/b/c/326c37b03e07624d/EbyyG-BhNFtLussG6-LtwuYBgM6MBdS0YpuMruA15C6f3Q?e=XZh0Ij" target="_blank" class="link-button">
                                 <i class="fas fa-award"></i> 수상내역
                             </a>
