@@ -152,16 +152,30 @@ function deleteEntry(entryId) {
       button: "확인",
     });
   }
-  if (!confirm("정말 삭제하시겠습니까?")) return;
-  const newGuestbook = guestbook.filter((g) => g.id !== entryId);
 
-  localStorage.setItem(
-    `${currentHost}_guestbook`,
-    JSON.stringify(newGuestbook)
-  );
-  loadRecentGuestbookToNews();
+  swal({
+    title: "정말 삭제하시겠습니까?",
+    text: "글을 삭제하시는 경우 데이터 복구가 불가능합니다.",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      const newGuestbook = guestbook.filter((g) => g.id !== entryId);
+      localStorage.setItem(
+        `${currentHost}_guestbook`,
+        JSON.stringify(newGuestbook)
+      );
+      loadRecentGuestbookToNews();
+      renderGuestbook(currentHost);
 
-  renderGuestbook(currentHost);
+      swal("성공적으로 글이 삭제되었습니다.", {
+        icon: "success",
+      });
+    } else {
+      swal("글 삭제가 취소되었습니다.");
+    }
+  });
 }
 
 function renderGuestbook(id, page = currentPage) {
