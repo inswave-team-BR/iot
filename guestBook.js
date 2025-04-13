@@ -45,16 +45,6 @@ function clearCanvas() {
   drawingCtx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
 }
 
-function setUser() {
-  const nickname = nicknameInput.value.trim();
-  if (!nickname) return alert("닉네임을 입력하세요.");
-  const userId = Math.random().toString(16).slice(2);
-  const user = { userId, nickname };
-  localStorage.setItem("user", JSON.stringify(user));
-  localStorage.setItem("currentUser", JSON.stringify(user));
-  currentUserEl.textContent = `현재 사용자: ${nickname}`;
-}
-
 function getCurrentUser() {
   return JSON.parse(localStorage.getItem("user"));
 }
@@ -96,10 +86,22 @@ clearBtn.addEventListener("click", () =>
 
 saveBtn.addEventListener("click", () => {
   const user = getCurrentUser();
-  if (!user) return alert("로그인 후 저장하세요.");
+  if (!user) {
+    return swal({
+      title: "로그인 해주세요.",
+      icon: "warning",
+      button: "확인",
+    });
+  }
   const imgData = canvas.toDataURL();
   const text = message.value.trim();
-  if (!text) return alert("글을 작성해 주세요.");
+  if (!text) {
+    return swal({
+      title: "글을 작성해 주세요.",
+      icon: "warning",
+      button: "확인",
+    });
+  }
   const data = Math.random().toString(16).slice(2);
   const entry = {
     id: data,
@@ -143,8 +145,13 @@ function deleteEntry(entryId) {
     localStorage.getItem(`${currentHost}_guestbook`) || "[]"
   );
   const target = guestbook.find((g) => g.id === entryId);
-  if (!target || target.userId !== user?.id)
-    return alert("본인 글만 삭제할 수 있습니다.");
+  if (!target || target.userId !== user?.id) {
+    return swal({
+      title: "본인 글만 삭제할 수 있습니다.",
+      icon: "warning",
+      button: "확인",
+    });
+  }
   if (!confirm("정말 삭제하시겠습니까?")) return;
   const newGuestbook = guestbook.filter((g) => g.id !== entryId);
 
