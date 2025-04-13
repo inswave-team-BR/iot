@@ -23,9 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // 탭 메뉴 이벤트 리스너 등록
   initTabMenu();
 
-  // 방명록 삭제 버튼 이벤트 리스너 등록
-  initGuestbookActions();
-
   // 음악 플레이어 초기화
   initMusicPlayer();
 });
@@ -176,33 +173,6 @@ function initTabMenu() {
           "intro-frame"
         ).src = `./userpages/${currentHost}_intro.html`;
         document.getElementById("intro-frame").style.maxHeight = "500px";
-      }
-    });
-  });
-}
-
-// ==========================================
-// 방명록 기능
-// ==========================================
-
-/**
- * 방명록 기능 초기화 함수
- * 방명록 삭제 버튼에 이벤트를 연결하여 사용자가 방명록을 관리할 수 있게 합니다.
- * 삭제 전 확인 메시지를 통해 실수로 삭제하는 것을 방지합니다.
- */
-function initGuestbookActions() {
-  const deleteButtons = document.querySelectorAll(".entry-action");
-
-  deleteButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      // 삭제 확인
-      if (confirm("정말로 이 방명록을 삭제하시겠습니까?")) {
-        // 해당 방명록 삭제 (부모 엘리먼트 찾아서 삭제)
-        const entry = this.closest(".guestbook-entry");
-        entry.remove();
-
-        // 추가적으로 서버에 삭제 요청을 보내는 코드가 필요할 수 있음
-        // (현재는 프론트엔드만 구현)
       }
     });
   });
