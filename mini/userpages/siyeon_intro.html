@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>김시연 | Backend Developer</title>
-    <link href="https://fonts.googleapis.com/css2?family=SUIT:wght@400;700&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>김시연 | Backend Developer</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <!-- SUIT 폰트 불러오기 -->
+  <link href="https://fonts.googleapis.com/css2?family=SUIT:wght@400;700&display=swap" rel="stylesheet">
 
-    
-    <style>
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+
+  <style>
       * {
         font-family: 'Poppins', 'Roboto', 'Raleway', sans-serif !important;
       }
@@ -20,301 +30,537 @@
         font-family: 'Poppins', 'Roboto', 'Raleway', sans-serif !important;
       }
 
-      body {
-        background-color: #e6f9f8;
-        background-image: url('/mini/image/background2.jpg');
-        background-size: 150px 150px;
-        background-repeat: repeat;
-        background-attachment: fixed;
-        margin: 0;
-        padding: 20px;
-        color: #333;
-        font-size: 14px;
-      }
+   
+    body {
+      background-color: #ffffff;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      font-family: 'SUIT', sans-serif;
+    }
 
-      .container {
-        max-width: 700px;
-        margin: 0 auto;
-        background-color: rgba(255, 255, 255, 0.92);
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.08);
-        border: 3px dashed #9ed9d3;
-      }
+    .menu {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+ 
+    .menu div {
+      padding: 10px 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px 8px 0 0;
+      background-color: #f9f9f9;
+      font-weight: 600;
+      font-family: 'SUIT', sans-serif;
+      color: #555;
+      font-size: 13px;  
+      transition: all 0.3s;
+    }
 
-      .profile {
-        text-align: center;
-        margin-bottom: 30px;
-        position: relative;
-        padding: 20px;
-        background-color: rgba(255, 255, 255, 0.85);
-        border-radius: 20px;
-        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
-        border: 2px dashed #9ed9d3;
-      }
+    .menu div:hover {
+      background-color: #ececec;
+      color: #000;
+    }
 
-      .profile::before {
-        content: "오늘도 개발중 🐾";
-        display: block;
-        font-size: 14px;
-        color: #56a6a0;
-        margin-bottom: 10px;
-        font-weight: bold;
-      }
-
-      .profile-img {
-        width: 100%;
-        max-width: 220px;
-        height: 220px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 6px dotted #9ed9d3;
-        padding: 5px;
-        background-color: #fff;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-      }
-
-      .header h1 {
-        font-size: 40px;
-        color: #444;
-        margin-top: 10px;
-      }
-
-      .header h2 {
-        font-size: 28px; 
-        color: #444;
-        margin-top: 10px;
-      }
-
-      .header p {
-          font-size: 14px;
-          color: #56a6a0;
-          display: inline-block;
-          background-color: #ffffff;
-          border: 2px solid #9ed9d3;
-          border-radius: 12px;
-          padding: 4px 10px;
-          font-weight: bold;
-          box-shadow: 0 0 5px rgba(158, 217, 211, 0.3);
-      }
-
-      .card {
-        background-color: #ffffff;
-        border: 1px solid #c2e5e3;
-        border-radius: 16px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        padding: 20px;
-        margin-bottom: 25px;
-        position: relative;
-      }
-
-      .card h3 {
-        font-size: 19px;
-        color: #56a6a0;
-        border-bottom: 1px dashed #c2e5e3;
-        padding-bottom: 6px;
-        margin-bottom: 14px;
-      }
-
-      .card ul {
-        padding-left: 0; 
-      }
-
-      .card ul li {
-        display: block;  ;;;
-        font-size: 13px;
-        margin-bottom: 8px;
-        line-height: 1.7;
-        padding: 5px 8px;
-        border-radius: 12px;
-        background-color: rgba(230, 249, 248, 0.7);
-      }
-
-      .info-item {
-        margin: 4px 0;
-        font-size: 15px;
-      }
-
-      ul li {
-        font-size: 15px;
-        margin-bottom: 8px;
-        line-height: 1.7;
-        padding: 5px 8px;
-        border-radius: 12px;
-        background-color: rgba(230, 249, 248, 0.7);
-      }
+    .menu div.active {
+      background-color: #ffffff;
+      border-bottom: 2px solid transparent;
+      color: #333;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    }
 
 
-      ul li:hover {
-        background-color: rgba(158, 217, 211, 0.5);
-      }
+    .content {
+      display: none;
+      margin-top: 20px;
+    }
 
-      a {
-        color: #56a6a0;
-        text-decoration: none;
-        font-weight: bold;
-      }
+    /* 싸이월드 스타일 일상 게시글 */
+    .daily-post {
+      max-width: 500px;
+      margin: 0 auto 30px;
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+    }
 
-      a:hover {
-        text-decoration: underline;
-        color: #3c827b;
-      }
+    .post-header {
+      border-bottom: 1px solid #eee;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+    }
 
-      .highlight {
-        display: inline-block;
-        background-color: #d9f5f3;
-        border: 2px solid #9ed9d3;
-        border-radius: 12px;
-        padding: 4px 10px;
-        font-weight: bold;
-        color: #56a6a0;
-      }
+    .post-title {
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 5px;
+    }
 
-      .speech-bubble {
-        position: relative;
-        background: rgba(230, 249, 248, 0.6);
-        border-radius: 10px;
-        padding: 10px 15px;
-        margin-bottom: 10px;
-      }
+    .post-meta {
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      color: #666;
+    }
 
-      .speech-bubble::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 30px;
-        border-width: 10px 10px 0;
-        border-style: solid;
-        border-color: rgba(230, 249, 248, 0.6) transparent;
-      }
+    .post-content img.post-img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
 
-      .sticker {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 60px;
-        opacity: 0.8;
-      }
+    /* 인생네컷 스타일 */
+    .photo-booth {
+      width: 200px;
+      margin: 20px auto;
+      text-align: center;
+    }
 
-      .profile-circle-wrap {
-        position: relative;
-        display: inline-block;
-      }
+    .booth-img-wrap img {
+      width: 100%;
+      border: 4px solid #fff;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
 
-      .circle-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 300px;
-        height: 300px;
-        margin-left: -150px;
-        margin-top: -150px;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 300px;
-        font-size: 14px;
-        color: #56a6a0;
-        white-space: nowrap;
-        transform: rotate(0deg);
-      }
+    .booth-comment {
+      font-size: 12px;
+      color: #666;
+      margin-top: 10px;
+    }
 
-      
-      @media (max-width: 768px) {
-        body {
-          padding: 10px;
-        }
+    /* INFO */
+    a {
+      color: #212529c4;
+      text-decoration: none;  
+    }
 
-        .container {
-          padding: 10px;
-        }
+    a:hover {
+      color: #3c827b;
+      text-decoration: underline;
+    }
 
-        .header h1 {
-          font-size: 30px;
-        }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 16px;
+      padding: 25px;
+      border: 2px solid #e4e4e4;
+      box-shadow: 0 0 10px rgba(0,0,0,0.03);
+    }
 
-        .profile::before {
-          font-size: 12px;
-        }
+    .profile {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #fafafa;
+      border-radius: 20px;
+      border: 1px solid #e4e4e4;
+    }
 
-        .info-item, ul li {
-          font-size: 13px;
-        }
-      }
+    .profile::before {
+      content: "오늘도 개발중 🐾";
+      display: block;
+      font-size: 14px;
+      color: #212529c4;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
 
-      a {
-        color: #56a6a0;
-        text-decoration: none;
-        font-weight: bold;
-        word-break: break-word; /* 긴 링크 줄바꿈 처리 */
-      }
+    .profile-img {
+      width: 100%;
+      max-width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #e4e4e4;
+    }
 
-      a:hover {
-        text-decoration: underline;
-        color: #3c827b;
-      }
+    .header h1,
+    .header h2,
+    .header p,
+    .info-item,
+    .card h3,
+    .card ul li,
+    a {
+      color: #212529c4;
+    }
+
+    .info-item {
+      font-size: 13px; 
+    }
+
+    .info-item a {
+      font-size: 13px; 
+    }
+
+
+    .header h2 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      display: inline-block;
+      padding: 0;
+      margin-top: 10px;
+      font-weight: 500;
+      font-size: 14px;
+      color: #666;
+      font-family: 'SUIT', sans-serif;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #e4e4e4;
+      border-radius: 16px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      border-bottom: 1px dashed #e4e4e4;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+    }
+
+    .card ul li {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 8px;
+      line-height: 1.7;
+      padding: 5px 8px;
+      border-radius: 12px;
+      background-color: #f9f9f9;
+    }
+    .card ul {
+      padding-left: 0;
+    }
+
+    ul li:hover {
+      background-color: rgba(158, 217, 211, 0.5);
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #3c827b;
+    }
+
+    .profile-comment {
+      font-size: 13px;
+      color: #666;
+      margin-top: 12px;
+      font-family: 'SUIT', sans-serif;
+    }
+
+    .post-content video.post-img {
+      width: 100%;
+      max-width: 400px;
+      display: block;
+      margin: 10px auto 0;
+      border-radius: 10px;
+    }
+
+  #other {
+    background-color: #ffffff; 
+    padding: 20px 0;
+    border-radius: 12px;
+  }
+
+  .photo-slider {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+  }
+
+  .photo-slider img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+
+  #top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: rgba(255, 250, 240, 0.8); 
+    color: rgba(100, 100, 100, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 40px; 
+    height: 40px;
+    font-size: 12px; 
+    cursor: pointer;
+    display: none;
+    z-index: 1000; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+  }
+
+  #top-btn:hover {
+    background-color: rgba(255, 255, 255, 0.95); 
+    color: rgba(50, 50, 50, 0.7);
+  }
+
 
     </style>
-  </head>
-  
+</head>
+
 <body>
-  <div class="container">
+
+  <!-- 탭 메뉴 -->
+  <div class="menu">
+    <div data-target="info">김시연 info</div>
+    <div data-target="daily">일상 게시글</div>
+    <div data-target="other">여행기록</div>
+  </div>
+  
+  <button id="top-btn">▲ TOP</button>
+
+  
+  <div class="content" id="info">
+  
     <div class="profile">
-      <img src="/mini/image/caby.jpg" alt="고양이 프로필" class="profile-img">
-    </div>
-
-    <div class="header">
-      <h2>김시연</h2>
-      <p><b>끊임없이 새로 배우려 하며 활발하게 소통하는 백엔드 개발자</b></p>
-    </div>
-
-    <div class="card">
-      <h3>기본 정보</h3>
-      <p class="info-item"><strong>이름:</strong> 김시연</p>
-      <p class="info-item"><strong>주소:</strong> 서울시 서대문구</p>
-      <p class="info-item"><strong>생년월일:</strong> 1997.08.06</p>
-    </div>
-
-    <div class="card">
-      <h3>연락처</h3>
-      <p class="info-item"><strong>Email:</strong> dustlrka86@gmail.com</p>
-      <p class="info-item"><strong>GitHub:</strong> <a href="https://github.com/htakimsean" target="_blank">github.com/htakimsean</a></p>
-    </div>
-
-    <div class="card">
-      <h3>기술 스택</h3>
-      <ul>
-        <li>♥ <strong>Back-End :</strong> Java, Spring Boot, JSP, Mybatis, Maven</li>
-        <li>♥ <strong>Front-End :</strong> JavaScrip</li>
-        <li>♥ <strong>DataBase :</strong> Apache HTTP Server, Tomcat, MySQL, Oracle</li>
-        <li>♥ <strong>Cloud & CI/CD :</strong> AWS , Docker, Jenkins</li>
-        <li>♥ <strong>Collaboration & Tools :</strong> Git, Notion, jira</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3>핵심 역량</h3>
-      <ul>
-        <li>Java 및 Spring 기반 백엔드 웹 개발</li>
-        <li>JSP, Mybatis를 활용한 애플리케이션 구현</li>
-        <li>AWS, Docker 등 클라우드와 CI/CD 환경 구성</li>
-        <li>Git, Notion을 활용한 효율적 협업과 문서화</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3>프로젝트</h3>
-      <div class="speech-bubble">
-        <p><strong>잇-다 : 콘텐츠 공유 및 규도 서비스 플랫폼 구현과 MVC 패턴 적용</strong></p>
-        <p>기 간 : 2023.07 ~ 2023.11</p>
-        <p><a href="https://github.com/htakimsean/2023ITDA" target="_blank">https://github.com/htakimsean/2023ITDA</a></p>
+      <img src="/mini/userpages/syImages/caby.jpg" alt="고양이 프로필" class="profile-img">
+      
+      <p class="profile-comment">"끊임없이 새로 배우려 하며 활발하게 소통하는 백엔드 개발자"</p>
+    </div>    
+  
+      <div class="card">
+        <h3>기본 정보</h3>
+        <p class="info-item"><strong>이름:</strong> 김시연</p>
+        <p class="info-item"><strong>주소:</strong> 서울시 서대문구</p>
+        <p class="info-item"><strong>생년월일:</strong> 1997.08.06</p>
+      </div>
+  
+      <div class="card">
+        <h3>연락처</h3>
+        <p class="info-item"><strong>Email:</strong> dustlrka86@gmail.com</p>
+        <p class="info-item"><strong>GitHub:</strong> <a href="https://github.com/htakimsean" target="_blank">github.com/htakimsean</a></p>
+      </div>
+  
+      <div class="card">
+        <h3>기술 스택</h3>
         <ul>
-          <li><strong>목적</strong></li>
-          <li>콘텐츠 제작자와 규도자를 연결하는 콘텐츠 공유 및 규도 플랫폼</li>
-          <li>판매 회원은 채널 개설 및 콘텐츠 업로드, 일반 회원은 콘텐츠 규도 및 여러만 가능</li>
+          <li>♥ <strong>Back-End :</strong> Java, Spring Boot, JSP, Mybatis, Maven</li>
+          <li>♥ <strong>Front-End :</strong> JavaScript</li>
+          <li>♥ <strong>DataBase :</strong> Apache HTTP Server, Tomcat, MySQL, Oracle</li>
+          <li>♥ <strong>Collaboration & Tools :</strong> Git, Notion, Jira</li>
         </ul>
       </div>
+  
+      <div class="card">
+        <h3>핵심 역량</h3>
+        <ul>
+          <li>Java 및 Spring 기반 백엔드 웹 개발</li>
+          <li>JSP, Mybatis를 활용한 애플리케이션 구현</li>
+          <li>Git, Notion을 활용한 효율적 협업과 문서화</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>프로젝트</h3>
+        <ul>
+          <li>
+            🌱 <strong>잇-다 (콘텐츠 구독 플랫폼)</strong><br>
+            기간 : 2023.07 ~ 2023.11<br>
+            역할 : 채널구독 / 게시글 / 댓글 / 신고 기능 개발<br>
+            사용기술 : Java, JSP, Mybatis, Oracle, AWS<br>
+          </li>
+        </ul>
+      </div>
+      
+    </div>
+  
+  </div>
+  
+ <!-- 일상 게시글 영역 -->
+<div class="content" id="daily">
+
+  <!-- 게시글 1 -->
+  <div class="daily-post">
+    <div class="post-header">
+      <div class="post-title">덕수궁</div>
+      <div class="post-meta">
+        <span class="writer">김시연</span>
+        <span class="date">2024.04.06</span>
+        <span class="scrap">스크랩: 98</span>
+      </div>
+    </div>
+    <div class="post-content">
+      <img src="/mini/userpages/syImages/sy_image(1).jpg" alt="일상 사진1" class="post-img">
+    </div>
+  </div>
+
+  <!-- 게시글 2 -->
+  <div class="daily-post">
+    <div class="post-header">
+      <div class="post-title">행운을 잡아라</div>
+      <div class="post-meta">
+        <span class="writer">김시연</span>
+        <span class="date">2024.09.22</span>
+        <span class="scrap">스크랩: 56</span>
+      </div>
+    </div>
+    <div class="post-content">
+      <img src="/mini/userpages/syImages/sy_image(2).jpg" alt="일상 사진2" class="post-img">
+    </div>
+  </div>
+
+  <!-- 게시글 3 -->
+  <div class="daily-post">
+    <div class="post-header">
+      <div class="post-title">뭐보냥-?</div>
+      <div class="post-meta">
+        <span class="writer">김시연</span>
+        <span class="date">2024.05.11</span>
+        <span class="scrap">스크랩: 132</span>
+      </div>
+    </div>
+    <div class="post-content">
+      <img src="/mini/userpages/syImages/sy_image(3).jpg" alt="일상 사진3" class="post-img">
+    </div>
+  </div>
+
+  <!-- 게시글 4  -->
+  <div class="daily-post">
+    <div class="post-header">
+      <div class="post-title">우리가 어디있게~?</div>
+      <div class="post-meta">
+        <span class="writer">김시연</span>
+        <span class="date">2023.10.15</span>
+        <span class="scrap">스크랩:222</span>
+      </div>
+    </div>
+    <div class="post-content">
+      <img src="/mini/userpages/syImages/sy_image(4).jpg" alt="일상 사진4" class="post-img">
+    </div>
+  </div>
+ 
+</div>
+
+<!-- 인생네컷 탭 영역  -->
+<div class="content" id="other">
+
+  <div class="daily-post">
+    <div class="post-header">
+      <div class="post-title">졸린 방콕냥이</div>
+      <div class="post-meta">
+        <span class="writer">김시연</span>
+        <span class="date">2023.12.25</span>
+        <span class="scrap">스크랩: 85</span>
+      </div>
+    </div>
+    <div class="post-content">
+      <video class="post-img" controls>
+        <source src="/mini/userpages/syImages/sy_video.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="daily-post">
+    <div class="post-header">
+      <div class="post-title">여행기록</div>
+      <div class="post-meta">
+        <span class="writer">김시연</span>
+        <span class="date">2025.02.18</span>
+        <span class="scrap">스크랩: 77</span>
+      </div>
+    </div>
+
+    <div class="photo-slider swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="/mini/userpages/syImages/booth_1.jpg" alt="사진1">
+        </div>
+        <div class="swiper-slide">
+          <img src="/mini/userpages/syImages/booth_2.jpg" alt="사진2">
+        </div>
+        <div class="swiper-slide">
+          <img src="/mini/userpages/syImages/booth_3.jpg" alt="사진3">
+        </div>
+        <div class="swiper-slide">
+          <img src="/mini/userpages/syImages/booth_4.jpg" alt="사진4">
+        </div>
+      </div>
+      <p class="booth-comment">#또가고싶다_방콕</p>
     </div>
     
+
+  <div class="daily-post">
+    <div class="post-header">
+      <div class="post-title">밥주라!!</div>
+      <div class="post-meta">
+        <span class="writer">김시연</span>
+        <span class="date">2025.12.24</span>
+        <span class="scrap">스크랩:50</span>
+      </div>
+    </div>
+    <div class="post-content">
+      <img src="/mini/userpages/syImages/sy_image(5).jpg" alt="일상 사진5" class="post-img">
+    </div>
   </div>
-</body>
-</html>
+</div>
+
+  
+  <script>
+$(function(){
+  // 탭 
+  $('.menu div').click(function(){
+    var target = $(this).data('target');
+    $('.content').hide();
+    $('#' + target).show();
+
+    $('.menu div').removeClass('active');
+    $(this).addClass('active');
+  });
+
+  $('#info').show();
+  $('.menu div[data-target="info"]').addClass('active');
+
+  //사진 슬라이더
+  var swiper = new Swiper('.photo-slider', {
+    loop: true,  
+    spaceBetween: 20,  
+    pagination: {
+      el: '.swiper-pagination', 
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev', 
+    },
+  });
+  
+  //스크롤
+  $(window).scroll(function(){
+    if($(this).scrollTop() > 300){
+      $('#top-btn').fadeIn();
+    } else {
+      $('#top-btn').fadeOut();
+    }
+  });
+
+  $('#top-btn').click(function(){
+    $('html, body').animate({scrollTop: 0}, 500);
+  });
+});
+
+  </script>
+  </body>
+  </html>
+  

@@ -9,7 +9,7 @@ const siyeon_personalData = {
       name: "김시연",
       birthday: "8월 6일",
       email: "dustlrka86@gmail.com",
-      image: "./image/cat.jpg",
+      image: "/mini/userpages/syImages/cat.jpg",
     },
   },
 
