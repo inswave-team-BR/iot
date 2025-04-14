@@ -975,7 +975,9 @@
 </head>
 
 <body class="index-page">
-
+  <input type="file" id="fileInput" />
+  <button onclick="restoreLocalStorage()">복원</button>
+  
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
@@ -3421,6 +3423,31 @@
     
     // 페이지 로드 시 테마 관리 함수 실행
     document.addEventListener('DOMContentLoaded', handleThemeToggle);
+
+    function restoreLocalStorage() {
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
+
+    if (!file) {
+      alert("파일을 선택해주세요.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        for (const key in data) {
+          localStorage.setItem(key, data[key]);
+        }
+        alert("localStorage 복원 완료!");
+      } catch (err) {
+        alert("복원 실패: 유효한 JSON이 아닙니다.");
+      }
+    };
+
+    reader.readAsText(file);
+  }
   </script>
 </body>
 
